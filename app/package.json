@@ -14,7 +14,10 @@
 		"@sanity/image-url": "^1.0.2",
 		"@sanity/svelte-loader": "^1.11.1",
 		"@sanity/visual-editing": "^2.0.0",
-		"groq": "^3.33.0"
+		"clsx": "^2.1.1",
+		"groq": "^3.33.0",
+		"svelte-motion": "^0.12.2",
+		"tailwind-merge": "^2.5.4"
 	},
 	"devDependencies": {
 		"@portabletext/svelte": "^2.1.11",
@@ -33,6 +36,7 @@
 		"prettier": "^3.3.3",
 		"prettier-plugin-svelte": "^3.2.6",
 		"svelte": "^4.2.18",
+		"tailwindcss": "^3.4.14",
 		"tslib": "^2.6.3",
 		"typescript": "^5.5.3",
 		"vite": "^5.3.5"

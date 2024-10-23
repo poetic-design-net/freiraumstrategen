@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    font-family: 'sofia-pro', sans-serif;
+
+    --background: 0 0% 100%;  /* Weiß */
+    --foreground: 0 0% 13%;   /* #222 */
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --primary: 189 100% 23%;  /* #006775 */
+    --color-primary-50: 189 100% 97%;   /* #f0fbfc */
+    --color-primary-100: 189 100% 94%;  /* #e1f7f9 */
+    --color-primary-200: 189 100% 86%;  /* #b8edf2 */
+    --color-primary-300: 189 100% 78%;  /* #8fe3eb */
+    --color-primary-400: 189 100% 60%;  /* #3dcbdb */
+    --color-primary-500: 189 100% 42%;  /* #0da6b8 */
+    --color-primary-600: 189 100% 34%;  /* #0b8695 */
+    --color-primary-700: 189 100% 28%;  /* #096f7c */
+    --color-primary-800: 189 100% 23%;  /* #006775 - Ihre Basisfarbe */
+    --color-primary-900: 189 100% 19%;  /* #005460 */
+    --color-primary-950: 189 100% 10%;  /* #002c33 */
+    --primary-foreground: 0 0% 100%;
+    --heading: 0 0% 13%;      /* #222 für Überschriften im Light Mode */
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 0 0% 13%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 0 0% 13%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 13%;   /* #222 */
+    --foreground: 0 0% 100%;  /* #fff */
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 80%;
+
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 100%;
+
+    --card: 0 0% 13%;
+    --card-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+
+    --primary: 189 100% 23%;  /* #006775 */
+    --primary-foreground: 0 0% 100%;
+    --heading: 0 0% 13%;      /* #222 für Überschriften im Dark Mode */
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 0 0% 30%;
+  }
+}
+ 

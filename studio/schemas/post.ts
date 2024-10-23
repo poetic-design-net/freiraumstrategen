@@ -39,6 +39,12 @@ export default defineType({
       title: 'Body',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'category',
+      title: 'Kategorie',
+      type: 'reference',
+      to: [{type: 'category'}],
+    }),
   ],
   preview: {
     select: {
