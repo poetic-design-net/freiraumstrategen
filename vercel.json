@@ -1,9 +1,0 @@
-{
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "build",
-  "routes": [
-    { "src": "/studio/(.*)", "dest": "/studio/$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
