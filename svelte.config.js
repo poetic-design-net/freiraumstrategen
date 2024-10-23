@@ -7,7 +7,16 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter(),
+    adapter: adapter({
+      // Fügen Sie diese Zeilen hinzu
+      pages: 'build',
+      assets: 'build',
+      fallback: 'index.html',
+      precompress: false
+    }),
+    
+    // Fügen Sie diese Zeile hinzu
+    outDir: 'build',
     
     vite: {
       resolve: {
