@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -r dev",
+    "build": "pnpm -r build",
+    "start": "pnpm -r start",
     "format": "prettier --cache --write ."
   },
   "prettier": {
@@ -17,5 +19,11 @@
     "prettier": "3.3.3",
     "prettier-plugin-packagejson": "2.5.1"
   },
-  "packageManager": "pnpm@8.15.4"
+  "dependencies": {
+    "@vercel/node": "^3.0.0"
+  },
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": ">=18.x"
+  }
 }
