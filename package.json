@@ -4,10 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -r dev",
-    "build": "pnpm run build:studio && pnpm run build:app",
-    "build:studio": "pnpm --filter studio build",
-    "build:app": "pnpm --filter app build",
-    "start": "pnpm --filter app start",
     "format": "prettier --cache --write ."
   },
   "prettier": {
@@ -21,8 +17,5 @@
     "prettier": "3.3.3",
     "prettier-plugin-packagejson": "2.5.1"
   },
-  "packageManager": "pnpm@8.15.4",
-  "vercel": {
-    "outputDirectory": "app/.svelte-kit"
-  }
+  "packageManager": "pnpm@8.15.4"
 }
