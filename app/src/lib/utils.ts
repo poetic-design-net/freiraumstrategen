@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
+import type { PortableTextBlock } from '@portabletext/types'
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -15,6 +16,16 @@ export function formatDate(date: string) {
 	});
 }
 
+// Entfernt unsichtbare Zero-Width-Zeichen aus einem Text
+export function sanitizeText(text: string) {
+	return text.replace(/[\u200B-\u200D\uFEFF]/g, '');
+}
+
+export function calculateReadingTime(content: string, wordsPerMinute: number = 200): number {
+	const words = content.trim().split(/\s+/).length;
+	const minutes = Math.ceil(words / wordsPerMinute);
+	return Math.max(1, Math.min(minutes, 30)); // Begrenzt die Lesezeit auf maximal 30 Minuten
+  }
 
 type FlyAndScaleParams = {
 	y?: number;

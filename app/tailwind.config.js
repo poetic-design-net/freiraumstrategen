@@ -13,13 +13,19 @@ export default {
       fontFamily: {
         'sofia': ['"sofia-pro"', 'sans-serif'],
       },
+	  backgroundImage: {
+		'conic-gradient': 'radial-gradient(446.50% 301.92% at 50.09% 3.49%, #002c33 13.21%, #0b8695 27.92%, #000 34.17%)',
+	},
+	  aspectRatio: {
+        '21/9': '21 / 9',
+      },
       colors: {
         border: "hsl(var(--border) / <alpha-value>)",
-				input: "hsl(var(--input) / <alpha-value>)",
-				ring: "hsl(var(--ring) / <alpha-value>)",
-				background: "hsl(var(--background) / <alpha-value>)",
-				foreground: "hsl(var(--foreground) / <alpha-value>)",
-				primary: {
+		input: "hsl(var(--input) / <alpha-value>)",
+		ring: "hsl(var(--ring) / <alpha-value>)",
+		background: "hsl(var(--background) / <alpha-value>)",
+		foreground: "hsl(var(--foreground) / <alpha-value>)",
+		primary: {
 					DEFAULT: "hsl(var(--primary) / <alpha-value>)",
 					foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
 					50: 'hsl(var(--color-primary-50) / <alpha-value>)',
@@ -34,27 +40,27 @@ export default {
 					900: 'hsl(var(--color-primary-900) / <alpha-value>)',
 					950: 'hsl(var(--color-primary-950) / <alpha-value>)'
 				},
-				secondary: {
+		secondary: {
 					DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
 					foreground: "hsl(var(--secondary-foreground) / <alpha-value>)"
 				},
-				destructive: {
+		destructive: {
 					DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
 					foreground: "hsl(var(--destructive-foreground) / <alpha-value>)"
 				},
-				muted: {
+		muted: {
 					DEFAULT: "hsl(var(--muted) / <alpha-value>)",
 					foreground: "hsl(var(--muted-foreground) / <alpha-value>)"
 				},
-				accent: {
+		accent: {
 					DEFAULT: "hsl(var(--accent) / <alpha-value>)",
 					foreground: "hsl(var(--accent-foreground) / <alpha-value>)"
 				},
-				popover: {
+		popover: {
 					DEFAULT: "hsl(var(--popover) / <alpha-value>)",
 					foreground: "hsl(var(--popover-foreground) / <alpha-value>)"
 				},
-				card: {
+		card: {
 					DEFAULT: "hsl(var(--card) / <alpha-value>)",
 					foreground: "hsl(var(--card-foreground) / <alpha-value>)"
 				}
@@ -105,6 +111,6 @@ export default {
     },
   },
   plugins: [
-
+	require('@tailwindcss/aspect-ratio'), 
   ],
 }

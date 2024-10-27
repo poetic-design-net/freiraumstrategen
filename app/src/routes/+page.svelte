@@ -12,6 +12,7 @@
 	import Meteors from "$lib/components/Meteors.svelte";
 	import ContentSection from '$lib/templates/ContentSection.svelte';	
 	import ContentSection_alt from '$lib/templates/ContentSection_alt.svelte';	
+	import Testimonials from '$lib/templates/Testimonials.svelte';
 	
 	export let data: PageData;
 	const q = useQuery(data);
@@ -37,6 +38,12 @@
 <section class="relative text-dark py-32">
 	<div class="container px-4 mx-auto">
 		<StepSection />	
+	</div>	
+</section>
+
+<section class="relative py-20 lg:pt-32 lg:pb-36 bg-gray-50 overflow-hidden">
+	<div class="container px-4 mx-auto">
+		<Testimonials {posts} />	
 	</div>	
 </section>
 

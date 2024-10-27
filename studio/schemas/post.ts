@@ -34,11 +34,13 @@ export default defineType({
         hotspot: true,
       },
     }),
+    
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'blockContent',
+      type: 'blockContent', 
     }),
+    
     defineField({
       name: 'category',
       title: 'Kategorie',

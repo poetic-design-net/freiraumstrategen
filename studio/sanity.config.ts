@@ -2,6 +2,8 @@ import {visionTool} from '@sanity/vision'
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {presentationTool} from 'sanity/presentation'
+import {media} from 'sanity-plugin-media'
+
 
 import {schemaTypes} from './schemas'
 
@@ -10,7 +12,7 @@ export const dataset = process.env.SANITY_STUDIO_DATASET!
 
 export default defineConfig({
   name: 'project-name',
-  title: 'Project Name',
+  title: 'Freiraumstrategen.com',
   projectId,
   dataset,
   plugins: [
@@ -25,6 +27,7 @@ export default defineConfig({
       },
     }),
     visionTool(),
+    media(),
   ],
   schema: {
     types: schemaTypes,

@@ -15,10 +15,12 @@
 		"@sanity/image-url": "^1.0.2",
 		"@sanity/svelte-loader": "^1.11.1",
 		"@sanity/visual-editing": "^2.0.0",
+		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"clsx": "^2.1.1",
 		"groq": "^3.33.0",
 		"svelte-motion": "^0.12.2",
-		"tailwind-merge": "^2.5.4"
+		"tailwind-merge": "^2.5.4",
+		"tailwindcss-gradients": "^3.0.0"
 	},
 	"devDependencies": {
 		"@portabletext/svelte": "^2.1.11",

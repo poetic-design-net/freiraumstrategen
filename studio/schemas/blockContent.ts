@@ -56,5 +56,25 @@ export default defineType({
         ],
       },
     }),
+    // Hier wird der Bildtyp hinzugefügt
+    defineArrayMember({
+      title: 'Bild',
+      type: 'image',
+      options: {
+        hotspot: false, // Ermöglicht das Zuschneiden des Bildes
+      },
+    }),
+    defineArrayMember({
+      title: 'Video',
+      type: 'object',
+      name: 'video',
+      fields: [
+        {
+          title: 'Video-URL',
+          name: 'url',
+          type: 'url', // Hier URLs verwenden, um YouTube-Links zu speichern
+        },
+      ],
+    }),    
   ],
 })
