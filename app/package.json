@@ -15,6 +15,7 @@
 		"@sanity/image-url": "^1.0.2",
 		"@sanity/svelte-loader": "^1.11.1",
 		"@sanity/visual-editing": "^2.0.0",
+		"@sveltejs/adapter-vercel": "^5.4.6",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"clsx": "^2.1.1",
 		"groq": "^3.33.0",
