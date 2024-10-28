@@ -26,6 +26,15 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
 	}
   }`;
 
+  export const testimonialsQuery = groq`*[_type == "testimonial"] {
+	_id,
+	name,
+	position,
+	title,
+	content,
+	"imageUrl": image.asset->url
+  }`;
+
   export interface PageData {
 	title: string;
 	slug: Slug;
@@ -55,3 +64,12 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
 	};
   }
 
+  export interface Testimonial {
+	_id: string;
+	name: string;
+	title: string;
+	position: string;
+	content: string;
+	imageUrl: string;
+  }
+  

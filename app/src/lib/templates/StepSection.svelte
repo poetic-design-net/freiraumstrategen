@@ -31,13 +31,11 @@
 
       const stepElements = container.querySelectorAll('.step-content');
       const viewportHeight = window.innerHeight;
+      const triggerPoint = viewportHeight * 0.25; // Hier können Sie den Trigger-Punkt anpassen
 
       for (let i = 0; i < stepElements.length; i++) {
         const rect = stepElements[i].getBoundingClientRect();
-        const elementTop = rect.top;
-        const elementBottom = rect.bottom;
-        
-        if (elementTop < viewportHeight && elementBottom > 0) {
+        if (rect.top < triggerPoint && rect.bottom > triggerPoint) {
           activeStep = i;
           break;
         }
@@ -64,24 +62,32 @@
       <span class="font-thin block"> Freiraumstrategen</span>
     </h1>
   </div>
-  <div class="flex flex-col lg:flex-row overflow-visible">
-    <div bind:this={container} class="lg:w-1/2 pr-18">
+  <div class="flex flex-col lg:flex-row">
+    <div bind:this={container} class="w-full lg:w-1/2 space-y-16 md:space-y-32 lg:space-y-72">
       {#each steps as step, index}
         <div 
-          class="step-content mb-72 pl-12 relative transition-all duration-300 ease-out" 
+          class="step-content relative transition-all duration-300 ease-out"
           class:active={activeStep === index}
         >
-          <div class="absolute left-0 w-8 h-8 rounded-full flex items-center justify-center bg-gray-700 text-white transition-colors duration-300 ease-out"
-               class:bg-primary-600={activeStep >= index}>
-            {step.number}
+          <div class="pl-12 relative">
+            <div class="absolute left-0 top-0 w-8 h-8 rounded-full flex items-center justify-center bg-gray-700 text-white transition-colors duration-300 ease-out"
+                 class:bg-primary-600={activeStep >= index}>
+              {step.number}
+            </div>
+            <h3 class="text-2xl font-light mb-2">{step.title}</h3>
+            <p class="text-gray-500">{step.description}</p>
           </div>
-          <h3 class="text-2xl font-light mb-2">{step.title}</h3>
-          <p class="text-gray-500">{step.description}</p>
+          <div class="mt-4 lg:hidden">
+            <img
+              src={step.image}
+              alt={step.title}
+              class="w-full h-auto object-cover rounded-lg shadow-md"
+            />
+          </div>
         </div>
       {/each}
     </div>
-    
-    <div class="lg:w-1/2 relative overflow-visible">
+    <div class="hidden lg:block w-1/2 relative">
       <div class="sticky top-20 h-[40vh]">
         {#each steps as step, index}
           <img

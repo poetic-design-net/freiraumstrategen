@@ -19,9 +19,9 @@
 
 	$: ({ data: posts } = $q);
 </script>
-<Meteors number={30} />
-<section class="relative overflow-hidden">
-	
+
+<section class="relative">
+	<Meteors number={30} />	
 	<HeroSection />
 </section>
 
