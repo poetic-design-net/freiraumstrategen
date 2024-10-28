@@ -14,7 +14,7 @@ export default {
         'sofia': ['"sofia-pro"', 'sans-serif'],
       },
 	  backgroundImage: {
-		'conic-gradient': 'radial-gradient(446.50% 301.92% at 50.09% 3.49%, #002c33 13.21%, #0b8695 27.92%, #000 34.17%)',
+		'radial-gradient': 'radial-gradient(446.50% 301.92% at 50.09% 3.49%, #002c33 13.21%, #0b8695 27.92%, #000 34.17%)',
 	},
 	  aspectRatio: {
         '21/9': '21 / 9',

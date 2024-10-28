@@ -35,6 +35,8 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
 	"imageUrl": image.asset->url
   }`;
 
+
+
   export interface PageData {
 	title: string;
 	slug: Slug;

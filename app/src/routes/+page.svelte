@@ -9,7 +9,7 @@
 	import Calltoaction from '$lib/templates/Calltoaction.svelte';
 	import FeaturesSection from '$lib/templates/FeaturesSection.svelte';
 	import StepSection from '$lib/templates/StepSection.svelte';
-	import Meteors from "$lib/components/Meteors.svelte";
+	//import Meteors from "$lib/components/Meteors.svelte";
 	import ContentSection from '$lib/templates/ContentSection.svelte';	
 	import ContentSection_alt from '$lib/templates/ContentSection_alt.svelte';	
 	import Testimonials from '$lib/templates/Testimonials.svelte';
@@ -34,10 +34,11 @@
 </script>
 
 
-<container> 
+
 <section class="relative overflow-hidden">
-	<Meteors number={30} />
-	<HeroSection />
+		<!-- <Meteors number={30} /> -->
+		<HeroSection />
+
 </section>
 
 <section class="relative pt-32 pb-32 xl:pb-32 overflow-hidden">
@@ -80,7 +81,7 @@
 		<ContentSection />	
 	</div>	
 </section>
-</container>
+
 
 <!-- <section>
 	{#if posts.length}

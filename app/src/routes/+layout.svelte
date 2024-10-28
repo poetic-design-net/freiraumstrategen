@@ -4,9 +4,9 @@
 	import LiveMode from '$lib/components/LiveMode.svelte';
 	import "../app.pcss";
 	import Header from '$lib/templates/Header.svelte';
-	let visible = false;    
 
 	import { afterNavigate } from '$app/navigation';
+
 
   let isArticlePage = false;
 
@@ -61,7 +61,8 @@
 
 
 	:global(body.article-page) {
-    @apply bg-conic-gradient;
+    @apply bg-radial-gradient;
+    backface-visibility: hidden;
   	}
 	
 
