@@ -13,15 +13,30 @@
 	import ContentSection from '$lib/templates/ContentSection.svelte';	
 	import ContentSection_alt from '$lib/templates/ContentSection_alt.svelte';	
 	import Testimonials from '$lib/templates/Testimonials.svelte';
+
 	
 	export let data: PageData;
 	const q = useQuery(data);
+	const testimonialsQ = useQuery(data.testimonialsQuery, {}, {
+		...data.testimonialsOptions,
+		initial: data.testimonialsOptions?.initial || { data: [] }
+	});
 
 	$: ({ data: posts } = $q);
+	$: testimonials = $testimonialsQ?.data || [];
+
+	// Debug-Logs
+	$: console.log('Posts data:', posts);
+	$: console.log('Testimonials data:', testimonials);
+	$: console.log('Raw testimonials query:', $testimonialsQ);
+
+	// Dann erst die Komponente rendern
 </script>
 
-<section class="relative">
-	<Meteors number={30} />	
+
+<container> 
+<section class="relative overflow-hidden">
+	<Meteors number={30} />
 	<HeroSection />
 </section>
 
@@ -43,7 +58,7 @@
 
 <section class="relative py-20 lg:pt-32 lg:pb-36 bg-gray-50 overflow-hidden">
 	<div class="container px-4 mx-auto">
-		<Testimonials {posts} />	
+		<Testimonials {testimonials} />	
 	</div>	
 </section>
 
@@ -65,6 +80,7 @@
 		<ContentSection />	
 	</div>	
 </section>
+</container>
 
 <!-- <section>
 	{#if posts.length}

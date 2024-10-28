@@ -18,7 +18,7 @@
       changeMeteors(number);
     });
   </script>
-  
+
   {#each meteorStyles as style, idx}
     <span
       id="meteor-{idx+1}"
@@ -33,4 +33,3 @@
       />
     </span>
   {/each}
-  

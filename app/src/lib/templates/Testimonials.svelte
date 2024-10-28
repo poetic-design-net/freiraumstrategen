@@ -5,6 +5,7 @@
   import ImageRenderer from '$lib/components/ImageRenderer.svelte';
 
   export let testimonials;
+  console.log('Testimonials received:', testimonials);
 
 
   let currentIndex = 0;
@@ -82,38 +83,34 @@
       </div>
     </div>
     <div bind:this={container} class="mb-12 flex transition-transform duration-500 ease-in-out overflow-x-auto hide-scrollbar">
-      {#if testimonials.length > 0}
-      {#each testimonials as testimonial, i (testimonial._id)}
-        <div>
-        <div class="w-full max-w-lg md:max-w-4xl px-4 flex-shrink-0">
-          <div in:fly="{{ y: 50, duration: 800, delay: i * 200, easing: cubicOut }}" class="px-6 py-12 xs:pl-12 xs:pr-14 bg-gray-100 rounded-3xl">
-            <div class="flex flex-wrap -mx-4">
-              <div class="w-full px-4 mb-6 lg:mb-0">
-                <div class="flex items-start">
-                  <div class="w-32 h-32 mr-12 flex-shrink-0">
-                    <div class="w-full h-full overflow-hidden rounded-full">
-                      <ImageRenderer value={testimonial.imageUrl} />   
+      {#if testimonials && testimonials.length > 0}
+        {#each testimonials as testimonial (testimonial._id)}
+          <div class="w-full max-w-lg md:max-w-4xl px-4 flex-shrink-0">
+            <div in:fly="{{ y: 50, duration: 800, delay: 200, easing: cubicOut }}" class="px-6 py-12 xs:pl-12 xs:pr-14 bg-gray-100 rounded-3xl">
+              <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4 mb-6 lg:mb-0">
+                  <div class="flex items-start">
+                    <div class="w-32 h-32 mr-12 flex-shrink-0">
+                      <div class="w-full h-full overflow-hidden rounded-full">
+                        <img src={testimonial.imageUrl} alt={testimonial.title} />   
+                      </div>
                     </div>
-                  </div>
-                  <div class="flex-grow">
-                    <img class="block mb-4" src="saturn-assets/images/testimonials/quote-orange.svg" alt="">
-                    <h4 class="text-2xl font-semibold text-gray-900 mb-6">{testimonial.title}</h4>
-                    <p class="text-gray-500 mb-5">{testimonial.content}</p>
-                    <span class="font-medium text-primary-900">{testimonial.position}</span>
-                    <span class="font-semibold text-primary-900">{testimonial.name}</span>
+                    <div class="flex-grow">
+                      <img class="block mb-4" src="saturn-assets/images/testimonials/quote-orange.svg" alt="">
+                      <h4 class="text-2xl font-semibold text-gray-900 mb-6">{testimonial.title}</h4>
+                      <p class="text-gray-500 mb-5">{testimonial.content}</p>
+                      <span class="font-medium text-primary-900">{testimonial.position}</span>
+                      <span class="font-semibold text-primary-900">{testimonial.name}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-        {:else}
-    <p>Keine Testimonials verfügbar.</p>
-  {/each}
-{:else}
-  <p>Lade Testimonials...</p>
-{/if}
+        {/each}
+      {:else}
+        <p>Keine Testimonials verfügbar.</p>
+      {/if}
     </div>
     <div class="flex items-center justify-center">
       {#each testimonials as _, i}
@@ -127,7 +124,6 @@
   </div>
 </div>
 
-<pre>{JSON.stringify(testimonials, null, 2)}</pre>
 
 <style>
   .hide-scrollbar {
@@ -139,5 +135,6 @@
   }
 </style>
 
-<pre>{JSON.stringify(testimonials, null, 2)}</pre>
+
+
 
