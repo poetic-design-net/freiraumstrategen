@@ -16,7 +16,7 @@
         <span class="inline-block py-1 px-3 mb-4 text-xs font-semibold text-primary-900 bg-primary-50 rounded-full">FEATURES</span>
         <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium text-gray-900 mb-24">
           <span>Die Vorteile </span>
-          <span class="font-thin block">des Freiraumstrategen</span>
+          <span class="font-thin block">einer Schulung</span>
         </h1>
       </div>
       <div class="max-w-7xl mx-auto">

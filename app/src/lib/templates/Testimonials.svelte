@@ -62,8 +62,8 @@
       <div class="w-full lg:w-2/3 px-4 mb-12 lg:mb-0">
         <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full">TESTIMONIALS</span>
         <h1 class="font-heading text-5xl xs:text-6xl font-medium text-gray-900 mb-4">
-          <span>Fragen wir die</span>
-          <span class="font-thin">Freiraumstrategen</span>
+          <span>Was sagen</span>
+          <span class="font-thin">die Teilnehmer</span>
         </h1>
         <p class="text-gray-500">Wie lebt es sich so?</p>
       </div>

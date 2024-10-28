@@ -93,8 +93,8 @@
         <div class="max-w-lg">
           <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full">Deine Story zum Erfolg</span>
           <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-thin text-gray-900">
-            <span>Was ist ein </span>
-            <span class="font-medium">Freiraumstratege?</span>
+            <span>Was macht ein erfolgreichen </span>
+            <span class="font-medium">Trader aus?</span>
           </h1>
         </div>
       </div>

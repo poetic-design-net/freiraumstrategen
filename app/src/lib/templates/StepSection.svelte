@@ -58,8 +58,8 @@
   <div class="pb-32 text-center">
     <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full">Schritt für Schritt erklärt</span>
     <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium text-light">
-      <span>In wenigen Schritten zum</span>
-      <span class="font-thin block"> Freiraumstrategen</span>
+      <span class="font-thin">In wenigen Schritten </span>
+      <span class="block"> zum Erfolg</span>
     </h1>
   </div>
   <div class="flex flex-col lg:flex-row">
