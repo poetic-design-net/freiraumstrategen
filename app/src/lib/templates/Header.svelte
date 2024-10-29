@@ -1,7 +1,8 @@
 <script lang="ts">
    import { onMount } from 'svelte';
-import { fade, fly } from 'svelte/transition';
+import { fade, fly, slide } from 'svelte/transition';  
 import Logo from '$lib/components/Logo.svelte';	
+import { clickOutside } from '$lib/actions/clickOutside';
 
 let visible = false;
 onMount(() => {
@@ -27,12 +28,188 @@ onMount(() => {
   return () => window.removeEventListener('resize', checkMobile);
 });
 
+// State für aktives Menü
+let activeMenu: keyof typeof menuItems | null = null;
+let isKeyboardNav = false;
+
+// Menü-Daten
+const menuItems = {
+  trading: {
+    title: 'Tradingstrategie',
+    columns: [
+      {
+        title: 'Trading Basics',
+        links: [
+          { title: 'Einführung ins Trading', href: '/trading/basics' },
+          { title: 'Technische Analyse', href: '/trading/technical' },
+          { title: 'Fundamentalanalyse', href: '/trading/fundamental' }
+        ]
+      },
+      {
+        title: 'Strategien',
+        links: [
+          { title: 'Swing Trading', href: '/trading/swing' },
+          { title: 'Day Trading', href: '/trading/day' },
+          { title: 'Position Trading', href: '/trading/position' }
+        ]
+      }
+    ],
+    featured: {
+      image: '/images/trading-masterclass.jpg',
+      title: 'Neue Trading Masterclass',
+      description: 'Lernen Sie die bewährten Strategien der Profis kennen.',
+      link: '/masterclass'
+    }
+  },
+  schulung: {
+    title: 'Schulung',
+    columns: [
+      {
+        title: 'Kursangebote',
+        links: [
+          { title: 'Grundlagenkurs', href: '/schulung/basics' },
+          { title: 'Fortgeschrittene', href: '/schulung/advanced' },
+          { title: 'Expertenlevel', href: '/schulung/expert' }
+        ]
+      },
+      {
+        title: 'Formate',
+        links: [
+          { title: 'Online Kurse', href: '/schulung/online' },
+          { title: 'Live Workshops', href: '/schulung/workshops' },
+          { title: '1:1 Coaching', href: '/schulung/coaching' }
+        ]
+      }
+    ],
+    featured: {
+      image: '/images/workshop.jpg',
+      title: 'Live Workshop',
+      description: 'Intensives Trading-Training vor Ort.',
+      link: '/workshops'
+    }
+  },
+  blog: {
+    title: 'Blog',
+    columns: [
+      {
+        title: 'Kategorien',
+        links: [
+          { title: 'Trading News', href: '/blog/news' },
+          { title: 'Marktanalysen', href: '/blog/analysen' },
+          { title: 'Trading Tipps', href: '/blog/tipps' }
+        ]
+      },
+      {
+        title: 'Beliebte Themen',
+        links: [
+          { title: 'Anfänger Guides', href: '/blog/guides' },
+          { title: 'Experteninterviews', href: '/blog/interviews' },
+          { title: 'Erfolgsgeschichten', href: '/blog/success-stories' }
+        ]
+      }
+    ],
+    featured: {
+      image: '/images/blog-featured.jpg',
+      title: 'Trading Journal',
+      description: 'Lernen Sie aus den Erfahrungen erfolgreicher Trader.',
+      link: '/blog/trading-journal'
+    }
+  },
+  about: {
+    title: 'Über uns',
+    columns: [
+      {
+        title: 'Unternehmen',
+        links: [
+          { title: 'Unsere Geschichte', href: '/about/story' },
+          { title: 'Team', href: '/about/team' },
+          { title: 'Karriere', href: '/about/careers' }
+        ]
+      },
+      {
+        title: 'Kontakt',
+        links: [
+          { title: 'Standorte', href: '/about/locations' },
+          { title: 'Support', href: '/about/support' },
+          { title: 'Partner werden', href: '/about/partner' }
+        ]
+      }
+    ],
+    featured: {
+      image: '/images/about-team.jpg',
+      title: 'Unser Team',
+      description: 'Lernen Sie die Experten hinter Freiraumstrategen kennen.',
+      link: '/about/team'
+    }
+  }
+};
+
+// Keyboard Navigation
+function handleKeydown(event: KeyboardEvent) {
+  if (!isKeyboardNav) isKeyboardNav = true;
+  
+  switch (event.key) {
+    case 'Escape':
+      activeMenu = null;
+      break;
+    case 'ArrowDown':
+      if (!activeMenu) {
+        activeMenu = Object.keys(menuItems)[0];
+      }
+      // Focus first menu item
+      event.preventDefault();
+      break;
+    // ... weitere Keyboard Navigation
+  }
+}
+
+
+// Preload Images
+onMount(() => {
+  Object.values(menuItems).forEach(item => {
+    if (item.featured?.image) {
+      const img = new Image();
+      img.src = item.featured.image;
+    }
+  });
+});
+
+let isFirstOpen = true;
+let isMenuVisible = false;
+let timeoutId: ReturnType<typeof setTimeout>;
+
+async function handleMouseEnter(key: string) {
+  const typedKey = key as keyof typeof menuItems;
+  clearTimeout(timeoutId);
+  if (activeMenu === typedKey) return;
+  if (activeMenu === null) isFirstOpen = true;
+  else isFirstOpen = false;
+  activeMenu = typedKey;
+  isMenuVisible = true;
+}
+
+function handleMouseLeave() {
+  isMenuVisible = false;
+  timeoutId = setTimeout(() => {
+    activeMenu = null;
+    isFirstOpen = true;
+  }, 200);
+}
+
+function handleClickOutside() {
+  activeMenu = null;
+  isFirstOpen = true;
+}
+
 </script>
 
 
 
 <header class="header">
-    <nav class="relative py-6 mb-12 md:mb-24 bg-transparent z-50">
+    <nav class="relative py-6 bg-white z-50" 
+         use:clickOutside={handleClickOutside}
+         on:keydown={handleKeydown}
+         on:mouseleave={handleMouseLeave}>
         <div class="container px-4 mx-auto">
           <div class="flex items-center relative">
             <a class="inline-block text-lg font-bold" href="/">
@@ -49,25 +226,81 @@ onMount(() => {
                 </button>
               </div>
             {:else}
-              <ul class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex lg:w-auto lg:space-x-12">
-                <li class="group relative">
-                  <a class="inline-block text-sm text-gray-900 hover:text-primary-500 font-light" href="/">Tradingstrategie</a>
-                  <div class="hidden group-hover:block absolute top-full left-0 min-w-max max-w-xs p-4 z-50">
-                    <!-- Dropdown content -->
-                  </div>
-                </li>
-                <li><a class="inline-block text-sm text-gray-900 hover:text-primary-500 font-light" href="/">Schulung</a></li>
-                <li><a class="inline-block text-sm text-gray-900 hover:text-primary-500 font-light" href="/">Experten</a></li>
-                <li><a class="inline-block text-sm text-gray-900 hover:text-primary-500 font-light" href="/">Blog</a></li>
+              <ul class="flex mx-auto space-x-12">
+                {#each Object.entries(menuItems) as [key, item]}
+                  <li class="group relative">
+                    <button
+                      class="inline-block text-sm text-gray-900 hover:text-primary-500 font-light focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md"
+                      on:mouseenter={() => handleMouseEnter(key)}
+                      aria-expanded={activeMenu === key}
+                      aria-controls="mega-menu-{key}">
+                      {item.title}
+                      <svg class="inline-block ml-1 w-4 h-4 transition-transform duration-200 {activeMenu === key ? 'rotate-180' : ''}" 
+                           fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {#if activeMenu === key}
+                      <div class="fixed left-0 right-0 top-[72px] mx-auto w-screen max-w-7xl px-8 py-6 mt-6 bg-ultra-light shadow-xl rounded-xl"
+                           class:animate-slide-in={isFirstOpen}
+                           class:animate-slide-out={!isMenuVisible}>
+                        {#key activeMenu}
+                          <div class="grid grid-cols-4 gap-8" 
+                               in:fly={{ y: 10, duration: 200, delay: 100 }}
+                               out:fade={{ duration: 150 }}>
+                            {#each menuItems[activeMenu].columns as column}
+                              <div>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">{column.title}</h3>
+                                <ul class="space-y-3">
+                                  {#each column.links as link}
+                                    <li>
+                                      <a class="text-gray-600 hover:text-primary-500 transition-colors duration-200"
+                                         href={link.href}>
+                                        {link.title}
+                                      </a>
+                                    </li>
+                                  {/each}
+                                </ul>
+                              </div>
+                            {/each}
+                            
+                            <!-- Featured Content -->
+                            <div class="col-span-2 bg-gray-50 rounded-lg p-6">
+                              <div class="flex items-start">
+                                {#if menuItems[activeMenu].featured}
+                                  <div class="flex-shrink-0">
+                                    <img class="h-32 w-32 object-cover rounded-lg lazy"
+                                         data-src={menuItems[activeMenu].featured.image}
+                                         alt={menuItems[activeMenu].featured.title}>
+                                  </div>
+                                  <div class="ml-6">
+                                    <h4 class="text-lg font-medium text-gray-900">{menuItems[activeMenu].featured.title}</h4>
+                                    <p class="mt-2 text-sm text-gray-600">{menuItems[activeMenu].featured.description}</p>
+                                    <a href={menuItems[activeMenu].featured.link}
+                                       class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-800">
+                                      Mehr erfahren
+                                      <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                      </svg>
+                                    </a>
+                                  </div>
+                                {/if}
+                              </div>
+                            </div>
+                          </div>
+                        {/key}
+                      </div>
+                    {/if}
+                  </li>
+                {/each}
               </ul>
-              <div class="ml-auto">
-                <div class="flex items-center">
-                  <a class="inline-block mr-9 text-sm font-medium text-primary-800 hover:text-gray-900" href="/">Sign In</a>
-                  <a class="relative group inline-block py-3 px-4 text-sm font-medium text-primary-800 hover:text-primary-50 bg-primary-50 rounded-md overflow-hidden transition duration-300" href="/">
-                    <div class="absolute top-0 right-full w-full h-full bg-primary-800 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
-                    <span class="relative">Create an account</span>
-                  </a>
-                </div>
+              <div class="flex items-center">
+                <a class="inline-block mr-9 text-sm font-medium text-primary-800 hover:text-gray-900" href="/">Sign In</a>
+                <a class="relative group inline-block py-3 px-4 text-sm font-medium text-primary-800 hover:text-primary-50 bg-primary-50 rounded-md overflow-hidden transition duration-300" href="/">
+                  <div class="absolute top-0 right-full w-full h-full bg-primary-800 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
+                  <span class="relative">Create an account</span>
+                </a>
               </div>
             {/if}
           </div>
@@ -118,3 +351,81 @@ onMount(() => {
       </nav>
     {/if}
 </header>
+
+<style>
+  /* Animations und Transitions */
+  .mega-menu-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .mega-menu-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
+  
+  /* Keyboard Focus Styles */
+  .focus-visible:focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+  }
+  
+  /* Lazy Loading Blur-up */
+  .lazy {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .lazy.loaded {
+    opacity: 1;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 200ms ease-out;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut 200ms ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+  }
+
+  .animate-slide-in {
+    animation: slideIn 200ms ease-out forwards;
+  }
+
+  .animate-slide-out {
+    animation: slideOut 200ms ease-out forwards;
+  }
+
+  @keyframes slideIn {
+    from { 
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideOut {
+    from { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to { 
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+</style>

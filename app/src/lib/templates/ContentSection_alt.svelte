@@ -1,5 +1,5 @@
-<script>
-   
+<script lang="ts">
+     import Button from "$lib/components/Button.svelte";
   </script>
   
   
@@ -18,7 +18,9 @@
               <p class="max-w-md text-lg xs:text-3xl font-light text-gray-600 mb-6">Arcu ultrices sit non magna enim id semper quam venenatis. Mi quisque ultrices hendrerit nec aliquet integer mollis faucibus morbi.</p>
               <p class="max-w-md text-lg xs:text-3xl font-light text-gray-600 mb-6">Augue justo at convallis vitae nunc maecenas est. Viverra duis feugiat posuere vitae tincidunt.Augue justo at convallis vitae nunc maecenas est. Viverra duis feugiat posuere vitae tincidunt.</p>
               <p class="max-w-md text-lg xs:text-3xl font-light text-gray-600 mb-4">Augue justo at convallis vitae nunc maecenas est. Viverra duis feugiat posuere vitae tincidunt.</p>
-            
+              <div  class="mt-12">
+              <Button text="Mehr erfahren" href="/" />
+              </div>
             </div>
           </div>
           <div class="w-full lg:w-1/2 px-4">

@@ -6,7 +6,7 @@
 	import VideoRenderer from '$lib/components/VideoRenderer.svelte';		
 	import type { PageData } from './$types';
 	import type { PortableTextComponents } from '@portabletext/svelte';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import CustomListItem from '$lib/components/CustomListItem.svelte';
 	import ContentImageRenderer from '$lib/components/ContentImageRenderer.svelte';
 	
@@ -89,9 +89,8 @@ function setupIntersectionObserver() {
         setupIntersectionObserver();
     });
 
-	onMount(() => {
 
-  });
+
 
 	const portableTextComponents: PortableTextComponents = {
 		types: {
@@ -113,7 +112,7 @@ function setupIntersectionObserver() {
 				<h4 class="font-medium text-white text-lg mb-5">INHALTSVERZEICHNIS</h4>
 				<ul class="mb-12">
 					{#each toc as item}
-					<li class="mb-5">
+					<li class="pb-3">
 						<a 
 							class="inline-block px-6 text-lg font-light transition-colors duration-200 ease-in-out {activeHeadingId === item.id ? 'text-primary-500' : 'text-white hover:text-primary-500'}" 
 							href="#{item.id}"
@@ -202,3 +201,8 @@ function setupIntersectionObserver() {
   </section>
 
 
+<style>
+  section {
+    background: radial-gradient(446.50% 301.92% at 50.09% 3.49%, #002c33 13.21%, #0b8695 27.92%, #000 34.17%) !important;
+  }
+</style>

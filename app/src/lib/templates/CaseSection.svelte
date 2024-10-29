@@ -152,16 +152,17 @@
             </div>
             {/each}
           </div>
-          <div class="mt-12 flex items-center justify-center">
-            {#each articles as _, i}
-              <button 
-                on:click={() => scrollToIndex(i)} 
-                class="mr-1 w-7 h-1 cursor-pointer {i === currentIndex ? 'bg-primary-900' : 'bg-gray-400 hover:bg-primary-600'}"
-                aria-label="Gehe zu Slide {i + 1}"
-              ></button>
-            {/each}
-          </div>
+          
         </div>
+      </div>
+      <div class="mt-12 flex items-center justify-center">
+        {#each articles as _, i}
+          <button 
+            on:click={() => scrollToIndex(i)} 
+            class="mr-1 w-7 h-1 cursor-pointer {i === currentIndex ? 'bg-primary-900' : 'bg-gray-400 hover:bg-primary-600'}"
+            aria-label="Gehe zu Slide {i + 1}"
+          ></button>
+        {/each}
       </div>
     </div>
 

@@ -20,6 +20,7 @@ export default {
         '21/9': '21 / 9',
       },
       colors: {
+		'ultra-light': '#FDFDFD', // #FAFAFA
         border: "hsl(var(--border) / <alpha-value>)",
 		input: "hsl(var(--input) / <alpha-value>)",
 		ring: "hsl(var(--ring) / <alpha-value>)",
