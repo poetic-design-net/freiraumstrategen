@@ -4,7 +4,6 @@ import { C as ContentImageRenderer, V as VideoRenderer, a as CustomListItem, P a
 import { y } from "../../../../chunks/index3.js";
 import { s as sanitizeText, a as calculateReadingTime, f as formatDate } from "../../../../chunks/utils2.js";
 import { I as ImageRenderer } from "../../../../chunks/ImageRenderer.js";
-import "../../../../chunks/client.js";
 const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let post;
   let sanitizedBody;
@@ -73,7 +72,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     {}
   )}</div>` : ``} <div class="py-4 px-6 border border-white border-opacity-20 bg-primary-800 rounded-lg" data-svelte-h="svelte-19ld5fy"><span class="inline-block mr-2 text-sm text-primary-100">Du hast Interesse an mehr Tipps wie diesem?</span> <a class="group inline-flex items-center text-sm font-medium text-primary-200 hover:text-white transition duration-100" href="/"><span class="mr-2">Erfahre mehr in unserem Blog</span> <span class="transform group-hover:translate-x-1 transition duration-100"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.99984 10H15.4165M15.4165 10L10.4165 5M15.4165 10L10.4165 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></a></div></div> <div class="flex items-center justify-center"><a class="${[
     "group inline-flex mr-12 items-center text-white hover:text-primary-600",
-    ""
+    "  "
   ].join(" ").trim()}" href="/"><div class="flex items-center justify-center h-16 w-16 border border-white border-opacity-20 group-hover:border-primary-600 rounded-full"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.9724 20H4.6C4.26863 20 4 19.7314 4 19.4V9.6C4 9.26863 4.26863 9 4.6 9H7.36762C8.07015 9 8.72116 8.6314 9.0826 8.02899L11.793 3.51161C12.3779 2.53688 13.7554 2.44422 14.4655 3.33186C14.8002 3.75025 14.9081 4.30635 14.7541 4.81956L13.7317 8.22759C13.6162 8.61256 13.9045 9 14.3064 9H18.8815C20.2002 9 21.158 10.254 20.811 11.5262L18.9019 18.5262C18.6646 19.3964 17.8743 20 16.9724 20Z" stroke="currentColor"${add_attribute("fill", "none", 0)} stroke-width="1.5" stroke-linecap="round"></path><path d="M7.5 20L7.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div> <span class="ml-3">${escape(likeCount)}</span></a> <a class="group inline-flex items-center text-white hover:text-primary-600" href="/" data-svelte-h="svelte-r19fhf"><div class="flex items-center justify-center h-16 w-16 border border-white border-opacity-20 group-hover:border-primary-600 rounded-full"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 13.8214 2.98697 15.5291 3.83782 17L3 21.5L7.5 20.6622C8.97087 21.513 10.6786 22 12.5 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div> <span class="ml-3">10</span></a></div></div></div></div></section>`;
 });
 export {

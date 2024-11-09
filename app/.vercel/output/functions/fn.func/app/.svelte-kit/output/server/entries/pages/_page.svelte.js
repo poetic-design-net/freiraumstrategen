@@ -166,15 +166,6 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   if ($$props.data === void 0 && $$bindings.data && data !== void 0) $$bindings.data(data);
   ({ data: posts } = $q);
   testimonials = $testimonialsQ?.data || [];
-  {
-    console.log("Posts data:", posts);
-  }
-  {
-    console.log("Testimonials data:", testimonials);
-  }
-  {
-    console.log("Raw testimonials query:", $testimonialsQ);
-  }
   $$unsubscribe_testimonialsQ();
   $$unsubscribe_q();
   return `<section class="relative overflow-hidden"> ${validate_component(HeroSection, "HeroSection").$$render($$result, {}, {}, {})}</section> <section class="relative pt-32 pb-32 xl:pb-32 overflow-hidden">${validate_component(CaseSection, "CaseSection").$$render($$result, { posts }, {}, {})}</section> <section class="relative py-20 lg:py-24 overflow-hidden bg-gray-100"><div class="container px-4 mx-auto">${validate_component(ContentSection_alt, "ContentSection_alt").$$render($$result, {}, {}, {})}</div></section> <section class="relative text-dark py-32"><div class="container px-4 mx-auto">${validate_component(StepSection, "StepSection").$$render($$result, {}, {}, {})}</div></section> <section class="relative py-20 lg:pt-32 lg:pb-36 bg-gray-50 overflow-hidden"><div class="container px-4 mx-auto">${validate_component(Testimonials, "Testimonials").$$render($$result, { testimonials }, {}, {})}</div></section> <section class="relative py-32 overflow-hidden"><div class="container px-4 mx-auto">${validate_component(FeaturesSection, "FeaturesSection").$$render($$result, {}, {}, {})}</div></section> <section class="relative py-32 overflow-hidden"><div class="container px-4 mx-auto">${validate_component(Calltoaction, "Calltoaction").$$render($$result, {}, {}, {})}</div></section> <section class="relative py-20 lg:py-24 bg-primary-950 overflow-hidden"><div class="container px-4 mx-auto">${validate_component(ContentSection, "ContentSection").$$render($$result, {}, {}, {})}</div></section> `;

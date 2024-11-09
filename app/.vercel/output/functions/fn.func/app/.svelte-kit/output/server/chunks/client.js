@@ -18,6 +18,7 @@ const client = createClient({
   apiVersion,
   useCdn: false,
   token: "sksUPagry14vJfjOkbBr8QACt4HFNaQh5HBlGDjgBedIlc2yR1bW169QTZ6p2AfAGoRrduwVOPdbEbmCp3UGOfRy6ns6vgoXSwIVRers84zHoPto92b12DA1T9CIzFfXCFMi7DyCBVmzOsYc55exuauL4fD1wKErbHDPS7GpdDkU6GskBJng",
+  apiHost: "https://api.sanity.io",
   stega: {
     studioUrl
   }
