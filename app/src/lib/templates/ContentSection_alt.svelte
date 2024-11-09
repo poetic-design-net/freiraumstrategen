@@ -19,7 +19,7 @@
               <p class="max-w-md text-lg xs:text-3xl font-light text-gray-600 mb-6">Augue justo at convallis vitae nunc maecenas est. Viverra duis feugiat posuere vitae tincidunt.Augue justo at convallis vitae nunc maecenas est. Viverra duis feugiat posuere vitae tincidunt.</p>
               <p class="max-w-md text-lg xs:text-3xl font-light text-gray-600 mb-4">Augue justo at convallis vitae nunc maecenas est. Viverra duis feugiat posuere vitae tincidunt.</p>
               <div  class="mt-12">
-              <Button text="Mehr erfahren" href="/" />
+              <Button text="Mehr erfahren" href="/" variant="orange"  />
               </div>
             </div>
           </div>

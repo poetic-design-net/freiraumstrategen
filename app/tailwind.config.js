@@ -19,6 +19,9 @@ export default {
 	  aspectRatio: {
         '21/9': '21 / 9',
       },
+	  margin: {
+        '-15': '-60px', // Benutzerdefinierte Klasse -mb-15 für -60px
+      },
       colors: {
 		'ultra-light': '#FDFDFD', // #FAFAFA
         border: "hsl(var(--border) / <alpha-value>)",

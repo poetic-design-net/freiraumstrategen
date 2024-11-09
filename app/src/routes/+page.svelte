@@ -25,10 +25,7 @@
 	$: ({ data: posts } = $q);
 	$: testimonials = $testimonialsQ?.data || [];
 
-	// Debug-Logs
-	$: console.log('Posts data:', posts);
-	$: console.log('Testimonials data:', testimonials);
-	$: console.log('Raw testimonials query:', $testimonialsQ);
+
 
 	// Dann erst die Komponente rendern
 </script>
@@ -45,7 +42,7 @@
 	<CaseSection {posts} />
 </section>
 
-<section class="relative py-20 lg:py-24 overflow-hidden">	
+<section class="relative py-20 lg:py-24 overflow-hidden bg-gray-100">	
 	<div class="container px-4 mx-auto">
 		<ContentSection_alt />	
 	</div>	

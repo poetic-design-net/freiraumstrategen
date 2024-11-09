@@ -1,10 +1,19 @@
 <script lang="ts">
-  export let text = "Treffe die Experten"; // Standardwert
-  export let href = "/"; // Optional auch den Link dynamisch machen
+  export let text = "Treffe die Experten";
+  export let href = "/";
+  export let variant: 'primary' | 'secondary' | 'orange' = 'primary';
 </script>
 
-<a class="relative group inline-block w-full sm:w-auto py-4 px-8 text-white font-medium bg-primary-800 rounded-md overflow-hidden" {href} aria-label={text}>
-    <div class="absolute top-0 right-full w-full h-full bg-primary-600 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
+<a 
+  class="relative group inline-block w-full sm:w-auto py-4 px-8 text-white font-medium rounded-md overflow-hidden {
+    variant === 'primary' ? 'bg-primary-800' : variant === 'orange' ? 'bg-orange-600' : 'bg-secondary-800'
+  }" 
+  {href} 
+  aria-label={text}
+>
+    <div class="absolute top-0 right-full w-full h-full transform group-hover:translate-x-full group-hover:scale-102 transition duration-500 {
+      variant === 'primary' ? 'bg-primary-600' : variant === 'orange' ? 'bg-orange-600' : 'bg-secondary-600'
+    }"></div>
     <div class="relative flex items-center justify-center">
       <span class="mr-4">{text}</span>
       <span>

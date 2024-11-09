@@ -9,5 +9,14 @@ setServerClient(serverClient);
 
 // This convenience function sets up preview mode endpoints and attaches useful
 // helpers to the `event.locals` Svelte object, such as a preconfigured
-// `loadQuery` function and `preview` state.
-export const handle = createRequestHandler();
+const handler = createRequestHandler();
+
+export const handle = async ({ event, resolve }) => {
+    // Erst Sanity-Handler ausführen
+    const response = await handler({ event, resolve });
+    
+    // Dann mutate zu locals hinzufügen
+    event.locals.mutate = serverClient.mutate.bind(serverClient);
+    
+    return response;
+};

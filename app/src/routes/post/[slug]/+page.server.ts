@@ -1,5 +1,5 @@
 import { postQuery as query, type Post } from '$lib/sanity/queries';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	const { loadQuery } = event.locals;

@@ -105,7 +105,7 @@ function setupIntersectionObserver() {
 </script>
 
 
-  <section class="relative pt-12 md:pt-24">
+  <section class="relative py-12 md:py-24">
 	<div class="container px-4 mx-auto">
 	  <div class="flex flex-wrap -mx-4 ">
 			<div class="w-full lg:w-1/3 lg:pt-24 px-4 lg:sticky lg:top-0 lg:h-[100dvh]">

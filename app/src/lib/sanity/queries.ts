@@ -8,9 +8,14 @@ export const postQuery = groq`*[_type == "post" && slug.current == $slug][0]{
 }`;
 
 export const postsQuery = groq`*[_type == "post" && defined(slug.current)] {
-	...,
-	"category": category->{ title, slug }
-  } | order(_createdAt desc)`;
+    _id,
+    title,
+    slug,
+    excerpt,
+    _createdAt,
+    mainImage, 
+    "category": category->{ title, slug }
+} | order(_createdAt desc)`;
 
 export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
 	title,
@@ -35,6 +40,31 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
 	"imageUrl": image.asset->url
   }`;
 
+  export const navigationQuery = groq`
+  *[_type == "navigation"] {
+    _id,
+    title,
+    identifier,
+    items[] {
+      title,
+      path,
+      columns[] {
+        title,
+        links[] {
+          title,
+          href
+        }
+      },
+      featured {
+        "image": image.asset->url,
+        title,
+        description,
+        link
+      }
+    }
+  }
+`;
+
 
 
   export interface PageData {
@@ -53,18 +83,20 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
   
   
   export interface Post {
-	_type: 'post';
-	_createdAt: string;
-	title?: string;
-	slug: Slug;
-	excerpt?: string;
-	mainImage?: ImageAsset;
-	body: PortableTextBlock[];
-	category: {
-	  title: string;
-	  slug: Slug;
-	};
-  }
+    _type: 'post';
+    _id: string; 
+    _createdAt: string;
+    title?: string;
+    slug: Slug;
+    excerpt?: string;
+    mainImage?: any;  // Zurück zum ursprünglichen Typ
+    body: PortableTextBlock[];
+    category: {
+        title: string;
+        slug: Slug;
+    };
+    likes?: number;  
+}
 
   export interface Testimonial {
 	_id: string;
@@ -75,3 +107,22 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
 	imageUrl: string;
   }
   
+  export interface Navigation {
+	items?: NavigationItem[];
+  }
+  
+  export interface NavigationItem {
+	_key: string;
+	title: string;
+	path: string;
+	columns?: Array<{
+	  title: string;
+	  links: Array<{ title: string; href: string; }>;
+	}>;
+	featured?: {
+	  imageUrl: string;
+	  title: string;
+	  description: string;
+	  link: string;
+	};
+  }

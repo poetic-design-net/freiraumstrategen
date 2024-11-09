@@ -5,7 +5,9 @@ import type { LoaderLocals } from '@sanity/svelte-loader';
 declare global {
 	namespace App {
 		// interface Error {}
-		interface Locals extends LoaderLocals {}
+		interface Locals extends LoaderLocals {
+			mutate: typeof import('@sanity/client')['ClientConfig']['mutate'];
+		}
 		// interface PageData {}
 		// interface Platform {}
 	}
