@@ -1,0 +1,15 @@
+{
+  "projectRoot": ".",
+  "framework": "sveltekit",
+  "apps": {
+    "frontend": {
+      "root": "./app",
+      "srcDir": "./app/src",
+      "type": "sveltekit"
+    },
+    "cms": {
+      "root": "./studio",
+      "type": "sanity"
+    }
+  }
+} 

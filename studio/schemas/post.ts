@@ -40,6 +40,12 @@ export default defineType({
       title: 'Body',
       type: 'blockContent', 
     }),
+    defineField({
+      name: 'likes',
+      title: 'Likes',
+      type: 'number',
+      initialValue: 0,
+    }),
     
     defineField({
       name: 'category',
