@@ -4,7 +4,10 @@
   const { gsap, ScrollTrigger } = gsapAll;
 
   onMount(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    // ScrollTrigger Registration
+    if (typeof window !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
 
     const tl = gsap.timeline({
       scrollTrigger: {
