@@ -1,47 +1,39 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import gsap from 'gsap';
-  import { heroTimeline } from '$lib/stores/animation';
-  import { hasAnimationPlayed } from '$lib/stores/animationState';
-
-  let logoRef: HTMLElement;
 
   onMount(() => {
-    let played;
-    hasAnimationPlayed.subscribe(value => {
-      played = value;
+    // Initial State setzen
+    gsap.set([".Logo-bird polygon, .Logo-bird path", ".Logo-text > *"], {
+      opacity: 0,
+      scale: 1
     });
 
-    if (!played) {
-      const tl = gsap.timeline();
-      heroTimeline.set(tl);
+    // Einfache Timeline ohne Stores
+    const tl = gsap.timeline({
+      defaults: {
+        duration: 0.8,
+        ease: "power2.out"
+      }
+    });
 
-      heroTimeline.update(tl => {
-        if (tl) {
-          tl.addLabel("start")
-            .to(".Logo-bird polygon, .Logo-bird path", {
-              opacity: 1,
-              scale: 1,
-              transformOrigin: "center center",
-              stagger: 0.1,
-              duration: 0.8,
-              ease: "back.out(1.7)"
-            }, "start")
-            .to(".Logo-text > *", {
-              opacity: 1,
-              duration: 0.5,
-              stagger: 0.05,
-              ease: "power2.out",
-            }, "start+=0.5");
-        }
-        return tl;
-      });
-    } else {
-      gsap.set([".Logo-bird polygon, .Logo-bird path", ".Logo-text > *"], {
-        opacity: 1,
-        scale: 1
-      });
-    }
+    tl.to(".Logo-bird polygon, .Logo-bird path", {
+      opacity: 1,
+      scale: 1,
+      transformOrigin: "center center",
+      stagger: 0.1,
+      ease: "back.out(1.7)"
+    })
+    .to(".Logo-text > *", {
+      opacity: 1,
+      stagger: 0.05,
+      ease: "power2.out",
+    }, "-=0.5");
+
+    // Cleanup
+    return () => {
+      tl.kill();
+    };
   });
 </script>
 

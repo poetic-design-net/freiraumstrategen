@@ -1,6 +1,6 @@
 import { setPreviewing } from '@sanity/visual-editing/svelte';
 import type { LayoutLoad } from './$types';
-
+import { hasAnimationPlayed } from '$lib/stores/animationState';
 export const load: LayoutLoad = (event) => {
 	// The `event.data.preview` value received here is exposed by the
 	// corresponding `+layout.server.ts` file.
@@ -9,3 +9,4 @@ export const load: LayoutLoad = (event) => {
 	// preview state on the client: `setPreviewing` and `isPreviewing`.
 	setPreviewing(preview);
 };
+
