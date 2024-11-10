@@ -12,7 +12,7 @@
 	import { browser } from '$app/environment';
 	import { dev } from '$app/environment';
 
-  let isArticlePage = false;
+  let contentLoaded = false;
   let ready = false;
   let environment = dev ? 'development' : 'production';
 
@@ -28,6 +28,28 @@
     console.log('Layout mounted');
     ready = true;
     console.log('Ready state after mount:', ready);
+
+    // Content Check mit detaillierten Logs
+    const checkContent = () => {
+      const mainContent = document.querySelector('main');
+      console.log('Checking content...', {
+        mainExists: !!mainContent,
+        childrenCount: mainContent?.children?.length,
+        slotContent: mainContent?.querySelector('slot'),
+        visibilityState: document.visibilityState,
+        readyState: document.readyState
+      });
+
+      if (mainContent && mainContent.children.length > 0) {
+        console.log('Content loaded successfully');
+        contentLoaded = true;
+      } else {
+        console.log('Content not ready, requesting next frame');
+        requestAnimationFrame(checkContent);
+      }
+    };
+    
+    checkContent();
   });
 
   afterNavigate(() => {
@@ -41,7 +63,12 @@
 
   $: {
     console.log('Ready state changed:', ready);
+    console.log('Content loaded state:', contentLoaded);
+    console.log('Combined ready state:', isReady);
   }
+
+  // Kombinierter State
+  $: isReady = ready && contentLoaded;
 
 </script>
 
@@ -59,13 +86,14 @@
 			<div style="display: none">
 				Environment: {environment}
 				Ready: {ready}
-				Browser: {browser}
+				Content: {contentLoaded}
+				Combined: {isReady}
 			</div>
 		{/if}
 
 		<div 
 			class="page-transition" 
-			class:page-ready={ready}
+			class:page-ready={isReady}
 			style="transition-duration: 0.3s"
 		>
 			<slot />
