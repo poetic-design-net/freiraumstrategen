@@ -16,7 +16,28 @@
   let arrowRef: HTMLElement;
   let buttonRef: HTMLElement;
 
+  // DEBUG Flag - einfach auf true setzen zum Deaktivieren der Animation
+  const DISABLE_ANIMATION = true;
+
   onMount(() => {
+    if (DISABLE_ANIMATION) {
+      // Sofort alles sichtbar machen
+      gsap.set([
+        gradientTextRef,
+        heroImageRef,
+        statsBoxRef,
+        partnerSectionRef,
+        buttonRef,
+        headlineRef
+      ], {
+        opacity: 1,
+        y: 0,
+        x: 0,
+        scale: 1
+      });
+      return;
+    }
+
     gsap.set([
       gradientTextRef,
       heroImageRef,
