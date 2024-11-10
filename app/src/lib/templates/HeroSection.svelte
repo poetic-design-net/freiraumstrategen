@@ -2,9 +2,9 @@
 
   import AnimatedGradientText from "$lib/components/AnimatedGradientText.svelte";
   import Button from "$lib/components/Button.svelte";
-  import { onMount } from 'svelte';
-  import { gsap } from "gsap";
-  import { SplitText } from "gsap/all";
+  import { onMount, onDestroy } from 'svelte';
+  import * as gsapAll from "gsap/all";
+  const { gsap, SplitText } = gsapAll;
 
   gsap.registerPlugin(SplitText);
 
@@ -17,7 +17,7 @@
   let buttonRef: HTMLElement;
 
   // DEBUG Flag - einfach auf true setzen zum Deaktivieren der Animation
-  const DISABLE_ANIMATION = true;
+  const DISABLE_ANIMATION = false;
 
   onMount(() => {
     if (DISABLE_ANIMATION) {
@@ -37,6 +37,16 @@
       });
       return;
     }
+
+    // Prüfe ob wir gerade innerhalb der Seite navigieren
+    if (sessionStorage.getItem('internalNavigation')) {
+      gsap.set([gradientTextRef, heroImageRef, statsBoxRef, partnerSectionRef, buttonRef, headlineRef], 
+        { opacity: 1, y: 0, x: 0, scale: 1 });
+      return;
+    }
+
+    // Setze Flag für interne Navigation
+    sessionStorage.setItem('internalNavigation', 'true');
 
     gsap.set([
       gradientTextRef,
@@ -113,6 +123,13 @@
       splitText.revert();
       tl.kill();
     };
+  });
+
+  // Cleanup beim Verlassen der Seite
+  onDestroy(() => {
+    if (typeof window !== 'undefined' && document.visibilityState === 'hidden') {
+      sessionStorage.removeItem('internalNavigation');
+    }
   });
 
   </script>

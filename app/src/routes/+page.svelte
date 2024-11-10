@@ -4,7 +4,7 @@
 	import Welcome from '$lib/components/Welcome.svelte';
 	import type { PageData } from './$types';
 
-//	import HeroSection from '$lib/templates/HeroSection.svelte';
+	import HeroSection from '$lib/templates/HeroSection.svelte';
 	import CaseSection from '$lib/templates/CaseSection.svelte';
 	import Calltoaction from '$lib/templates/Calltoaction.svelte';
 	import FeaturesSection from '$lib/templates/FeaturesSection.svelte';
@@ -63,6 +63,8 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 
 
 
+
+
 	// Dann erst die Komponente rendern
 </script>
 
@@ -70,7 +72,7 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 
 <section class="relative overflow-hidden">
 		<!-- <Meteors number={30} /> -->
-		<!-- <HeroSection /> -->
+		 <HeroSection /> 
 
 </section>
 

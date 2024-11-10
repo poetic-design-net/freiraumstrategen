@@ -1,8 +1,8 @@
 <script lang="ts">
   import MemberForm from '$lib/components/MemberForm.svelte';
   import { onMount } from 'svelte';
-  import { gsap } from "gsap";
-  import { ScrollTrigger, SplitText } from "gsap/all";
+      import { gsap } from "gsap";
+      import { ScrollTrigger, SplitText } from "gsap/all";
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
