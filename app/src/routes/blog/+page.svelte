@@ -12,6 +12,8 @@
     $: console.log('Ein Post:', posts?.[0]?.mainImage);  // 
 
     let showContent = false;
+
+    const isLast = (item: any, array: any[]) => array.indexOf(item) === array.length - 1;
 </script>
 
 <section class="relative py-20 overflow-hidden">
@@ -49,38 +51,36 @@
                     </div>
                 {/if}
 
-                <div class="w-full lg:w-1/2 px-4 rounded-lg">
+                <div class="w-full lg:w-1/2 px-4">
                     {#each posts.slice(1, 4) as post}
-                        <a class="block md:flex group mb-12" href={`/post/${post.slug.current}`}>
-                            <div class="mt-8 md:mt-0">
-                                <div class="relative w-full md:w-48 aspect-[4/3] sm:aspect-[16/9] md:h-40 overflow-hidden rounded-lg flex-shrink-0">
-                                    <div class="absolute inset-0">
-                                        <div class="w-full h-full">
-                                            <img 
-                                                src={urlFor(post.mainImage).url()} 
-                                                alt={sanitizeText(post.title ?? '')} 
-                                                class="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                    </div>
+                        <a class="block md:flex group rounded-lg transition-colors p-4 -mx-4 first:pt-0" href={`/post/${post.slug.current}`}>
+                            <div class="flex-shrink-0">
+                                <div class="relative w-full md:w-48 aspect-[4/3] overflow-hidden rounded-lg">
+                                    <img 
+                                        src={urlFor(post.mainImage).url()} 
+                                        alt={sanitizeText(post.title ?? '')} 
+                                        class="w-full h-full object-cover"
+                                    />
                                 </div>
                             </div>
-                            <div class="mt-4 md:mt-0 md:ml-8">
-                                <div class="mb-4">
-                                    <span class="inline-block py-1 px-3 text-xs font-medium text-primary-900 bg-primary-50 rounded-full s-iFvCgFMopxZa">{post.category.title}</span>
-                                    <span class="text-xs mx-4">{formatDate(post._createdAt)}</span>  
+                            <div class="flex-grow md:ml-6 mt-4 md:mt-0">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="inline-block py-1 px-3 text-xs font-medium text-primary-900 bg-primary-50 rounded-full">{post.category.title}</span>
+                                    <span class="text-xs text-gray-600">{formatDate(post._createdAt)}</span>  
                                 </div>
-                                  
-                                <h4 class="text-xl font-medium group-hover:text-primary-800 mb-3">{post.title}</h4>
-                                <p class="max-w-xl text-s text-gray-700">{post.excerpt?.slice(0, 100)}...</p>
+                                <h4 class="text-xl font-medium group-hover:text-primary-800 mb-2">{post.title}</h4>
+                                <p class="text-gray-700 text-sm">{post.excerpt?.slice(0, 100)}...</p>
                             </div>
                         </a>
+                        {#if !isLast(post, posts.slice(1, 4))}
+                            <div class="h-px bg-gray-100 my-4"></div>
+                        {/if}
                     {/each}
                 </div>
 
             <!-- Additional Posts -->
             {#if showContent}
-                <div class="flex flex-wrap -mx-4 -mb-12">
+                <div class="flex flex-wrap -mx-4 -mb-12 ">
                     {#each posts.slice(4) as post}
                         <div class="w-full md:w-1/2 xl:w-1/4 px-4 mb-12 border-r border-gray-100">
                             <a class="block px-4 group" href={`/post/${post.slug.current}`}>
@@ -110,10 +110,14 @@
                 {#if !showContent}
                     <button 
                         on:click={() => showContent = true}
-                        class="relative group inline-block py-4 px-7 font-semibold text-primary-900 hover:text-primary-50 rounded-full bg-primary-50 transition duration-300 overflow-hidden"
+                        class="relative group inline-block w-full sm:w-auto py-4 px-8 text-white font-medium rounded-md overflow-hidden bg-primary-800"
                     >
-                        <div class="absolute top-0 right-full w-full h-full bg-gray-900 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
-                        <span class="relative">Weitere Artikel anzeigen</span>
+                        <div class="absolute top-0 right-full w-full h-full transform group-hover:translate-x-full group-hover:scale-102 transition duration-500 bg-primary-600"></div>
+                        <div class="relative flex items-center justify-center"><span class="mr-4">Weitere Artikel anzeigen</span> <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+                                <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                              </svg>                                                  
+                          </span></div>
                     </button>
                 {/if}
             </div>

@@ -3,5 +3,15 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [sveltekit()],
-  base: '/', // Der Basis-Pfad kann so bleiben, solange die App im Root der Subdomain läuft
+  base: '/',
+  optimizeDeps: {
+    include: ['gsap', 'gsap/all']
+  },
+  resolve: {
+    mainFields: ['browser', 'module', 'main'],
+    extensions: ['.js', '.ts', '.svelte'],
+    alias: {
+      'gsap/all': '@gsap/shockingly/all'
+    }
+  }
 });

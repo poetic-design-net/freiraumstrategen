@@ -1,3 +1,61 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import gsap from 'gsap';
+  import { heroTimeline } from '$lib/stores/animation';
+  import { hasAnimationPlayed } from '$lib/stores/animationState';
+
+  let logoRef: HTMLElement;
+
+  onMount(() => {
+    let played;
+    hasAnimationPlayed.subscribe(value => {
+      played = value;
+    });
+
+    if (!played) {
+      const tl = gsap.timeline();
+      heroTimeline.set(tl);
+
+      heroTimeline.update(tl => {
+        if (tl) {
+          tl.addLabel("start")
+            .to(".Logo-bird polygon, .Logo-bird path", {
+              opacity: 1,
+              scale: 1,
+              transformOrigin: "center center",
+              stagger: 0.1,
+              duration: 0.8,
+              ease: "back.out(1.7)"
+            }, "start")
+            .to(".Logo-text > *", {
+              opacity: 1,
+              duration: 0.5,
+              stagger: 0.05,
+              ease: "power2.out",
+            }, "start+=0.5");
+        }
+        return tl;
+      });
+    } else {
+      gsap.set([".Logo-bird polygon, .Logo-bird path", ".Logo-text > *"], {
+        opacity: 1,
+        scale: 1
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Initial State */
+  :global(.Logo-text > *) {
+    opacity: 0;
+  }
+  :global(.Logo-bird polygon),
+  :global(.Logo-bird path) {
+    opacity: 0;
+  }
+</style>
+
 <svg xmlns="http://www.w3.org/2000/svg" width="154.1px" height="52px" viewBox="0 0 154.1 52">
     <g class="Logo-bird">
         <polygon fill="#024358" points="47.2,16.8 47.2,9.9 54.9,16.8 	"></polygon>
@@ -31,6 +89,7 @@
         <polygon fill="url(#SVGID_00000146478473025375996870000017387574293739566005_)" points="24.4,24.8 47.2,21 28.6,37.6 	"></polygon>
         <polygon fill="#024358" points="24.4,24.8 24.3,52 31,44.8 	"></polygon>
     </g>
+    <g class="Logo-text">
     <polygon fill="#02657C" points="49,33.4 51.2,33.4 51.2,27.1 56.4,27.1 56.4,25.1 51.2,25.1 51.2,20.6 57.7,20.6 57.7,18.6 49,18.6
         "></polygon>
     <path fill="#02657C" d="M70.8,23.3c0-2.4-1.3-4.7-4.6-4.7h-5.6v14.8h2.2v-5.5h1.7l3.8,5.5h2.6L67,27.9
@@ -62,4 +121,5 @@
         131.7,51 140.2,51 140.2,50.1 132.7,50.1 "></polygon>
     <polygon fill="#02657C" points="152.9,36.2 152.9,49.4 144.7,36.2 143.6,36.2 143.6,51 144.6,51 144.6,37.8 152.8,51 153.9,51
         153.9,36.2 "></polygon>
+    </g>
 </svg>

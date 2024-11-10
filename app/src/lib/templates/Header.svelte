@@ -38,13 +38,19 @@
   }
 
   // Navigation Handlers
-  function handleMouseEnter(itemKey: string) {
+// Neue Version:
+async function handleMouseEnter(item: navigationQuery) {
     clearTimeout(timeoutId);
-    if (activeMenu === itemKey) return;
-    if (activeMenu === null) isFirstOpen = true;
-    else isFirstOpen = false;
-    activeMenu = itemKey;
-    isMenuVisible = true;
+    
+    if (activeMenu !== item._key) {
+      if (activeMenu === null) {
+        isFirstOpen = true;
+      } else {
+        isFirstOpen = false;
+      }
+      activeMenu = item._key;
+      isMenuVisible = true;
+    }
   }
 
   function handleMouseLeave() {
@@ -110,16 +116,16 @@
                 </svg>
               </button>
             {:else}
-              {#if navigationData?.[0]?.items}
-                <ul class="flex mx-auto space-x-12">
-                  {#each navigationData[0].items as item}
-                    <li class="group relative">
-                      <a
-                        href={item.path}
-                        class="inline-block text-sm text-gray-900 hover:text-primary-500 font-medium"
-                        on:mouseenter={() => handleMouseEnter(item._key)}
-                        aria-expanded={activeMenu === item._key}>
-                        {item.title}
+            {#if navigationData?.[0]?.items}
+            <ul class="flex mx-auto space-x-12">
+              {#each navigationData[0].items as item}
+                <li class="group relative">
+                  <a
+                    href={item.path}
+                    class="inline-block text-sm text-primary-800 hover:text-primary-600 "
+                    on:mouseenter={() => handleMouseEnter(item)} 
+                    aria-expanded={activeMenu === item._key}>
+                    {item.title}
                         <svg class="inline-block ml-1 w-4 h-4 transition-transform duration-200" 
                              class:rotate-180={activeMenu === item._key}
                              viewBox="0 0 24 24"
@@ -130,9 +136,9 @@
                       </a>
                       
                       {#if activeMenu === item._key && item.columns}
-                        <div class="fixed left-0 right-0 top-[72px] mx-auto w-screen max-w-7xl px-8 py-6 mt-6 bg-ultra-light shadow-xl rounded-xl"
-                             class:animate-slide-in={isFirstOpen}
-                             class:animate-slide-out={!isMenuVisible}>
+                      <div class="fixed left-0 right-0 top-[72px] mx-auto w-screen max-w-7xl px-8 py-6 mt-6 bg-ultra-light shadow-xl rounded-xl h-48"
+                          class:animate-slide-in={isFirstOpen}
+                          class:animate-slide-out={!isMenuVisible}>
                           <div class="grid grid-cols-4 gap-8">
                             {#each item.columns as column}
                               <div>
@@ -178,6 +184,30 @@
                     </li>
                   {/each}
                 </ul>
+                <div class="flex items-center">
+                  
+                  <button class="group relative py-3 px-4 text-sm font-medium rounded-md">
+                    <!-- Icon mit angepassten Hover-Farben -->
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         fill="none" 
+                         viewBox="0 0 24 24" 
+                         stroke-width="1.5" 
+                         class="size-6 stroke-primary-800 group-hover:stroke-primary-600 transition-colors duration-300">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                
+                    <!-- Tooltip -->
+                    <div class="hidden group-hover:block absolute -top-6 left-1/2 -translate-x-1/2 px-2 py-2 bg-gray-50 text-primary-800 rounded-lg text-xs whitespace-nowrap z-50">
+                      Mein Account
+                      <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-50"></div>
+                    </div>
+                  </button>
+
+                  <a class="relative group inline-block py-3 px-4 text-sm font-medium text-primary-800 hover:text-primary-50 bg-primary-50 rounded-md overflow-hidden transition duration-300" href="/">
+                    <div class="absolute top-0 right-full w-full h-full bg-primary-800 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
+                    <span class="relative">Strategiegespräch</span>
+                  </a>
+                </div>
               {/if}
             {/if}
           </div>

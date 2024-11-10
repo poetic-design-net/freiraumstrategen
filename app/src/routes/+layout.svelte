@@ -7,8 +7,15 @@
 	import Footer from '$lib/templates/Footer.svelte';
 	import { afterNavigate } from '$app/navigation';
 	export let data;
+	import CookieConsentComponent from '$lib/cookie/cookieconsent.svelte';
+	import { onMount } from 'svelte';
 
   let isArticlePage = false;
+  let ready = false;
+
+  onMount(() => {
+    ready = true;
+  });
 
   afterNavigate(() => {
     isArticlePage = $page.url.pathname.startsWith('/post');
@@ -31,7 +38,10 @@
 <Header {data} />	
 	
 	<main>
-		<slot />
+		<div class="page-transition" class:page-ready={ready}>
+			<slot />
+			<CookieConsentComponent/>
+		</div>
 	</main>
 	<Footer />
 			
@@ -113,6 +123,9 @@
 	.preview-toggle:hover span:last-child {
 		display: block;
 	}
+
+
+
 </style>
 
 

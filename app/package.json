@@ -11,19 +11,22 @@
 		"start": "node build"
 	},
 	"dependencies": {
+		"@gsap/shockingly": "^3.12.5",
 		"@sanity/client": "^6.15.4",
 		"@sanity/image-url": "^1.0.2",
 		"@sanity/svelte-loader": "^1.11.1",
 		"@sanity/visual-editing": "^2.0.0",
 		"@sveltejs/adapter-vercel": "^5.4.6",
 		"@sveltejs/kit": "^2.7.3",
-		"svelte": "^4.2.18",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"clsx": "^2.1.1",
 		"groq": "^3.33.0",
+		"gsap": "^3.12.5",
+		"svelte": "^4.2.18",
 		"svelte-motion": "^0.12.2",
 		"tailwind-merge": "^2.5.4",
-		"tailwindcss-gradients": "^3.0.0"
+		"tailwindcss-gradients": "^3.0.0",
+		"vanilla-cookieconsent": "3.0.1"
 	},
 	"devDependencies": {
 		"@portabletext/svelte": "^2.1.11",

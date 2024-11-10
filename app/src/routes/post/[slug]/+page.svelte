@@ -223,14 +223,6 @@ function setupIntersectionObserver() {
 						</div>
 						<span class="ml-3">{isLiking ? '...' : likeCount}</span>
 					</a>
-					<a class="group inline-flex items-center text-white hover:text-primary-600" href="/">
-						<div class="flex items-center justify-center h-16 w-16 border border-white border-opacity-20 group-hover:border-primary-600 rounded-full">
-							<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 13.8214 2.98697 15.5291 3.83782 17L3 21.5L7.5 20.6622C8.97087 21.513 10.6786 22 12.5 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-							</svg>
-						</div>
-						<span class="ml-3">10</span>
-					</a>
 				</div>
 			</div>
 		</div>

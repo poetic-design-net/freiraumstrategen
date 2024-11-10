@@ -46,6 +46,7 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
     title,
     identifier,
     items[] {
+	_key,
       title,
       path,
       columns[] {
@@ -56,7 +57,7 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
         }
       },
       featured {
-        "image": image.asset->url,
+        "imageUrl": image.asset->url,
         title,
         description,
         link
