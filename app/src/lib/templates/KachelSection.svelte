@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger.js';
+  import { ScrollTrigger } from 'gsap/all';
 
   onMount(() => {
     // ScrollTrigger Registration
@@ -166,10 +166,10 @@
                   <span class="block mb-3 text-sm text-primary-200 font-semibold uppercase">Fragen und Antworten</span>
                   <h3 class="text-3xl md:text-4xl text-gray-50 font-semibold">Du hast fragen? Hier findest du die Antworten.</h3>
                 </div>
-                <a class="relative group inline-block w-full xs:w-auto py-4 px-6 text-primary-900 hover:text-white font-semibold bg-primary-50 rounded-md overflow-hidden transition duration-500" href="#">
+                <a class="relative group inline-block w-full xs:w-auto py-4 px-6 text-primary-900 hover:text-white font-semibold bg-primary-50 rounded-md overflow-hidden transition duration-500" href="/faq">
                   <div class="absolute top-0 right-full w-full h-full bg-orange-600 text-white transform group-hover:translate-x-full group-hover:scale-105 transition duration-500"></div>
                   <div class="relative flex items-center justify-center">
-                    <span class="mr-4">oder kontaktiere uns direkt</span>
+                    <span class="mr-4">FAQ</span>
                     <span>
                       <svg width="13" height="13" viewbox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.92 0.62C12.8185 0.375651 12.6243 0.181475 12.38 0.0799999C12.2598 0.028759 12.1307 0.00157999 12 0H2C1.73478 0 1.48043 0.105357 1.29289 0.292893C1.10536 0.48043 1 0.734784 1 1C1 1.26522 1.10536 1.51957 1.29289 1.70711C1.48043 1.89464 1.73478 2 2 2H9.59L1.29 10.29C1.19627 10.383 1.12188 10.4936 1.07111 10.6154C1.02034 10.7373 0.994202 10.868 0.994202 11C0.994202 11.132 1.02034 11.2627 1.07111 11.3846C1.12188 11.5064 1.19627 11.617 1.29 11.71C1.38296 11.8037 1.49356 11.8781 1.61542 11.9289C1.73728 11.9797 1.86799 12.0058 2 12.0058C2.13201 12.0058 2.26272 11.9797 2.38458 11.9289C2.50644 11.8781 2.61704 11.8037 2.71 11.71L11 3.41V11C11 11.2652 11.1054 11.5196 11.2929 11.7071C11.4804 11.8946 11.7348 12 12 12C12.2652 12 12.5196 11.8946 12.7071 11.7071C12.8946 11.5196 13 11.2652 13 11V1C12.9984 0.869323 12.9712 0.740222 12.92 0.62Z" fill="currentColor"></path>
@@ -192,7 +192,7 @@
                   </div>
                   <img class="absolute bottom-0 right-0 m-5" src="saturn-assets/images/features/arrow.svg" alt="">
                 </a>
-                <a class="kachel-small relative block h-full pt-8 px-8 pb-5 rounded-3xl bg-red-50 hover:bg-red-100 transition duration-200" href="#">
+                <a class="kachel-small relative block h-full pt-8 px-8 pb-5 rounded-3xl bg-red-50 hover:bg-red-100 transition duration-200" href="/">
                   <div class="flex flex-col h-full justify-between max-w-sm pr-16">
                     <p class="text-sm text-gray-900 mb-10 md:mb-6">It’s a must to that we would like to share our workflow to believe you</p>
                     <span class="text-3xl font-semibold text-gray-900">Das sind wir</span>
@@ -202,9 +202,9 @@
               </div>
             </div>
             <div class="w-full md:w-1/2 px-4">
-              <a class="kachel-small-last relative block h-full pt-8 px-8 pb-5 rounded-3xl bg-gray-50 hover:bg-gray-600 transition duration-200" href="#">
+              <a class="kachel-small-last relative block h-full pt-8 px-8 pb-5 rounded-3xl bg-gray-50 hover:bg-gray-600 transition duration-200" href="/kontakt">
                 <div class="flex h-full flex-col items-start justify-between max-w-sm pr-16">
-                  <p class="text-sm text-gray-900 mb-10 md:mb-6">2,000+ our team members around the world who create incredible and amazing projects</p>
+                  <p class="text-sm text-gray-900 mb-10 md:mb-6">Nimm Kontakt zu uns auf, wir freuen uns von dir zu hören.</p>
                   <span class="text-3xl font-semibold text-gray-900">Treffe unsere Experten</span>
                 </div>
                 <img class="absolute bottom-0 right-0 m-5" src="saturn-assets/images/features/arrow.svg" alt="">

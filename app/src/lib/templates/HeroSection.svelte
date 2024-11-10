@@ -145,7 +145,7 @@ onMount(() => {
                     
                     </div>
                     <div bind:this={buttonRef}>
-                      <Button />
+                      <Button icon="arrow-right" text="Kennenlerntour starten"/>
                     </div>
                   </div>
                   <div bind:this={partnerSectionRef}>

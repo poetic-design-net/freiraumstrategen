@@ -66,7 +66,21 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
   }
 `;
 
+export type Faq = {
+    _id: string;
+    title: string;
+    question: string;
+    answer: string;
+};
 
+export const faqQuery = groq`
+  *[_type == "faq"] {
+    _id,
+    title,
+    question,
+    answer
+  }
+`;
 
   export interface PageData {
 	title: string;
