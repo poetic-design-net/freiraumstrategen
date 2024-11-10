@@ -4,7 +4,7 @@
   import Logo from '$lib/components/Logo.svelte';	
   import { clickOutside } from '$lib/actions/clickOutside';
   import { useQuery } from '@sanity/svelte-loader';
-  import { navigationQuery } from '$lib/sanity/queries';
+  import { navigationQuery } from '$lib/sanity/queries';  
 
   export let data;
 

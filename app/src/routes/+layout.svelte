@@ -29,7 +29,11 @@
 <Header {data} />	
 	
 <main>
-	<div>
+	<div 
+		class="page-transition" 
+		class:page-ready={ready}
+		style="transition-duration: 0.3s"
+	>
 		<slot />
 		<CookieConsentComponent/>
 	</div>

@@ -14,7 +14,8 @@
 	import ContentSection_alt from '$lib/templates/ContentSection_alt.svelte';	
 	import Testimonials from '$lib/templates/Testimonials.svelte';
 	import KachelSection from '$lib/templates/KachelSection.svelte';
-	
+	import { onMount } from 'svelte';
+
 	export let data: PageData;
 	const q = useQuery(data);
 	const testimonialsQ = useQuery(data.testimonialsQuery, {}, {
@@ -28,6 +29,7 @@
 // Beispiel für eine Load-Funktion
 
 export async function load({ params, cookies }: { params: any, cookies: any }) {
+	
   const preview = cookies.get('preview') === 'true';
 
   const client = preview
@@ -40,6 +42,8 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
   const data = await client.fetch(/* Deine GROQ-Abfrage */);
 
   return { data };
+
+  
 }
 
 	let scrollProgress = 0;
@@ -57,10 +61,21 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 		});
 	}
 
+	let isHydrated = false;
+
+	onMount(() => {
+		isHydrated = true;
+	});
+
 	// Dann erst die Komponente rendern
 </script>
 
-
+<!-- Test-Content vor dem eigentlichen Content -->
+{#if isHydrated}
+	<div class="test-content pt-32">
+		Test Content
+	</div>
+{/if}
 
 <section class="relative overflow-hidden">
 		<!-- <Meteors number={30} /> -->
