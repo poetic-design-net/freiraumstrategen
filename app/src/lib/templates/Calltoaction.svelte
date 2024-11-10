@@ -1,11 +1,10 @@
 <script lang="ts">
   import MemberForm from '$lib/components/MemberForm.svelte';
   import { onMount } from 'svelte';
-  const headline = "Hole Dir kostenfreien Zugang zu unserem Mitgliederbereich";
-  /*import { gsap } from 'gsap';
+  import { gsap } from 'gsap';
   import { SplitText,ScrollTrigger } from 'gsap/all';
 
-  
+  const headline = "Hole Dir kostenfreien Zugang zu unserem Mitgliederbereich";
   
   onMount(() => {
     if (typeof window !== 'undefined') {
@@ -45,8 +44,8 @@
         ease: "power3.out",
       }, "-=0.7");
     }
-  });*/
-</script> 
+  });
+</script>
 
 <div class="relative w-full min-h-screen flex items-center bg-orange-600 justify-center">
   <img 
