@@ -5,7 +5,6 @@
   import { onMount } from 'svelte';
   import { gsap } from "gsap";
   import { SplitText } from "gsap/all";
-  import { hasAnimationPlayed } from '$lib/stores/animationState';
 
   gsap.registerPlugin(SplitText);
 
@@ -18,139 +17,81 @@
   let buttonRef: HTMLElement;
 
   onMount(() => {
-    try {
-      if (!$hasAnimationPlayed) {
-        const splitText = new SplitText(headlineRef, { 
-          type: "words,chars",
-          charsClass: "char",
-          wordsClass: "word"
-        });
+    gsap.set([
+      gradientTextRef,
+      heroImageRef,
+      statsBoxRef,
+      partnerSectionRef,
+      buttonRef
+    ], {
+      opacity: 0
+    });
+    
+    gsap.set(arrowRef.querySelector('path'), {
+      strokeDasharray: 120,
+      strokeDashoffset: 120
+    });
 
-        // Initial States - explizit für jedes Element
-        gsap.set(gradientTextRef, {
-          opacity: 0,
-          y: 30
-        });
-        
-        gsap.set(heroImageRef, {
-          opacity: 0,
-          x: 100
-        });
-        
-        gsap.set(statsBoxRef, {
-          opacity: 0,
-          y: 50
-        });
-        
-        gsap.set(partnerSectionRef, {
-          opacity: 0,
-          y: 30
-        });
-        
-        gsap.set(buttonRef, {
-          opacity: 0,
-          scale: 0.8
-        });
-        
-        gsap.set(arrowRef.querySelector('path'), {
-          strokeDasharray: 120,
-          strokeDashoffset: 120
-        });
-
-        const tl = gsap.timeline({
-          defaults: {
-            duration: 0.8,
-            ease: "power2.out"
-          },
-          onComplete: () => {
-            hasAnimationPlayed.set(true);
-          }
-        });
-
-        // Animation Sequence
-        tl.from(splitText.chars, {
-          y: 100,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.02,
-          ease: "power4.out",
-        })
-        .to(gradientTextRef, {  // .to statt .from
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-        }, "-=0.4")
-        .to(heroImageRef, {  // .to statt .from
-          opacity: 1,
-          x: 0,
-          duration: 1.2,
-          ease: "power2.out",
-        }, "-=0.8")
-        .to(statsBoxRef, {  // .to statt .from
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "back.out(1.7)",
-        }, "-=0.5")
-        .to(partnerSectionRef, {  // .to statt .from
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-        }, "-=0.3")
-        .to(arrowRef.querySelector('path'), {
-          strokeDashoffset: 0,
-          duration: 1,
-          ease: "power2.out",
-        }, "-=0.5")
-        .to(buttonRef, {  // .to statt .from
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          ease: "back.out(1.7)",
-        }, "-=0.3");
-
-        // Cleanup
-        return () => {
-          splitText.revert();
-          tl.kill();
-        };
-      } else {
-        // Wenn Animation bereits gespielt wurde
-        gsap.set([
-          headlineRef, 
-          gradientTextRef,
-          heroImageRef,
-          statsBoxRef,
-          partnerSectionRef,
-          buttonRef,
-          arrowRef
-        ], {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          scale: 1
-        });
+    const tl = gsap.timeline({
+      defaults: {
+        duration: 0.8,
+        ease: "power2.out"
       }
-    } catch (error) {
-      console.error('Animation error:', error);
-      // Fallback: Show content without animation
-      gsap.set([
-        headlineRef, 
-        gradientTextRef,
-        heroImageRef,
-        statsBoxRef,
-        partnerSectionRef,
-        buttonRef,
-        arrowRef
-      ], {
-        opacity: 1,
-        y: 0,
-        x: 0,
-        scale: 1
-      });
-    }
+    });
+
+    const splitText = new SplitText(headlineRef, { 
+      type: "words,chars",
+      charsClass: "char",
+      wordsClass: "word"
+    });
+
+    tl.from(splitText.chars, {
+      y: 100,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.02,
+      ease: "power4.out",
+    })
+    .to(gradientTextRef, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power3.out",
+    }, "-=0.4")
+    .to(heroImageRef, {
+      opacity: 1,
+      x: 0,
+      duration: 1.2,
+      ease: "power2.out",
+    }, "-=0.8")
+    .to(statsBoxRef, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "back.out(1.7)",
+    }, "-=0.5")
+    .to(partnerSectionRef, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out",
+    }, "-=0.3")
+    .to(arrowRef.querySelector('path'), {
+      strokeDashoffset: 0,
+      duration: 1,
+      ease: "power2.out",
+    }, "-=0.5")
+    .to(buttonRef, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.6,
+      ease: "back.out(1.7)",
+    }, "-=0.3");
+
+    return () => {
+      splitText.revert();
+      tl.kill();
+    };
   });
 
   </script>

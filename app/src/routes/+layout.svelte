@@ -14,7 +14,9 @@
   let ready = false;
 
   onMount(() => {
-    ready = true;
+    requestAnimationFrame(() => {
+      ready = true;
+    });
   });
 
   afterNavigate(() => {
@@ -123,6 +125,17 @@
 	.preview-toggle:hover span:last-child {
 		display: block;
 	}
+
+  .page-transition {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+  }
+
+  .page-transition.page-ready {
+    opacity: 1;
+    visibility: visible;
+  }
 
 
 
