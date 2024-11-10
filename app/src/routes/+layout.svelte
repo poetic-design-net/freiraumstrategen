@@ -9,24 +9,39 @@
 	export let data;
 	import CookieConsentComponent from '$lib/cookie/cookieconsent.svelte';
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { dev } from '$app/environment';
 
   let isArticlePage = false;
   let ready = false;
+  let environment = dev ? 'development' : 'production';
+
+  console.log(`Environment: ${environment}`);
+  console.log('Initial ready state:', ready);
+
+  if (browser) {
+    console.log('Browser detected, setting ready');
+    ready = true;
+  }
 
   onMount(() => {
-    requestAnimationFrame(() => {
-      ready = true;
-    });
+    console.log('Layout mounted');
+    ready = true;
+    console.log('Ready state after mount:', ready);
   });
 
   afterNavigate(() => {
+    console.log('Navigation occurred');
+    ready = true;
     isArticlePage = $page.url.pathname.startsWith('/post');
     if (typeof document !== 'undefined') {
       document.body.classList.toggle('article-page', isArticlePage);
     }
   });
 
-
+  $: {
+    console.log('Ready state changed:', ready);
+  }
 
 </script>
 
@@ -40,7 +55,19 @@
 <Header {data} />	
 	
 	<main>
-		<div class="page-transition" class:page-ready={ready}>
+		{#if browser}
+			<div style="display: none">
+				Environment: {environment}
+				Ready: {ready}
+				Browser: {browser}
+			</div>
+		{/if}
+
+		<div 
+			class="page-transition" 
+			class:page-ready={ready}
+			style="transition-duration: 0.3s"
+		>
 			<slot />
 			<CookieConsentComponent/>
 		</div>
@@ -130,6 +157,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+    transition-delay: 0.1s;
   }
 
   .page-transition.page-ready {
