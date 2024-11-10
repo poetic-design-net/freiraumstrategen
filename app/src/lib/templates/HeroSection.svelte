@@ -1,7 +1,15 @@
 <script lang="ts">
 import AnimatedGradientText from "$lib/components/AnimatedGradientText.svelte";
 import Button from "$lib/components/Button.svelte";
-import { onMount, onDestroy } from 'svelte';
+import { onMount } from 'svelte';
+import { gsap } from 'gsap';
+import { SplitText,ScrollTrigger } from 'gsap/all';
+
+
+gsap.defaults({
+  duration: 0.6,
+  ease: "power2.out"
+});
 
 let headlineRef: HTMLElement;
 let gradientTextRef: HTMLElement;
@@ -11,10 +19,53 @@ let statsBoxRef: HTMLElement;
 let arrowRef: HTMLElement;
 let buttonRef: HTMLElement;
 
-// Cleanup beim Verlassen der Seite
-onDestroy(() => {
-  if (typeof window !== 'undefined' && document.visibilityState === 'hidden') {
-    sessionStorage.removeItem('internalNavigation');
+
+onMount(() => {
+  if (typeof window !== 'undefined' && !sessionStorage.getItem('heroAnimated')) {
+    gsap.registerPlugin(ScrollTrigger, SplitText);
+
+    const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
+    
+    const tl = gsap.timeline({
+      paused: true,
+      onComplete: () => {
+        tl.kill();
+        sessionStorage.setItem('heroAnimated', 'true');
+      }
+    });
+    
+    tl.from(gradientTextRef, { 
+      opacity: 0, 
+      y: 20
+    })
+    .from(splitHeadline.chars, {
+      opacity: 0,
+      y: 20,
+      stagger: 0.02
+    }, "-=0.4")
+    .from(buttonRef, {
+      opacity: 0,
+      y: 20
+    }, "-=0.4")
+    .from(arrowRef, {
+      opacity: 0,
+      x: -20
+    }, "-=0.4")
+    .from(heroImageRef, {
+      opacity: 0,
+      x: 40,
+      duration: 0.8
+    }, "-=0.6")
+    .from(statsBoxRef, {
+      opacity: 0,
+      scale: 0.8
+    }, "-=0.4")
+    .from(partnerSectionRef, {
+      opacity: 0,
+      y: 20
+    }, "-=0.2");
+
+    tl.play();
   }
 });
 </script>
@@ -38,6 +89,17 @@ onDestroy(() => {
     stroke-linejoin: round;
     fill: none;
     }
+
+    /* Initial States */
+    :global(.hero-gradient-text),
+    :global(.hero-headline),
+    :global(.hero-button),
+    :global(.hero-arrow),
+    :global(.hero-image),
+    :global(.hero-stats),
+    :global(.hero-partners) {
+      opacity: 0;
+    }
   </style>
   
 
@@ -51,14 +113,11 @@ onDestroy(() => {
               <div class="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
             
                 <div class="max-w-xl mx-auto lg:mx-0 lg:max-w-2xl relative z-10">
-                    <div bind:this={gradientTextRef} class="inline-block mb-4">
+                    <div class="hero-gradient-text" bind:this={gradientTextRef}>
                         <AnimatedGradientText text="Hier lernst Du mit klarer Strategie und wenig Zeitaufwand." />
                     </div>
                     
-                    <h1 
-                      bind:this={headlineRef} 
-                      class="font-heading text-5xl xs:text-6xl md:text-8xl xl:text-10xl font-thin text-gray-900 mb-8 sm:mb-14"
-                    >              
+                    <h1 bind:this={headlineRef} class="font-heading text-5xl xs:text-6xl md:text-8xl xl:text-10xl font-thin text-gray-900 mb-8 sm:mb-14">              
                         <span class="relative inline-block">                     
                               <span class="font-medium">Erfolgreich</span> an der Börse handeln.
                         </span>            
