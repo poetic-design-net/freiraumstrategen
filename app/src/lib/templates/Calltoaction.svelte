@@ -1,49 +1,52 @@
 <script lang="ts">
   import MemberForm from '$lib/components/MemberForm.svelte';
   import { onMount } from 'svelte';
-      import { gsap } from "gsap";
-      import { ScrollTrigger, SplitText } from "gsap/all";
-
-  gsap.registerPlugin(ScrollTrigger, SplitText);
-
   const headline = "Hole Dir kostenfreien Zugang zu unserem Mitgliederbereich";
+  /*import { gsap } from 'gsap';
+  import { SplitText,ScrollTrigger } from 'gsap/all';
+
+  
   
   onMount(() => {
-    const splitText = new SplitText(".headline", { type: "words" });
-    gsap.set(splitText.words, { opacity: 0, y: 20 });
-    gsap.set('.animate-paragraph', { opacity: 0, y: 20 });
-    gsap.set('.animate-form', { opacity: 0, y: 20 });
+    if (typeof window !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger, SplitText);
+      
+      const splitText = new SplitText(".headline", { type: "words" });
+      gsap.set(splitText.words, { opacity: 0, y: 20 });
+      gsap.set('.animate-paragraph', { opacity: 0, y: 20 });
+      gsap.set('.animate-form', { opacity: 0, y: 20 });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".headline-container",
-        start: "top 80%",
-        once: true,
-        toggleActions: "play none none none"
-      }
-    });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".headline-container",
+          start: "top 80%",
+          once: true,
+          toggleActions: "play none none none"
+        }
+      });
 
-    tl.to(splitText.words, {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      stagger: 0.15,
-      ease: "power4.out",
-    })
-    .to('.animate-paragraph', {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power3.out",
-    }, "-=0.5")
-    .to('.animate-form', {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power3.out",
-    }, "-=0.7");
-  });
-</script>
+      tl.to(splitText.words, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power4.out",
+      })
+      .to('.animate-paragraph', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+      }, "-=0.5")
+      .to('.animate-form', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+      }, "-=0.7");
+    }
+  });*/
+</script> 
 
 <div class="relative w-full min-h-screen flex items-center bg-orange-600 justify-center">
   <img 

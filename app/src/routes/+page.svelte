@@ -71,8 +71,8 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 <!-- Test-Content vor dem eigentlichen Content -->
 
 <section class="relative overflow-hidden">
-		<!-- <Meteors number={30} /> -->
-		 <HeroSection /> 
+	<!-- <Meteors number={30} /> -->
+	 <HeroSection /> 
 
 </section>
 

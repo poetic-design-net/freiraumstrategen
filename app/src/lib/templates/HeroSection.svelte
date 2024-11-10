@@ -1,138 +1,23 @@
 <script lang="ts">
+import AnimatedGradientText from "$lib/components/AnimatedGradientText.svelte";
+import Button from "$lib/components/Button.svelte";
+import { onMount, onDestroy } from 'svelte';
 
-  import AnimatedGradientText from "$lib/components/AnimatedGradientText.svelte";
-  import Button from "$lib/components/Button.svelte";
-  import { onMount, onDestroy } from 'svelte';
-  import * as gsapAll from "gsap/all";
-  const { gsap, SplitText } = gsapAll;
+let headlineRef: HTMLElement;
+let gradientTextRef: HTMLElement;
+let partnerSectionRef: HTMLElement;
+let heroImageRef: HTMLElement;
+let statsBoxRef: HTMLElement;
+let arrowRef: HTMLElement;
+let buttonRef: HTMLElement;
 
-  gsap.registerPlugin(SplitText);
-
-  let headlineRef: HTMLElement;
-  let gradientTextRef: HTMLElement;
-  let partnerSectionRef: HTMLElement;
-  let heroImageRef: HTMLElement;
-  let statsBoxRef: HTMLElement;
-  let arrowRef: HTMLElement;
-  let buttonRef: HTMLElement;
-
-  // DEBUG Flag - einfach auf true setzen zum Deaktivieren der Animation
-  const DISABLE_ANIMATION = false;
-
-  onMount(() => {
-    if (DISABLE_ANIMATION) {
-      // Sofort alles sichtbar machen
-      gsap.set([
-        gradientTextRef,
-        heroImageRef,
-        statsBoxRef,
-        partnerSectionRef,
-        buttonRef,
-        headlineRef
-      ], {
-        opacity: 1,
-        y: 0,
-        x: 0,
-        scale: 1
-      });
-      return;
-    }
-
-    // Prüfe ob wir gerade innerhalb der Seite navigieren
-    if (sessionStorage.getItem('internalNavigation')) {
-      gsap.set([gradientTextRef, heroImageRef, statsBoxRef, partnerSectionRef, buttonRef, headlineRef], 
-        { opacity: 1, y: 0, x: 0, scale: 1 });
-      return;
-    }
-
-    // Setze Flag für interne Navigation
-    sessionStorage.setItem('internalNavigation', 'true');
-
-    gsap.set([
-      gradientTextRef,
-      heroImageRef,
-      statsBoxRef,
-      partnerSectionRef,
-      buttonRef
-    ], {
-      opacity: 0
-    });
-    
-    gsap.set(arrowRef.querySelector('path'), {
-      strokeDasharray: 120,
-      strokeDashoffset: 120
-    });
-
-    const tl = gsap.timeline({
-      defaults: {
-        duration: 0.8,
-        ease: "power2.out"
-      }
-    });
-
-    const splitText = new SplitText(headlineRef, { 
-      type: "words,chars",
-      charsClass: "char",
-      wordsClass: "word"
-    });
-
-    tl.from(splitText.chars, {
-      y: 100,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.02,
-      ease: "power4.out",
-    })
-    .to(gradientTextRef, {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power3.out",
-    }, "-=0.4")
-    .to(heroImageRef, {
-      opacity: 1,
-      x: 0,
-      duration: 1.2,
-      ease: "power2.out",
-    }, "-=0.8")
-    .to(statsBoxRef, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "back.out(1.7)",
-    }, "-=0.5")
-    .to(partnerSectionRef, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power2.out",
-    }, "-=0.3")
-    .to(arrowRef.querySelector('path'), {
-      strokeDashoffset: 0,
-      duration: 1,
-      ease: "power2.out",
-    }, "-=0.5")
-    .to(buttonRef, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.6,
-      ease: "back.out(1.7)",
-    }, "-=0.3");
-
-    return () => {
-      splitText.revert();
-      tl.kill();
-    };
-  });
-
-  // Cleanup beim Verlassen der Seite
-  onDestroy(() => {
-    if (typeof window !== 'undefined' && document.visibilityState === 'hidden') {
-      sessionStorage.removeItem('internalNavigation');
-    }
-  });
-
-  </script>
+// Cleanup beim Verlassen der Seite
+onDestroy(() => {
+  if (typeof window !== 'undefined' && document.visibilityState === 'hidden') {
+    sessionStorage.removeItem('internalNavigation');
+  }
+});
+</script>
 
 <style>
     @keyframes fadeIn {
