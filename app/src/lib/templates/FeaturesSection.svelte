@@ -87,7 +87,7 @@
                       </li>
                     </ul>
                     <div class="mt-4">
-                      <Button size="sm" variant="orange" href="/blog/praxisorientiert-und-effektiv" text="Zum Artikel"/>
+                      <Button size="sm" variant="orange" href="/blog/praxisorientiert-und-effektiv" icon="arrow-right" text="Zum Artikel"/>
                     </div>
                   
                   </div>

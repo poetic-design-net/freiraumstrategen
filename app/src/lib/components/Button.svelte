@@ -19,7 +19,7 @@
 </script>
 
 <a 
-  class="relative group bg-gradient-3 inline-block w-full sm:w-auto {sizeClasses[size]} text-white shadow-lg font-medium rounded-md overflow-hidden {
+  class="relative group bg-gradient-3 inline-block w-full sm:w-auto {sizeClasses[size]} text-white shadow font-medium rounded-md overflow-hidden {
     variant === 'primary' ? 'bg-primary-800' : variant === 'orange' ? 'bg-orange-600' : 'bg-secondary-800'
   }"  
   {href} 
