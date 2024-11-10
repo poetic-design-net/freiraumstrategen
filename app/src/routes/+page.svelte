@@ -4,7 +4,7 @@
 	import Welcome from '$lib/components/Welcome.svelte';
 	import type { PageData } from './$types';
 
-	import HeroSection from '$lib/templates/HeroSection.svelte';
+//	import HeroSection from '$lib/templates/HeroSection.svelte';
 	import CaseSection from '$lib/templates/CaseSection.svelte';
 	import Calltoaction from '$lib/templates/Calltoaction.svelte';
 	import FeaturesSection from '$lib/templates/FeaturesSection.svelte';
@@ -61,25 +61,16 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 		});
 	}
 
-	let isHydrated = false;
 
-	onMount(() => {
-		isHydrated = true;
-	});
 
 	// Dann erst die Komponente rendern
 </script>
 
 <!-- Test-Content vor dem eigentlichen Content -->
-{#if isHydrated}
-	<div class="test-content pt-32">
-		Test Content
-	</div>
-{/if}
 
 <section class="relative overflow-hidden">
 		<!-- <Meteors number={30} /> -->
-		<HeroSection />
+		<!-- <HeroSection /> -->
 
 </section>
 
