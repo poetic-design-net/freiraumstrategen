@@ -14,6 +14,7 @@
 	import ContentSection_alt from '$lib/templates/ContentSection_alt.svelte';	
 	import Testimonials from '$lib/templates/Testimonials.svelte';
 	import KachelSection from '$lib/templates/KachelSection.svelte';
+	import Testimonials_gsap from '$lib/templates/Testimonials_gsap.svelte';
 	import { onMount } from 'svelte';
 
 	export let data: PageData;
@@ -86,15 +87,16 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 	</div>	
 </section>
 
-<section class="relative text-dark py-20 lg:pb-48">
+<section class="relative text-dark py-20 lg:pb-32">
 	<div class="container px-4 mx-auto">
 		<StepSection />	
 	</div>	
 </section>
 
-<section class="relative py-20 lg:pt-32 lg:pb-36 bg-gray-50 overflow-hidden">
+
+<section class="relative py-20 lg:pt-24 lg:pb-24 bg-gray-50 overflow-hidden">
 	<div class="container px-4 mx-auto">
-		<Testimonials {testimonials} />	
+		<Testimonials_gsap {testimonials} />	
 	</div>	
 </section>
 
@@ -110,23 +112,23 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 	</div>	
 </section>
 
-<div class="relative">
-  <section class="relative w-full h-[200vh]">
-    <div class="sticky top-0 w-full h-screen">
+
+  <section class="relative w-full min-h-dvh lg:min-h-[200vh]">
+    <div class="relative lg:sticky lg:top-0 w-full min-h-dvh">
       <Calltoaction />
     </div>
   </section>
 
   <section class="relative py-20 lg:py-24 overflow-hidden">	
     <div 
-      class="absolute inset-0"
+      class="absolute inset-0 hidden lg:block"
       style="opacity: {Math.max(0, (scrollProgress - 0.5) * 2)};"
     ></div>
     <div class="container px-4 mx-auto relative z-10">
       <KachelSection />	
     </div>	
   </section>
-</div>
+
 
 
 <!-- <section>

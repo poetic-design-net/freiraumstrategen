@@ -9,6 +9,7 @@
 	import CookieConsentComponent from '$lib/cookie/cookieconsent.svelte';
 	import { browser } from '$app/environment';
 	
+	
 	export let data;
 	let isArticlePage = false;
 	let ready = false;

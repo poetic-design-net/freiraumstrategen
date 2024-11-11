@@ -118,12 +118,12 @@ onMount(() => {
                   <div class="w-full sm:w-1/3 p-5 flex items-center">
                     <div class="flex items-center">
                       <img 
-                        class="h-18 w-18 rounded-full border-2 border-white object-cover" 
+                        class="h-20 w-20 rounded-full border-2 border-white object-cover" 
                         src="assets/tobias_freiraumstrategen.jpg" 
                         alt="Tobias"
                       >
                       <img 
-                        class="-ml-4 h-18 w-18 rounded-full border-2 border-white object-cover" 
+                        class="-ml-4 h-20 w-20 rounded-full border-2 border-white object-cover" 
                         src="assets/trader_coach_johannes-1024x619.jpg" 
                         alt="Johannes"
                       >
@@ -131,8 +131,8 @@ onMount(() => {
                   </div>
                   
                   <!-- Rechte Hälfte -->
-                  <div class="w-full sm:w-2/3 p-5">
-                    <span class="block text-2xl font-medium">Tobias und Johannes</span>
+                  <div class="w-full sm:w-2/3 p-5 flex flex-col justify-center">
+                    <span class="block text-2xl font-medium ">Tobias und Johannes</span>
                     <span class="text-gray-500 text-sm">Die Freiraumstrategen</span>
                   </div>
                 </div>
@@ -170,14 +170,10 @@ onMount(() => {
                       </svg>
                     </a>
                     <a href="/">
-                      <svg xmlns="http://www.w3.org/2000/svg" 
-                           fill="none" 
-                           viewBox="0 0 24 24" 
-                           stroke-width="1.5" 
-                           stroke="currentColor" 
-                           class="size-6 text-primary-800 hover:text-primary-600 transition-colors">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 3.75v4.5m0-4.5h-4.5m4.5 0-6 6m3 12c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 0 1 4.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.054.902-.417 1.173l-1.293.97a1.062 1.062 0 0 0-.38 1.21 12.035 12.035 0 0 0 7.143 7.143c.441.162.928-.004 1.21-.38l.97-1.293a1.125 1.125 0 0 1 1.173-.417l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 0 1-2.25 2.25h-2.25Z" />
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-primary-800 hover:text-primary-600 transition-colors">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                       </svg>
+                      
                     </a>
          
                   </div>

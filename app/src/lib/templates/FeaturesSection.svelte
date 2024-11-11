@@ -13,6 +13,42 @@
     onMount(() => {
         visible = true;
     });
+
+    function getHoverBoxPosition(event: MouseEvent) {
+        const target = event.currentTarget as HTMLElement;
+        const rect = target.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
+        
+        // Position relativ zum gesamten Dokument
+        const elementTopPosition = rect.top + scrollY;
+        const elementBottomPosition = rect.bottom + scrollY;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        // Berechne verfügbaren Platz
+        const spaceAbove = elementTopPosition;
+        const spaceBelow = documentHeight - elementBottomPosition;
+        
+        const hoverBox = target.querySelector('.hover-box') as HTMLElement;
+        if (hoverBox) {
+            // Wenn weniger als 300px Platz nach oben, dann nach unten öffnen
+            if (spaceAbove < 300) {
+                hoverBox.style.cssText = `
+                    top: 100%;
+                    bottom: auto;
+                    margin-top: 1rem;
+                    margin-bottom: 0;
+                `;
+            } else {
+                hoverBox.style.cssText = `
+                    bottom: 100%;
+                    top: auto;
+                    margin-bottom: 1rem;
+                    margin-top: 0;
+                `;
+            }
+        }
+    }
   </script>
 
 
@@ -57,7 +93,12 @@
                 </div>
               
                 <!-- Hover Box -->
-                <div class="absolute left-0 bottom-full mb-2 bg-white rounded-xl shadow-2xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 w-80">
+                <div 
+                  class="hover-box absolute bg-white rounded-xl shadow-2xl p-6 opacity-0 invisible 
+                         group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 w-80"
+                  on:mouseenter={getHoverBoxPosition}
+                  on:mousemove={getHoverBoxPosition}
+                >
                   <div class="relative">
             
                     
@@ -161,3 +202,11 @@
           </div>
         </div>
       </div>
+
+<style>
+  .hover-box {
+    position: absolute;
+    left: 0;
+    transition: all 0.3s ease;
+  }
+</style>

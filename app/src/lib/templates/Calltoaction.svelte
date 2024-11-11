@@ -47,7 +47,7 @@
   });
 </script>
 
-<div class="relative w-full min-h-screen flex items-center bg-orange-600 justify-center">
+<div class="relative w-full min-h-dvh flex items-center bg-orange-600 justify-center">
   <img 
     class="absolute top-0 left-0 w-full h-full opacity-30 object-cover" 
     src="saturn-assets/images/newsletter/bg-gradient-color-big.png" 

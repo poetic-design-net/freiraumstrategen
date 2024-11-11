@@ -21,52 +21,61 @@ let buttonRef: HTMLElement;
 
 
 onMount(() => {
-  if (typeof window !== 'undefined' && !sessionStorage.getItem('heroAnimated')) {
-    gsap.registerPlugin(ScrollTrigger, SplitText);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
 
-    const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
-    
-    const tl = gsap.timeline({
-      paused: true,
-      onComplete: () => {
-        tl.kill();
-        sessionStorage.setItem('heroAnimated', 'true');
-      }
-    });
-    
-    tl.from(gradientTextRef, { 
-      opacity: 0, 
-      y: 20
-    })
-    .from(splitHeadline.chars, {
-      opacity: 0,
-      y: 20,
-      stagger: 0.02
-    }, "-=0.4")
-    .from(buttonRef, {
-      opacity: 0,
-      y: 20
-    }, "-=0.4")
-    .from(arrowRef, {
-      opacity: 0,
-      x: -20
-    }, "-=0.4")
-    .from(heroImageRef, {
-      opacity: 0,
-      x: 40,
-      duration: 0.8
-    }, "-=0.6")
-    .from(statsBoxRef, {
-      opacity: 0,
-      scale: 0.8
-    }, "-=0.4")
-    .from(partnerSectionRef, {
-      opacity: 0,
-      y: 20
-    }, "-=0.2");
+  const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
+  
+  // Arrow path animation setup
+  gsap.set(".arrow-path", {
+    strokeDasharray: 120,
+    strokeDashoffset: 120
+  });
+  
+  const tl = gsap.timeline({
+    paused: false,
+    onComplete: () => {
+      tl.kill();
+    }
+  });
+  
+  tl.from(gradientTextRef, { 
+    opacity: 0, 
+    y: 20
+  })
+  .from(splitHeadline.chars, {
+    opacity: 0,
+    y: 20,
+    stagger: 0.02
+  }, "-=0.4")
+  .from(buttonRef, {
+    opacity: 0,
+    y: 20
+  }, "-=0.4")
+  .from(arrowRef, {
+    opacity: 0,
+    x: -20
+  }, "-=0.4")
+  // Arrow drawing animation
+  .to(".arrow-path", {
+    strokeDashoffset: 0,
+    duration: 0.6,
+    ease: "power2.out"
+  }, "-=0.4")
+  .from(heroImageRef, {
+    opacity: 0,
+    x: 40,
+    duration: 0.8
+  }, "-=0.6")
+  .from(statsBoxRef, {
+    opacity: 0,
+    scale: 0.8
+  }, "-=0.4")
+  .from(partnerSectionRef, {
+    opacity: 0,
+    y: 20
+  }, "-=0.2");
 
-    tl.play();
-  }
+  tl.play();
 });
 </script>
 
@@ -104,7 +113,7 @@ onMount(() => {
   
 
     <img class="absolute bottom-0 left-0" src="saturn-assets/images/headers/blue-light-left-bottom.png" alt="">
-    <img class="absolute top-0 right-0 w-52 md:w-auto opacity-30" src="saturn-assets/images/headers/star-background-header.png" alt="">
+    <img class="absolute top-0 right-0 w-52 md:w-auto opacity-40" src="saturn-assets/images/headers/star-background-header.png" alt="">
    
     
     <div class="relative container mt-12 md:mt-24 px-4 mx-auto">
@@ -135,7 +144,10 @@ onMount(() => {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path 
+                        class="arrow-path"
                         d="M3 12H115M115 12L105 4M115 12L105 20"
+                        stroke="currentColor"
+                        stroke-width="1.5"
                         stroke-linecap="round" 
                         stroke-linejoin="round"
                       />
