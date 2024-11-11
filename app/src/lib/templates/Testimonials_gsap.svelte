@@ -100,45 +100,37 @@
   }
 
   function handleTouchStart(e: TouchEvent) {
-    if (!isMobile) return; // Touch nur auf Mobile
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
-    isDragging = true;
   }
 
   function handleTouchMove(e: TouchEvent) {
-    if (!isDragging) return;
+    if (!startX || !startY) return;
     
-    const deltaX = e.touches[0].clientX - dragStartX;
-    currentDragX = deltaX;
+    const deltaX = startX - e.touches[0].clientX;
+    const deltaY = startY - e.touches[0].clientY;
 
-    // Nur horizontale Bewegung abfangen
-    if (Math.abs(deltaX) > Math.abs(e.touches[0].clientY - startY)) {
+    // Nur wenn die Bewegung deutlich horizontal ist
+    if (Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
       e.preventDefault();
-      
-      // Gleiche Logik wie bei handleMouseMove
-      gsap.set(slides[currentIndex], {
-        x: deltaX
-      });
-
-      if (deltaX < 0 && currentIndex < slides.length - 1) {
-        gsap.set(slides[currentIndex + 1], {
-          x: window.innerWidth + deltaX,
-          opacity: 1,
-          scale: 1
-        });
-      } else if (deltaX > 0 && currentIndex > 0) {
-        gsap.set(slides[currentIndex - 1], {
-          x: -window.innerWidth + deltaX,
-          opacity: 1,
-          scale: 1
-        });
-      }
     }
   }
 
-  function handleTouchEnd() {
-    handleMouseUp(); // Gleiche Logik wie bei Mouse-Events
+  function handleTouchEnd(e: TouchEvent) {
+    if (!startX) return;
+    
+    const deltaX = startX - e.changedTouches[0].clientX;
+    
+    if (Math.abs(deltaX) > 50) { // Mindestens 50px Swipe
+      if (deltaX > 0) {
+        next();
+      } else {
+        prev();
+      }
+    }
+    
+    startX = null;
+    startY = null;
   }
 
   // Maus-Events für Desktop
@@ -308,14 +300,10 @@
       <div class="relative overflow-hidden">
         <div 
           bind:this={slider}
-          class="relative w-full transition-height duration-300 {
-            isMobile 
-              ? 'touch-pan-y' 
-              : 'hover:cursor-grab active:cursor-grabbing'
-          }"
+          class="relative w-full transition-height duration-300 {!isMobile && 'hover:cursor-grab active:cursor-grabbing'}"
           style="min-height: {maxHeight}px"
           on:touchstart={handleTouchStart}
-          on:touchmove|preventDefault={handleTouchMove}
+          on:touchmove|passive={handleTouchMove}
           on:touchend={handleTouchEnd}
           on:mousedown={handleMouseDown}
           on:mousemove={handleMouseMove}
