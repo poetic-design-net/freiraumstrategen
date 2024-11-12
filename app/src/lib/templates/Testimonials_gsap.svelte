@@ -10,7 +10,7 @@
   let slides: HTMLElement[];
   let isAnimating = false;
   let maxHeight = 0;
-  let startY: number;
+  let startX: number | null = null;
   let isDragging = false;
   let dragStartX: number;
   let currentDragX = 0;
@@ -66,10 +66,12 @@
     const nextSlide = slides[index];
     const direction = index > currentIndex ? 1 : -1;
 
+    // Index sofort aktualisieren
+    currentIndex = index;
+
     // Timeline für smooth transitions
     const tl = gsap.timeline({
       onComplete: () => {
-        currentIndex = index;
         isAnimating = false;
       }
     });
@@ -79,16 +81,16 @@
         x: `${-100 * direction}%`,
         opacity: 0,
         scale: 0.8,
-        duration: 0.6,
-        ease: 'power2.inOut'
+        duration: 0.4,
+        ease: 'power2.out'
       })
       .to(nextSlide, {
         x: '0%',
         opacity: 1,
         scale: 1,
-        duration: 0.6,
-        ease: 'power2.inOut'
-      }, '-=0.6');
+        duration: 0.4,
+        ease: 'power2.out'
+      }, '-=0.4');
   }
 
   function next() {
@@ -101,27 +103,16 @@
 
   function handleTouchStart(e: TouchEvent) {
     startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
   }
 
-  function handleTouchMove(e: TouchEvent) {
-    if (!startX || !startY) return;
-    
-    const deltaX = startX - e.touches[0].clientX;
-    const deltaY = startY - e.touches[0].clientY;
-
-    // Nur wenn die Bewegung deutlich horizontal ist
-    if (Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
-      e.preventDefault();
-    }
-  }
 
   function handleTouchEnd(e: TouchEvent) {
     if (!startX) return;
     
     const deltaX = startX - e.changedTouches[0].clientX;
     
-    if (Math.abs(deltaX) > 50) { // Mindestens 50px Swipe
+    // Schwellenwert reduziert für bessere Reaktion
+    if (Math.abs(deltaX) > 20) { // 20px statt 30px
       if (deltaX > 0) {
         next();
       } else {
@@ -130,7 +121,6 @@
     }
     
     startX = null;
-    startY = null;
   }
 
   // Maus-Events für Desktop
@@ -180,7 +170,7 @@
     if (!isDragging) return;
     isDragging = false;
 
-    const threshold = window.innerWidth * 0.2; // 20% der Bildschirmbreite
+    const threshold = window.innerWidth * 0.15; // 15% der Bildschirmbreite
 
     if (Math.abs(currentDragX) > threshold) {
       // Zur nächsten/vorherigen Slide wechseln
@@ -192,7 +182,7 @@
         // Zurück zur Ausgangsposition
         gsap.to(slides[currentIndex], {
           x: 0,
-          duration: 0.3,
+          duration: 0.4,
           ease: 'power2.out'
         });
       }
@@ -200,7 +190,7 @@
       // Zurück zur Ausgangsposition wenn nicht weit genug gezogen
       gsap.to(slides[currentIndex], {
         x: 0,
-        duration: 0.3,
+        duration: 0.4,
         ease: 'power2.out'
       });
     }
@@ -233,9 +223,9 @@
       
       if (isAnimating) return;
       
-      if (e.deltaX > 50) {
+      if (e.deltaX > 30) {
         next();
-      } else if (e.deltaX < -50) {
+      } else if (e.deltaX < -30) {
         prev();
       }
     }
@@ -300,10 +290,9 @@
       <div class="relative overflow-hidden">
         <div 
           bind:this={slider}
-          class="relative w-full transition-height duration-300 {!isMobile && 'hover:cursor-grab active:cursor-grabbing'}"
+          class="relative w-full transition-height duration-300 touch-pan-x {!isMobile && 'hover:cursor-grab active:cursor-grabbing'}"
           style="min-height: {maxHeight}px"
           on:touchstart={handleTouchStart}
-          on:touchmove|passive={handleTouchMove}
           on:touchend={handleTouchEnd}
           on:mousedown={handleMouseDown}
           on:mousemove={handleMouseMove}
@@ -315,7 +304,7 @@
             <div class="absolute top-0 left-0 w-full">
               <div class="px-6 py-12 xs:pl-12 xs:pr-14 bg-gray-100 rounded-3xl">
                 <div class="flex flex-col lg:flex-row items-start">
-                  <div class="w-32 h-32 mb-6 lg:mb-0 lg:mr-12 flex-shrink-0">
+                  <div class="w-24 h-24 mb-6 lg:mb-0 lg:mr-12 flex-shrink-0">
                     <div class="w-full h-full overflow-hidden rounded-full">
                       <img 
                         src={testimonial.imageUrl} 
@@ -376,8 +365,8 @@
   }
 
   /* Touch Handling */
-  :global(.touch-pan-y) {
-    touch-action: pan-y;
+  :global(.touch-pan-x) {
+    touch-action: pan-x pan-y;
   }
 </style>
 

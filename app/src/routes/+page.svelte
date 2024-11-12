@@ -5,7 +5,6 @@
 	import type { PageData } from './$types';
 
 	import HeroSection from '$lib/templates/HeroSection.svelte';
-	import CaseSection from '$lib/templates/CaseSection.svelte';
 	import Calltoaction from '$lib/templates/Calltoaction.svelte';
 	import FeaturesSection from '$lib/templates/FeaturesSection.svelte';
 	import StepSection from '$lib/templates/StepSection.svelte';
@@ -15,6 +14,7 @@
 	import Testimonials from '$lib/templates/Testimonials.svelte';
 	import KachelSection from '$lib/templates/KachelSection.svelte';
 	import Testimonials_gsap from '$lib/templates/Testimonials_gsap.svelte';
+	import CaseSection_gsap from '$lib/templates/CaseSection_gsap.svelte';
 	import { onMount } from 'svelte';
 
 	export let data: PageData;
@@ -77,8 +77,9 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 
 </section>
 
+
 <section class="relative pt-32 pb-32 xl:pb-32 overflow-hidden">
-	<CaseSection {posts} />
+	<CaseSection_gsap {posts} />
 </section>
 
 <section class="relative py-20 lg:py-24 overflow-hidden bg-gray-100">	
@@ -92,7 +93,6 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 		<StepSection />	
 	</div>	
 </section>
-
 
 <section class="relative py-20 lg:pt-24 lg:pb-24 bg-gray-50 overflow-hidden">
 	<div class="container px-4 mx-auto">
@@ -111,7 +111,6 @@ export async function load({ params, cookies }: { params: any, cookies: any }) {
 		<ContentSection />	
 	</div>	
 </section>
-
 
   <section class="relative w-full min-h-dvh lg:min-h-[200vh]">
     <div class="relative lg:sticky lg:top-0 w-full min-h-dvh">

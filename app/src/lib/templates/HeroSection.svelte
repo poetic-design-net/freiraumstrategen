@@ -100,7 +100,6 @@ onMount(() => {
     }
 
     /* Initial States */
-    :global(.hero-gradient-text),
     :global(.hero-headline),
     :global(.hero-button),
     :global(.hero-arrow),
@@ -121,8 +120,8 @@ onMount(() => {
             <div class="flex flex-wrap -mx-4 items-center">
               <div class="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
             
-                <div class="max-w-xl mx-auto lg:mx-0 lg:max-w-2xl relative z-10">
-                    <div class="hero-gradient-text" bind:this={gradientTextRef}>
+                <div class="max-w-xl lg:mx-0 lg:max-w-2xl relative z-10">
+                    <div class="hero-gradient-text text-left mb-4" bind:this={gradientTextRef}>
                         <AnimatedGradientText text="Hier lernst Du mit klarer Strategie und wenig Zeitaufwand." />
                     </div>
                     
