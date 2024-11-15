@@ -5,7 +5,7 @@
 
   const images = [
     {
-      src: "assets/freiraumstrategen-21-06-09-_GFS9183-partners-in-GmbH-Stefan-Weiss.jpg",
+      src: "assets/diefreiraumstrategen_tobiasheitkoetter.jpg",
       alt: "Tobias Gründer Freiraumstrategen"
     },
     {
