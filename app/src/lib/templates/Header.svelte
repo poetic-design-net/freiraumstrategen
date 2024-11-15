@@ -5,6 +5,7 @@
   import { clickOutside } from '$lib/actions/clickOutside';
   import { useQuery } from '@sanity/svelte-loader';
   import { navigationQuery } from '$lib/sanity/queries';  
+  import Button from '$lib/components/Button.svelte';
 
   export let data;
 
@@ -136,52 +137,56 @@ async function handleMouseEnter(item: navigationQuery) {
                       </a>
                       
                       {#if activeMenu === item._key && item.columns}
-                      <div class="fixed left-0 right-0 top-[72px] mx-auto w-screen max-w-7xl px-8 py-6 mt-6 bg-ultra-light shadow-xl rounded-xl h-48"
+                      <div class="fixed left-0 right-0 top-[72px] border border-gray-100 mx-auto w-screen max-w-7xl px-8 py-6 mt-6 bg-ultra-light shadow-lg rounded-xl h-62"
                           class:animate-slide-in={isFirstOpen}
                           class:animate-slide-out={!isMenuVisible}>
-                          <div class="grid grid-cols-4 gap-8">
-                            {#each item.columns as column}
-                              <div>
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">{column.title}</h3>
-                                <ul class="space-y-3">
-                                  {#each column.links as link}
-                                    <li>
-                                      <a class="text-gray-600 hover:text-primary-500 transition-colors duration-200"
-                                         href={link.href}>
-                                        {link.title}
-                                      </a>
-                                    </li>
-                                  {/each}
-                                </ul>
-                              </div>
-                            {/each}
-                            
-                            {#if item.featured}
-                              <div class="col-span-2 bg-gray-50 rounded-lg p-6">
-                                <div class="flex items-start">
-                                  <div class="flex-shrink-0">
-                                    <img class="h-32 w-32 object-cover rounded-lg"
-                                         src={item.featured.imageUrl}
-                                         alt={item.featured.title}>
-                                  </div>
-                                  <div class="ml-6">
-                                    <h4 class="text-lg font-medium text-gray-900">{item.featured.title}</h4>
-                                    <p class="mt-2 text-sm text-gray-600">{item.featured.description}</p>
-                                    <a href={item.featured.link}
-                                       class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-800">
-                                      Mehr erfahren
-                                      <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                      </svg>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            {/if}
-                          </div>
+                            <div class="grid grid-cols-4 gap-8 relative">
+                                {#each item.columns as column, index}
+                                                      <div>
+                                                        <h3 class="text-lg font-medium text-gray-900 mb-4">{column.title}</h3>
+                                                        <ul class="space-y-3">
+                                                          {#each column.links as link}
+                                                            <li>
+                                                              <a class="text-gray-600 hover:text-primary-600 transition-colors duration-200"
+                                                                href={link.href}>
+                                                                {link.title}
+                                                              </a>
+                                                            </li>
+                                                          {/each}
+                                                        </ul>
+                                                      </div>
+                                    {#if index < item.columns.length - 1}
+                                        <div class="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent" style="left: {20 * (index + 1)}%"></div>
+                                                    {/if}
+                                {/each}
+                                
+                                {#if item.featured}
+                                    <div class="col-span-2 bg-gray-100 rounded-lg p-6">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <img class="h-36 w-36 object-cover rounded-lg"
+                                                    src={item.featured.imageUrl}
+                                                    alt={item.featured.title}>
+                                                </div>
+                                            <div class="ml-6">
+                                                <h4 class="text-lg font-medium text-gray-900">{item.featured.title}</h4>
+                                                <p class="mt-2 text-sm text-gray-600 mb-4">{item.featured.description}</p>
+<a href="#" class="
+  text-sm font-medium
+                text-primary-800 hover:text-primary-600
+  underline underline-offset-2
+  transition-colors duration-300
+">
+                 Mehr erfahren
+</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {/if}
+                            </div>
                         </div>
-                      {/if}
-                    </li>
+                        {/if}
+                        </li>
                   {/each}
                 </ul>
                 <div class="flex items-center">

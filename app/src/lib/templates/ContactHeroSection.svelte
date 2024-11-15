@@ -141,7 +141,7 @@ onMount(() => {
                 
               </div>
               <div class="w-full  mt-8">
-                  <Button text="Mehr über uns" icon="arrow-right" />
+                  <Button text="Mehr über uns" icon="arrow-right" href="/die-freiraumstrategen" />
               </div>
             </div>
           </div>
