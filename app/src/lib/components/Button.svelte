@@ -3,7 +3,7 @@
   export let href = "/";
   export let variant: 'primary' | 'secondary' | 'orange' = 'primary';
   export let size: 'sm' | 'md' | 'lg' = 'md';
-  export let icon: 'arrow-right' | 'arrow-left' | 'arrow-up' | 'arrow-down' | 'arrow-down-right' | 'none' = 'none';
+  export let icon: 'arrow-right' | 'arrow-left' | 'arrow-up' | 'arrow-down' | 'arrow-down-right' | 'arrow-my-down' | 'none' = 'none';
 
   const sizeClasses = {
     sm: 'py-2 px-4 text-sm',
@@ -29,10 +29,10 @@
       variant === 'primary' ? 'bg-primary-600' : variant === 'orange' ? 'bg-orange-600' : 'bg-secondary-600'
     }"></div>
     <div class="relative flex items-center justify-center">
-      <span class="mr-4">{text}</span>
+      <span class={icon !== 'none' ? 'mr-4' : ''}>{text}</span>
       {#if icon !== 'none'}
         <span class="transform group-hover:translate-x-1 transition-all duration-300">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class={iconClasses[size]}>
+          <svg xmlns="http://www.w3.org/2000/svg"  stroke-width="1.5" viewBox="0 0 24 24" fill="currentColor" class={iconClasses[size]}>
             {#if icon === 'arrow-right'}
               <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" clip-rule="evenodd" />
             {:else if icon === 'arrow-left'}
@@ -43,6 +43,8 @@
               <path fill-rule="evenodd" d="M4.22 5.22a.75.75 0 0 0 0 1.06l7.22 7.22h-5.69a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 .75-.75v-7.5a.75.75 0 0 0-1.5 0v5.69L5.28 5.22a.75.75 0 0 0-1.06 0Z" clip-rule="evenodd" />
             {:else if icon === 'arrow-down'}
               <path fill-rule="evenodd" d="M14.78 14.22a.75.75 0 0 1-1.06 0L6.5 7v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+            {:else if icon === 'arrow-my-down'}
+              <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd"  />
             {/if} 
           </svg>
         </span>
@@ -51,20 +53,5 @@
 </a>
 
 <style>
-  .bg-gradient {
-    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,160,187,1) 0%, rgba(0,188,219,0.90) 90% ) !important;
-  }
-
-  .bg-gradient-2 {
-  background: #E0EAFC;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  }
-
-  .bg-gradient-3 {
-    background: #2C3E50;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #0b8695, #006775) !important;  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #0b8695, #006775) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-  }
+ 
 </style>

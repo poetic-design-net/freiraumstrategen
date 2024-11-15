@@ -4,7 +4,7 @@
   
   
     <img class="absolute top-0 left-0 mt-10" src="saturn-assets/images/content/stars-left-top.svg" alt="">
-    <div class="relative container px-4 mx-auto">
+    <div class="relative z-10 container px-4 mx-auto">
       <div class="text-center mb-18">
         <span class="inline-block py-1 px-3 mb-4 text-xs font-medium shadow text-primary-900 bg-primary-50 rounded-full">Klare Regeln sind das A und O</span>
         <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium text-gray-900 mb-12">

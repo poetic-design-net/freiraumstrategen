@@ -10,7 +10,6 @@
     export let data: PageData;
     const q = useQuery(data);
     $: ({ data: faq } = $q);
-    $: console.log('Ein Post:', faq?.[0]?.mainImage);  // 
 
     let showContent = false;
 

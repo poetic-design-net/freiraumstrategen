@@ -25,6 +25,21 @@
 			document.body.classList.toggle('article-page', isArticlePage);
 		}
 	});
+
+	let scrollProgress = 0;
+	
+	if (typeof window !== 'undefined') {
+		window.addEventListener('scroll', () => {
+			const section = document.querySelector('section:has(.sticky)');
+			if (section) {
+				const rect = section.getBoundingClientRect();
+				const viewportHeight = window.innerHeight;
+				const totalHeight = section.offsetHeight + viewportHeight;
+				const scrolled = window.scrollY;
+				scrollProgress = Math.min(Math.max(scrolled / totalHeight, 0), 1);
+			}
+		});
+	}
 </script>
 
 <Header {data} />	

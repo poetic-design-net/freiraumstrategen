@@ -90,7 +90,7 @@ async function handleMouseEnter(item: navigationQuery) {
   });
 </script>
 
-<div class="h-[72px]"></div>
+<div class="h-[100px]"></div>
 <header 
     class="header fixed w-full transition-all duration-300 bg-white"
     class:translate-y-0={isHeaderVisible}
@@ -203,7 +203,7 @@ async function handleMouseEnter(item: navigationQuery) {
                     </div>
                   </button>
 
-                  <a class="relative group inline-block py-3 px-4 text-sm font-medium text-primary-800 hover:text-primary-50 bg-primary-50 rounded-md overflow-hidden transition duration-300" href="/">
+                  <a class="relative shadow group inline-block py-3 px-4 text-sm font-medium text-primary-800 hover:text-primary-50 bg-primary-50 rounded-md overflow-hidden transition duration-300" href="/strategiegespraech">
                     <div class="absolute top-0 right-full w-full h-full bg-primary-800 transform group-hover:translate-x-full group-hover:scale-102 transition duration-500"></div>
                     <span class="relative">Strategiegespräch</span>
                   </a>
@@ -220,7 +220,7 @@ async function handleMouseEnter(item: navigationQuery) {
     <nav class="fixed top-0 left-0 h-[100dvh] w-5/6 max-w-md z-50 bg-white border-r overflow-y-auto">
       <div class="flex items-center justify-between px-4 py-6 mb-10">
         <a class="text-2xl font-light leading-none" href="/">
-          <Logo />
+          <Logo isMobile={true} />
         </a>
         <button on:click={toggleMobileNav} class="p-2">
           <svg class="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

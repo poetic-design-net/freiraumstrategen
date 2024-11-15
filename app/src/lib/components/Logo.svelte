@@ -1,30 +1,40 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import gsap from 'gsap';
+  import { gsap } from 'gsap';
+
+  export let isMobile = false;
 
   onMount(() => {
-    // Verzögerung hinzufügen
-    setTimeout(() => {
-      const tl = gsap.timeline({
-        defaults: {
-          duration: 0.8,
-          ease: "power2.out"
-        }
-      });
+    if (!isMobile) {
+      // Verzögerung hinzufügen
+      setTimeout(() => {
+        const tl = gsap.timeline({
+          defaults: {
+            duration: 0.8,
+            ease: "power2.out"
+          }
+        });
 
-      tl.to(".Logo-bird polygon, .Logo-bird path", {
+        tl.to(".Logo-bird polygon, .Logo-bird path", {
+          opacity: 1,
+          scale: 1,
+          transformOrigin: "center center",
+          stagger: 0.1,
+          ease: "back.out(1.7)"
+        })
+        .to(".Logo-text > *", {
+          opacity: 1,
+          stagger: 0.05,
+          ease: "power2.out",
+        }, "-=0.5");
+      }, 100);
+    } else {
+      // Im Mobile-Menü direkt sichtbar machen
+      gsap.set([".Logo-bird polygon, .Logo-bird path", ".Logo-text > *"], {
         opacity: 1,
-        scale: 1,
-        transformOrigin: "center center",
-        stagger: 0.1,
-        ease: "back.out(1.7)"
-      })
-      .to(".Logo-text > *", {
-        opacity: 1,
-        stagger: 0.05,
-        ease: "power2.out",
-      }, "-=0.5");
-    }, 100); // Kleine Verzögerung
+        scale: 1
+      });
+    }
 
     return () => {
       gsap.killTweensOf([".Logo-bird", ".Logo-text"]);
