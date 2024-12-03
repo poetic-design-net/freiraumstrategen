@@ -2,17 +2,10 @@ import { landingPageQuery } from '$lib/sanity/queries';
 import type { ServerLoad } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import type { LandingPageData } from '$lib/sanity/queries/pages';
-import { client } from '$lib/sanity/client';
 
 // Configure prerendering
 export const prerender = true;
 export const trailingSlash = 'never';
-
-// Get all possible landing page slugs for prerendering
-export const entries = async () => {
-    const slugs = await client.fetch(`*[_type == "landingPage" && !(_id in path("drafts.**"))].slug.current`);
-    return slugs.map((slug: string) => ({ landingPage: slug }));
-};
 
 export const load: ServerLoad = async (event) => {
 	const { loadQuery } = event.locals;
@@ -48,11 +41,21 @@ export const load: ServerLoad = async (event) => {
 			throw error(404, `Page not found: ${landingPage}`);
 		}
 
-		// Basic validation without accessing potentially undefined properties
-		const validationResult = validatePageData(result);
-		if (!validationResult.valid) {
+		// Handle nested data structure
+		const pageData = result.data;
+		if (!pageData) {
+			console.error('Debug - No page data:', {
+				timestamp: new Date().toISOString()
+			});
+			throw error(404, `Page not found: ${landingPage}`);
+		}
+
+		// Validate the required fields
+		if (!pageData._type || !pageData.title || !pageData.slug?.current) {
 			console.error('Debug - Invalid page data:', {
-				error: validationResult.error,
+				hasType: !!pageData._type,
+				hasTitle: !!pageData.title,
+				hasSlug: !!pageData.slug?.current,
 				timestamp: new Date().toISOString()
 			});
 			throw error(500, 'Invalid page data structure');
@@ -62,7 +65,7 @@ export const load: ServerLoad = async (event) => {
 			query: landingPageQuery,
 			params: { slug: landingPage },
 			options: { 
-				initial: result,
+				initial: pageData,
 				// Add cache control for better performance
 				cache: {
 					maxAge: 60, // Cache for 1 minute
@@ -87,28 +90,3 @@ export const load: ServerLoad = async (event) => {
 		throw error(500, 'Error loading page');
 	}
 };
-
-function validatePageData(data: unknown): { valid: boolean; error?: string } {
-    try {
-        if (!data || typeof data !== 'object') {
-            return { valid: false, error: 'Data is not an object' };
-        }
-
-        // Use type assertion after basic check
-        const record = data as Record<string, unknown>;
-
-        // Check if required properties exist and have correct types
-        if (!record.slug || typeof record.slug !== 'object') {
-            return { valid: false, error: 'Missing or invalid slug object' };
-        }
-
-        const slug = record.slug as Record<string, unknown>;
-        if (!slug.current || typeof slug.current !== 'string') {
-            return { valid: false, error: 'Missing or invalid slug.current' };
-        }
-
-        return { valid: true };
-    } catch (e) {
-        return { valid: false, error: e instanceof Error ? e.message : 'Unknown validation error' };
-    }
-}
