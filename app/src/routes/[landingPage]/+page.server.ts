@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit';
 import type { LandingPageData } from '$lib/sanity/queries/pages';
 
 // Configure prerendering
-export const prerender = true;
+export const prerender = 'auto';
 export const trailingSlash = 'never';
 
 export const load: ServerLoad = async (event) => {
@@ -33,13 +33,15 @@ export const load: ServerLoad = async (event) => {
 		});
 
 		// More specific error handling
-		if (!result) {
+		if (!result?.data) {
 			console.error('Debug - No result from query:', {
 				slug: landingPage,
 				timestamp: new Date().toISOString()
 			});
 			throw error(404, `Page not found: ${landingPage}`);
 		}
+
+		const pageData = result.data;
 
 		return {
 			query: landingPageQuery,

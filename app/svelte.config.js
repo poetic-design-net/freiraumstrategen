@@ -8,9 +8,24 @@ const config = {
   ],
 
   kit: {
-    adapter: vercel(),
+    adapter: vercel({
+      runtime: 'edge',
+      routes: {
+        include: ['/*'],
+        exclude: []
+      },
+      split: true
+    }),
     prerender: {
-      handleHttpError: 'warn'
+      entries: ['*'],
+      handleHttpError: ({ path, referrer, message }) => {
+        // During prerendering, treat 404s and 500s as warnings
+        if ([404, 500].includes(Number(message.match(/^(\d+)/)?.[1]))) {
+          console.warn(`Warning: ${message}`);
+          return;
+        }
+        throw new Error(message);
+      }
     }
   }
 };
