@@ -8,9 +8,7 @@ const config = {
   ],
 
   kit: {
-    adapter: vercel({
-      runtime: 'nodejs20.x'
-    })
+    adapter: vercel()
   }
 };
 

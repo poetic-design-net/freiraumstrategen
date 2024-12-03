@@ -5,10 +5,5 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "cleanUrls": true,
-  "trailingSlash": false,
-  "functions": {
-    "api/*": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "trailingSlash": false
 }
