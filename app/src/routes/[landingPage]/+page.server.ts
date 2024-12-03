@@ -2,10 +2,17 @@ import { landingPageQuery } from '$lib/sanity/queries';
 import type { ServerLoad } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import type { LandingPageData } from '$lib/sanity/queries/pages';
+import { client } from '$lib/sanity/client';
 
 // Configure prerendering
 export const prerender = true;
 export const trailingSlash = 'never';
+
+// Get all possible landing page slugs for prerendering
+export const entries = async () => {
+    const slugs = await client.fetch(`*[_type == "landingPage" && !(_id in path("drafts.**"))].slug.current`);
+    return slugs.map((slug: string) => ({ landingPage: slug }));
+};
 
 export const load: ServerLoad = async (event) => {
 	const { loadQuery } = event.locals;
