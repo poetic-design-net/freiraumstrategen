@@ -3,13 +3,6 @@ import type { ServerLoad } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import type { LandingPageData } from '$lib/sanity/queries/pages';
 
-// Set cache control headers
-export const config = {
-	isr: {
-		expiration: 0 // Disable caching
-	}
-};
-
 export const load: ServerLoad = async (event) => {
 	const { loadQuery } = event.locals;
 	const { landingPage } = event.params;
@@ -19,31 +12,28 @@ export const load: ServerLoad = async (event) => {
 			slug: landingPage,
 			query: landingPageQuery
 		});
-		
-		// Set no-cache headers
-		event.setHeaders({
-			'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-			'Pragma': 'no-cache',
-			'Expires': '0'
-		});
 
-		const initial = await loadQuery(landingPageQuery, {
+		const result = await loadQuery(landingPageQuery, {
 			slug: landingPage
 		});
 
-		console.log('Debug - Raw query result:', JSON.stringify(initial, null, 2));
-		console.log('Debug - Query data:', initial?.data);
+		console.log('Debug - Server load result:', {
+			hasResult: !!result,
+			resultData: result,
+			slug: landingPage
+		});
 
 		// Check if we got any data back
-		if (!initial?.data) {
-			console.error('Debug - No data found for slug:', landingPage);
+		if (!result) {
+			console.error('Debug - No result from query for slug:', landingPage);
 			throw error(404, `Page not found: ${landingPage}`);
 		}
 
+		// Pass the raw result directly to the client
 		return {
 			query: landingPageQuery,
 			params: { slug: landingPage },
-			options: { initial }
+			options: { initial: result }
 		};
 	} catch (err) {
 		console.error('Debug - Error loading landing page:', {

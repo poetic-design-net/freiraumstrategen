@@ -3,9 +3,10 @@ import { token } from '$lib/server/sanity/api';
 
 export const serverClient = client.withConfig({
 	token,
-	useCdn: true, // Enable CDN for better performance
-	perspective: 'published', // Only fetch published content
+	useCdn: true,
+	perspective: 'published',
+	resultSourceMap: false, // Disable source maps to simplify response
 	stega: {
-		enabled: process.env.NODE_ENV === 'development'
+		enabled: false // Disable stega in production
 	}
 });

@@ -20,10 +20,10 @@
         initial: data.options.initial
     });
     
-    // Track loading state
+    // Track loading state and directly use the query data
     $: isLoading = $query.loading;
-    $: queryData = $query.data as any;
-    $: page = queryData ? (queryData.data as LandingPageData) : null;
+    $: rawData = $query.data as any;
+    $: page = rawData as LandingPageData;
     $: error = $query.error as Error | null;
 
     onMount(() => {
@@ -32,7 +32,7 @@
             initialData: data.options.initial,
             pageData: page,
             error,
-            rawQueryData: queryData
+            rawQueryData: rawData
         });
     });
 
@@ -41,13 +41,14 @@
         if (error) {
             console.error('Debug - Query error:', error);
         }
-        if (page) {
+        if (rawData) {
+            console.log('Debug - Raw data:', rawData);
             console.log('Debug - Page data loaded:', {
-                title: page.title,
-                slug: page.slug,
-                hasSections: !!page.sections,
-                sectionCount: page.sections?.length,
-                rawData: queryData
+                title: rawData.title,
+                slug: rawData.slug,
+                hasSections: !!rawData.sections,
+                sectionCount: rawData.sections?.length,
+                fullData: rawData
             });
         }
     }
@@ -61,17 +62,17 @@
     </div>
 {:else if isLoading}
     <div class="min-h-screen animate-pulse bg-gray-50" />
-{:else if !page}
+{:else if !rawData}
     <div class="min-h-screen flex items-center justify-center">
         <p>No page data found for: {currentParams.slug}</p>
     </div>
 {:else}
-    {#if page.seo}
-        <SEO data={page.seo} />
+    {#if rawData.seo}
+        <SEO data={rawData.seo} />
     {/if}
 
-    {#if page.sections}
-        {#each page.sections as section (section._key)}
+    {#if rawData.sections}
+        {#each rawData.sections as section (section._key)}
             <SectionRenderer {section} scrollProgress={$scrollProgress} />
         {/each}
     {/if}
