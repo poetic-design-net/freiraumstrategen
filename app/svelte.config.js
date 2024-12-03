@@ -9,7 +9,6 @@ const config = {
 
   kit: {
     adapter: vercel({
-      runtime: 'nodejs18.x', // Changed from 'edge' to 'nodejs18.x'
       routes: {
         include: ['/*'],
         exclude: []
