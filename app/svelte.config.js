@@ -9,16 +9,23 @@ const config = {
 
   kit: {
     adapter: vercel({
-      // Enable edge runtime for better performance
       runtime: 'edge',
-      // Ensure all routes are processed
       routes: {
         include: ['/*'],
         exclude: []
       },
-      // Enable streaming responses
       split: true
-    })
+    }),
+    prerender: {
+      handleHttpError: ({ path, referrer, message }) => {
+        // Ignore 404s and 500s during prerendering
+        if ([404, 500].includes(Number(message.match(/^(\d+)/)?.[1]))) {
+          return;
+        }
+        // Otherwise, fail the build
+        throw new Error(message);
+      }
+    }
   }
 };
 
