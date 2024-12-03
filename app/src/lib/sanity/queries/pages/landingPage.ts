@@ -12,7 +12,9 @@ const expandImage = (fieldName: string) => groq`
   }
 `;
 
-export const landingPageQuery = groq`*[_type == "landingPage" && slug.current == $slug][0] {
+export const landingPageQuery = groq`*[_type == "landingPage" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
+  _id,
+  _type,
   title,
   slug,
   description,
