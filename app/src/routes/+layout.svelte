@@ -8,7 +8,12 @@
 	import { afterNavigate } from '$app/navigation';
 	import CookieConsentComponent from '$lib/cookie/cookieconsent.svelte';
 	import { browser } from '$app/environment';
+	import { cleanText } from '$lib/utils/textCleaner';
 	
+	// Make cleanText available to all components
+	if (browser) {
+		(window as any).cleanText = cleanText;
+	}
 	
 	export let data;
 	let isArticlePage = false;
@@ -63,14 +68,11 @@
 {/if}
 
 <style lang="postcss">
-
-
 	:global(body.article-page) {
     @apply bg-radial-gradient;
     backface-visibility: hidden;
   	}
 	
-
 	.footer {
 		display: flex;
 		justify-content: flex-end;
@@ -86,8 +88,6 @@
 	}
 
 	@media (min-width: 575px) {
-	
-
 		main {
 			margin-top: unset;
 		}
@@ -146,10 +146,4 @@
     opacity: 1;
     visibility: visible;
   }
-
-
-
 </style>
-
-
-

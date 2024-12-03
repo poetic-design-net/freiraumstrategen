@@ -1,34 +1,170 @@
 <script lang="ts">
- 
-  </script>
-  
-  
-    <img class="absolute top-0 left-0 mt-10" src="saturn-assets/images/content/stars-left-top.svg" alt="">
-    <div class="relative z-10 container px-4 mx-auto">
-      <div class="text-center mb-18">
-        <span class="inline-block py-1 px-3 mb-4 text-xs font-medium shadow text-primary-900 bg-primary-50 rounded-full">Klare Regeln sind das A und O</span>
-        <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium text-gray-900 mb-12">
-          <span>Warum Strategie  </span>
-          <span class="font-light block">zum Erfolg führt</span>
+  import type { Header, Column, BackgroundImage, ContentSectionLayout, ContentSectionTheme } from '$lib/types/contentSection';
+  import { defaultHeader, defaultColumn, defaultBackgroundImage } from '$lib/types/contentSection';
+  import type { PortableTextComponents } from '@portabletext/svelte';
+  import ContentImageRenderer from '$lib/components/ContentImageRenderer.svelte';
+  import VideoRenderer from '$lib/components/VideoRenderer.svelte';
+  import CustomListItem from '$lib/components/CustomListItem.svelte';
+  import SanityImage from '$lib/components/SanityImage.svelte';
+  import PortableTextContent from '$lib/components/PortableTextContent.svelte';
+  import PortableTextButton from '$lib/components/PortableTextButton.svelte';
+  import { sanitizeText } from '$lib/utils';
+  import { cleanObject } from '$lib/utils/textCleaner';
+
+  export let header: Header | undefined = defaultHeader;
+  export let leftColumn: Column | undefined = defaultColumn;
+  export let rightColumn: Column | undefined = defaultColumn;
+  export let backgroundImage: BackgroundImage | undefined = defaultBackgroundImage;
+  export let layout: ContentSectionLayout = 'two-columns';
+  export let theme: ContentSectionTheme = 'light';
+
+  $: currentHeader = cleanObject(header) ?? defaultHeader;
+  $: currentLeftColumn = cleanObject(leftColumn) ?? defaultColumn;
+  $: currentRightColumn = cleanObject(rightColumn) ?? defaultColumn;
+  $: currentBackgroundImage = backgroundImage ?? defaultBackgroundImage;
+  $: isSingleColumn = layout === 'single-column';
+  $: isDarkTheme = theme === 'dark';
+
+  function sanitizePortableText(blocks: any[]): any[] {
+    return blocks.map(block => {
+      if (block._type === 'block') {
+        return {
+          ...block,
+          children: block.children.map((child: any) => {
+            if (child._type === 'span') {
+              return {
+                ...child,
+                text: sanitizeText(child.text)
+              };
+            }
+            return child;
+          })
+        };
+      }
+      return block;
+    });
+  }
+
+  const portableTextComponents: PortableTextComponents = {
+    types: {
+      image: ContentImageRenderer,
+      video: VideoRenderer,
+      button: PortableTextButton
+    },
+    listItem: {
+      bullet: CustomListItem,
+      normal: CustomListItem,
+    },
+    marks: {},
+    block: {}
+  };
+
+  $: sanitizedLeftHighlighted = currentLeftColumn.highlightedContent ? sanitizePortableText(currentLeftColumn.highlightedContent) : [];
+  $: sanitizedLeftRegular = currentLeftColumn.regularContent ? sanitizePortableText(currentLeftColumn.regularContent) : [];
+  $: sanitizedRightHighlighted = currentRightColumn.highlightedContent ? sanitizePortableText(currentRightColumn.highlightedContent) : [];
+  $: sanitizedRightRegular = currentRightColumn.regularContent ? sanitizePortableText(currentRightColumn.regularContent) : [];
+</script>
+
+<!-- Full-width background section -->
+<div class="{isDarkTheme ? 'bg-primary-900' : 'bg-gray-50'} relative py-16">
+  {#if currentBackgroundImage?.asset}
+    <SanityImage
+      value={currentBackgroundImage}
+      customClass="absolute top-0 start-0 mt-10 {isDarkTheme ? 'opacity-20' : 'opacity-80'}"
+    />
+  {/if}
+
+  <!-- Content container -->
+  <div class="container py-20 mx-auto px-4">
+    <div class="text-center mb-18">
+      {#if currentHeader.badge}
+        <span class="inline-block py-1 px-3 mb-4 text-xs font-medium shadow {isDarkTheme ? 'text-primary-900 bg-gray-50' : 'text-primary-900 bg-primary-50'} rounded-full">
+          {currentHeader.badge}
+        </span>
+      {/if}
+      {#if currentHeader.heading?.regular || currentHeader.heading?.thin}
+        <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium {isDarkTheme ? 'text-white' : 'text-gray-900'} mb-8">
+          {#if currentHeader.heading.regular}
+            <span>{currentHeader.heading.regular} </span>
+          {/if}
+          {#if currentHeader.heading.thin}
+            <span class="font-light block">{currentHeader.heading.thin}</span>
+          {/if}
         </h1>
-      </div>
-      <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
-        <div class="flex flex-wrap -mx-4">
-          <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
+      {/if}
+    </div>
+    <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
+      <div class="flex flex-wrap {isSingleColumn ? '' : '-mx-8'}">
+        {#if isSingleColumn}
+          <div class="w-full max-w-3xl mx-auto">
+            {#if sanitizedLeftHighlighted.length > 0}
+              <PortableTextContent
+                value={sanitizedLeftHighlighted}
+                components={portableTextComponents}
+                customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-8"
+              />
+            {/if}
+            {#if sanitizedLeftRegular.length > 0}
+              <PortableTextContent
+                value={sanitizedLeftRegular}
+                components={portableTextComponents}
+                customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'} mb-8"
+              />
+            {/if}
+            {#if sanitizedRightHighlighted.length > 0}
+              <PortableTextContent
+                value={sanitizedRightHighlighted}
+                components={portableTextComponents}
+                customClass="text-2xl  {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
+              />
+            {/if}
+            {#if sanitizedRightRegular.length > 0}
+              <PortableTextContent
+                value={sanitizedRightRegular}
+                components={portableTextComponents}
+                customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
+              />
+            {/if}
+          </div>
+        {:else}
+          <div class="w-full lg:w-1/2 px-8 mb-8 lg:mb-0">
             <div class="max-w-lg">
-              <p class="text-2xl text-gray-800 mb-12">Arcu ultrices sit non magna enim semper quam venenatis. Mi quisque ultrices rerit nec aliquet integer mollis faucibus colum morbi paleo javanicus.</p>
-              <p class="text-2xl text-gray-800 mb-12">Augue justo at convallis vitae nunc maecenas est. Viverra duis feugiat posuere vitae tincidunt.</p>
-              <p class="text-lg text-gray-700 mb-6">Pellentesque ipsum nulla in eget interdum a. Neque pellentesque pulvinar mauris pulvinar diam. Turpis aliquet pellentesque velit vitae nisi sed morbi ultrices sed. Egestas interdum elit integer nec pharetra eget blandit dolor purus. A sed nisi congue morbi fermentum blandit. Turpis pretium dignissim risus ultrices purus et amet netus nibh.</p>
-              <p class="text-lg text-gray-700">Vestibulum est ante in congue a fusce nunc. At tristique donec nisi viverra vulputate blandit orci at lectus. Morbi cras urna congue ornare. Mi magna vestibulum tortor id nec tortor non. Enim orci lorem egestas sed morbi dui mauris etiam nulla. Euismod cursus viverra ut ac eu sit quam amet tempor. Id in suspendisse nam sit vitae ullamcorper mollis et ut.</p>
+              {#if sanitizedLeftHighlighted.length > 0}
+                <PortableTextContent
+                  value={sanitizedLeftHighlighted}
+                  components={portableTextComponents}
+                  customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-8"
+                />
+              {/if}
+              {#if sanitizedLeftRegular.length > 0}
+                <PortableTextContent
+                  value={sanitizedLeftRegular}
+                  components={portableTextComponents}
+                  customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
+                />
+              {/if}
             </div>
           </div>
-          <div class="w-full lg:w-1/2 px-4">
+          <div class="w-full lg:w-1/2 px-8">
             <div class="max-w-lg">
-              <p class="text-2xl font-semibold text-gray-800 mb-10">Vestibulum est ante in congue a fusce nunc. At tristique donec nisi viverra vulputate blandit turpis pretium dignissim risus ultrices purus et amet netus nibh.</p>
-              <p class="text-lg text-gray-700 mb-6">Pellentesque ipsum nulla in eget interdum a. Neque pellentesque pulvinar mauris pulvinar diam. Turpis aliquet pellentesque velit vitae nisi sed morbi ultrices sed. Egestas interdum elit integer nec pharetra eget blandit dolor purus. A sed nisi congue morbi fermentum blandit. Turpis pretium dignissim risus ultrices purus et amet netus nibh.</p>
-              <p class="text-lg text-gray-700">Vestibulum est ante in congue a fusce nunc. At tristique donec nisi viverra vulputate blandit orci at lectus. Morbi cras urna congue ornare. Mi magna vestibulum tortor id nec tortor non. Enim orci lorem egestas sed morbi dui mauris etiam nulla. Euismod cursus viverra ut ac eu sit quam amet tempor. Id in suspendisse nam sit vitae ullamcorper mollis et ut.</p>
+              {#if sanitizedRightHighlighted.length > 0}
+                <PortableTextContent
+                  value={sanitizedRightHighlighted}
+                  components={portableTextComponents}
+                  customClass="text-2xl  {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
+                />
+              {/if}
+              {#if sanitizedRightRegular.length > 0}
+                <PortableTextContent
+                  value={sanitizedRightRegular}
+                  components={portableTextComponents}
+                  customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
+                />
+              {/if}
             </div>
           </div>
-        </div>
+        {/if}
       </div>
     </div>
+  </div>
+</div>

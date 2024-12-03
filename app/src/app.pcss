@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-
 .page-transition {
   opacity: 0;
 }
@@ -14,24 +13,32 @@
   transition: opacity 0.1s;
 }
 
-  .post-content h2 {
+.line-through {
+    text-decoration-line: line-through;
+}
+
+.h-full-header {
+  height: calc(100dvh - var(--header-height));
+}
+
+.post-content h2 {
     @apply tracking-tight text-3xl sm:text-4xl font-light text-white mt-12 mb-6;
-  }
+}
 
- .post-content p {
+.post-content p {
     @apply mb-6
-  }
+}
 
-  .post-content ul {
+.post-content ul {
     @apply p-8 mt-6 bg-gray-100 rounded-lg;
-  }
+}
 
-  .post-content li {
+.post-content li {
     @apply flex mb-6 items-center
-  }
-  .post-content li:last-child {
+}
+.post-content li:last-child {
     @apply mb-0;
-  }
+}
 }
 
 @layer utilities {
@@ -145,5 +152,3 @@ background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-2
     --ring: 0 0% 30%;
   }
 }
-
-

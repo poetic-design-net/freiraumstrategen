@@ -1,8 +1,8 @@
 <script lang="ts">
   import { fade, scale } from 'svelte/transition';
-  import { demoFaq } from '$lib/data/faq';
+  import type { Faq } from '$lib/sanity/queries';
 
-  export let faq = demoFaq;
+  export let faq: Faq[] = [];
   let expandedItem: string | null = null;
 
   const INITIAL_ITEMS = 5;
@@ -19,7 +19,7 @@
     expandedItem = expandedItem === id ? null : id;
   }
 
-  let selectedFaq: typeof faq[0] | null = null;
+  let selectedFaq: Faq | null = null;
 </script>
 
 <div class="relative container px-4 mx-auto">
@@ -105,10 +105,12 @@
         <h3 class="text-2xl font-semibold text-primary-800 mb-6 pr-8">{selectedFaq.title}</h3>
         <p class="text-gray-600 mb-6">{selectedFaq.answer}</p>
         
-        <div class="bg-gray-100 rounded-xl p-6">
-          <h4 class="font-medium mb-2">Weitere Informationen</h4>
-          <p class="text-sm text-gray-800">{selectedFaq.additionalInfo}</p>
-        </div>
+        {#if selectedFaq.additionalInfo}
+          <div class="bg-gray-100 rounded-xl p-6">
+            <h4 class="font-medium mb-2">Weitere Informationen</h4>
+            <p class="text-sm text-gray-800">{selectedFaq.additionalInfo}</p>
+          </div>
+        {/if}
       </div>
     </div>
   </div>
@@ -145,7 +147,3 @@
     animation: fadeIn 0.3s ease-out forwards;
   }
 </style>
-
-
-
-

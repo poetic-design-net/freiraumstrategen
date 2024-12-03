@@ -1,8 +1,13 @@
 <script lang="ts">
+    import Icon from './icons/Icon.svelte';
+
     let loading = false;
     let success = false;
     let error = '';
   
+    export let successMessage = 'Vielen Dank für Ihre Registrierung! Wir werden uns in Kürze bei Ihnen melden.';
+    export let errorMessage = 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.';
+
     type FormData = {
       firstName: string;
       lastName: string;
@@ -17,41 +22,60 @@
       email: ''
     };
   
-    const ZAPIER_WEBHOOK_URL = import.meta.env.VITE_ZAPIER_WEBHOOK_URL;
+    const KEAP_API_URL = import.meta.env.VITE_KEAP_API_URL;
+    const KEAP_API_KEY = import.meta.env.VITE_KEAP_API_KEY;
   
     async function handleSubmit() {
       loading = true;
       error = '';
       
-      if (!ZAPIER_WEBHOOK_URL) {
+      if (!KEAP_API_URL || !KEAP_API_KEY) {
         error = 'Formular ist noch nicht vollständig konfiguriert.';
         loading = false;
         return;
       }
       
       try {
-        const response = await fetch(ZAPIER_WEBHOOK_URL, {
+        // Transform data to Keap's expected format
+        const keapData = {
+          contact: {
+            given_name: formData.firstName,
+            family_name: formData.lastName,
+            email_addresses: [
+              {
+                email: formData.email,
+                field: 'EMAIL1'
+              }
+            ],
+            phone_numbers: [
+              {
+                number: formData.phone,
+                field: 'PHONE1'
+              }
+            ]
+          }
+        };
+
+        const response = await fetch(`${KEAP_API_URL}/contacts`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${KEAP_API_KEY}`,
+            'Accept': 'application/json'
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(keapData)
         });
   
-        if (!response.ok || response.status !== 200) {
-          throw new Error('Submission failed');
-        }
-  
-        const data = await response.json();
-        if (!data.success) {
-          throw new Error('Webhook response indicates failure');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Submission failed');
         }
   
         success = true;
         formData = { firstName: '', lastName: '', phone: '', email: '' };
         
       } catch (err) {
-        error = 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.';
+        error = errorMessage;
         console.error('Submission error:', err);
       } finally {
         loading = false;
@@ -106,16 +130,11 @@
       <div class="absolute inset-0 bg-black/10 transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100"></div>
       <div class="relative flex items-center justify-center gap-2">
         {#if loading}
-          <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
+          <Icon name="spinner" size={20} className="animate-spin" />
           <span>Wird verarbeitet...</span>
         {:else}
           <span>Jetzt registrieren</span>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-          </svg>
+          <Icon name="arrow-right-long" size={20} />
         {/if}
       </div>
     </button>
@@ -128,7 +147,7 @@
   
     {#if success}
       <div class="p-4 bg-green-50 border border-green-100 text-green-600 text-sm rounded-lg">
-        Vielen Dank für Ihre Registrierung! Wir werden uns in Kürze bei Ihnen melden.
+        {successMessage}
       </div>
     {/if}
   

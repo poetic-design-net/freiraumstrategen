@@ -11,6 +11,12 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'seo',
+      title: 'SEO Settings',
+      type: 'seo',
+      description: 'Search engine optimization settings for this page',
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -21,7 +27,7 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'hero', // Hero-Feld hinzufügen
+      name: 'hero',
       title: 'Hero Section',
       type: 'object',
       fields: [
@@ -36,7 +42,7 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'content', // Weitere Inhalte
+      name: 'content',
       title: 'Content',
       type: 'array',
       of: [{ type: 'block' }],

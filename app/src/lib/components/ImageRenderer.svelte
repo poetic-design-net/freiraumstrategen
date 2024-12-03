@@ -2,8 +2,8 @@
 	import { urlFor } from '$lib/sanity/image';
 
 	export let value;
+	export let customClass = ''; // Add support for custom classes
     
-
 	function sanitizeText(text: string) {
 		return text ? text.replace(/[^\w\s]/gi, '').trim() : '';
 	}
@@ -22,6 +22,9 @@
 	$: aspectRatio = getAspectRatio();
 
 	$: imageAsset = value?.asset?._ref;
+
+	// Combine default and custom classes
+	$: imgClass = `w-full h-auto object-cover rounded-lg shadow-md mx-auto max-w-4xl ${customClass}`.trim();
 </script>
 
 <svelte:window on:resize={() => aspectRatio = getAspectRatio()} />
@@ -29,7 +32,7 @@
 {#if value && imageAsset && urlFor}
 	<figure>
 		<img 
-			class="w-full h-auto object-cover rounded-lg shadow-md mx-auto max-w-4xl"
+			class={imgClass}
 			src={urlFor(value)
 				.width(1200)
 				.height(Math.round(1200 / aspectRatio))

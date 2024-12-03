@@ -15,18 +15,31 @@ export default defineType({
       name: 'question',
       title: 'Frage',
       type: 'text',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'answer',
       title: 'Antwort',
       type: 'text',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'additionalInfo',
+      title: 'Zusätzliche Informationen',
+      type: 'text',
+      description: 'Optionale zusätzliche Informationen zur Antwort',
     }),
   ],
   preview: {
     select: {
-      title: 'name',
-      subtitle: 'position',
-      media: 'image',
+      title: 'title',
+      subtitle: 'question',
+    },
+    prepare({title, subtitle}) {
+      return {
+        title: title || 'Unbenannte FAQ',
+        subtitle: subtitle,
+      }
     },
   },
 })

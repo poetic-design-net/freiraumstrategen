@@ -1,141 +1,39 @@
 <script lang="ts">
 	import { useQuery } from '@sanity/svelte-loader';
-	import Card from '$lib/components/Card.svelte';
-	import Welcome from '$lib/components/Welcome.svelte';
-	import type { PageData } from './$types';
+	import type { Section, SEO } from '$lib/sanity/queries/types';
+	import type { Post, Testimonial } from '$lib/sanity/queries';
+	import { useScrollProgress } from '$lib/hooks/useScrollProgress';
+	import { SEO as SEOComponent, SectionRenderer } from '$lib/components/sections';
 
-	import HeroSection from '$lib/templates/HeroSection.svelte';
-	import Calltoaction from '$lib/templates/Calltoaction.svelte';
-	import FeaturesSection from '$lib/templates/FeaturesSection.svelte';
-	import StepSection from '$lib/templates/StepSection.svelte';
-	//import Meteors from "$lib/components/Meteors.svelte";
-	import ContentSection from '$lib/templates/ContentSection.svelte';	
-	import ContentSection_alt from '$lib/templates/ContentSection_alt.svelte';	
-	import Testimonials from '$lib/templates/Testimonials.svelte';
-	import KachelSection from '$lib/templates/KachelSection.svelte';
-	import Testimonials_gsap from '$lib/templates/Testimonials_gsap.svelte';
-	import CaseSection_gsap from '$lib/templates/CaseSection_gsap.svelte';
-	import { onMount } from 'svelte';
-
-	export let data: PageData;
-	const q = useQuery(data);
-	const testimonialsQ = useQuery(data.testimonialsQuery, {}, {
-		...data.testimonialsOptions,
-		initial: data.testimonialsOptions?.initial || { data: [] }
-	});
-
-	$: ({ data: posts } = $q);
-	$: testimonials = $testimonialsQ?.data || [];
-
-// Beispiel für eine Load-Funktion
-
-export async function load({ params, cookies }: { params: any, cookies: any }) {
-	
-  const preview = cookies.get('preview') === 'true';
-
-  const client = preview
-    ? useQuery.withConfig({
-        token: import.meta.env.SANITY_API_READ_TOKEN, // Token mit Lesezugriff
-        useCdn: false,
-      })
-    : useQuery;
-
-  const data = await client.fetch(/* Deine GROQ-Abfrage */);
-
-  return { data };
-
-  
-}
-
-	let scrollProgress = 0;
-	
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', () => {
-			const section = document.querySelector('section:has(.sticky)');
-			if (section) {
-				const rect = section.getBoundingClientRect();
-				const viewportHeight = window.innerHeight;
-				const totalHeight = section.offsetHeight + viewportHeight;
-				const scrolled = window.scrollY;
-				scrollProgress = Math.min(Math.max(scrolled / totalHeight, 0), 1);
-			}
-		});
+	interface FrontpageData {
+		title: string;
+		seo?: SEO;
+		sections?: Section[];
 	}
 
+	export let data;
+	const frontpageQ = useQuery(data.frontpageQuery, {}, data.frontpageOptions);
+	const testimonialsQ = useQuery(data.testimonialsQuery, {}, data.testimonialsOptions);
+	const postsQ = useQuery(data.postsQuery, {}, data.postsOptions);
 
+	$: frontpage = $frontpageQ?.data as FrontpageData;
+	$: testimonials = $testimonialsQ?.data as Testimonial[];
+	$: posts = $postsQ?.data as Post[];
 
-
-
-	// Dann erst die Komponente rendern
+	const scrollProgress = useScrollProgress();
 </script>
 
-<!-- Test-Content vor dem eigentlichen Content -->
+{#if frontpage?.seo}
+	<SEOComponent data={frontpage.seo} />
+{/if}
 
-<section class="relative overflow-hidden">
-	<!-- <Meteors number={30} /> -->
-	 <HeroSection /> 
-
-</section>
-
-
-<section class="relative pt-32 pb-32 xl:pb-32 overflow-hidden">
-	<CaseSection_gsap {posts} />
-</section>
-
-<section class="relative py-20 lg:py-24 overflow-hidden bg-gray-100">	
-	<div class="container px-4 mx-auto">
-		<ContentSection_alt />	
-	</div>	
-</section>
-
-<section class="relative text-dark py-20 lg:pb-32">
-	<div class="container px-4 mx-auto">
-		<StepSection />	
-	</div>	
-</section>
-
-<section class="relative py-20 lg:pt-24 lg:pb-24 bg-gray-50 overflow-hidden">
-	<div class="container px-4 mx-auto">
-		<Testimonials_gsap {testimonials} />	
-	</div>	
-</section>
-
-<section class="relative py-32 overflow-hidden">	
-	<div class="container px-4 mx-auto">
-		<FeaturesSection />	
-	</div>	
-</section>
-
-<section class="relative bg-gray-50 py-32 overflow-hidden">	
-	<div class="container px-4 mx-auto">
-		<ContentSection />	
-	</div>	
-</section>
-
-  <section class="relative w-full min-h-dvh lg:min-h-[200vh]">
-    <div class="relative lg:sticky lg:top-0 w-full min-h-dvh">
-      <Calltoaction />
-    </div>
-  </section>
-
-  <section class="relative py-20 lg:py-24 overflow-hidden">	
-    <div 
-      class="absolute inset-0 hidden lg:block"
-      style="opacity: {Math.max(0, (scrollProgress - 0.5) * 2)};"
-    ></div>
-    <div class="container px-4 mx-auto relative z-10">
-      <KachelSection />	
-    </div>	
-  </section>
-
-
-
-<!-- <section>
-	{#if posts.length}
-		{#each posts as post}
-			<Card {post} />
-		{/each}
-	{:else}
-		<Welcome />
-	{/if}
-</section> -->
+{#if frontpage?.sections}
+	{#each frontpage.sections as section (section._key)}
+		<SectionRenderer 
+			{section} 
+			{testimonials}
+			{posts}
+			scrollProgress={$scrollProgress} 
+		/>
+	{/each}
+{/if}

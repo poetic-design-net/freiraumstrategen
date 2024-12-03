@@ -3,6 +3,14 @@ import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 import type { PortableTextBlock } from '@portabletext/types'
+import sanitizeHtml from 'sanitize-html';
+import { cleanText, cleanObject } from './utils/textCleaner';
+
+export { cleanText, cleanObject };
+
+// Maintain backward compatibility with old sanitizeText function
+export const sanitizeText = cleanText;
+export const sanitizeTextWithType = cleanObject;
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -16,16 +24,52 @@ export function formatDate(date: string) {
 	});
 }
 
-// Entfernt unsichtbare Zero-Width-Zeichen aus einem Text
-export function sanitizeText(text: string) {
-	return text.replace(/[\u200B-\u200D\uFEFF]/g, '');
+// Default options for sanitize-html
+const defaultSanitizeOptions = {
+    allowedTags: [
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'p', 'br', 'hr',
+        'ul', 'ol', 'li',
+        'b', 'i', 'strong', 'em',
+        'a', 'span',
+        'blockquote',
+        'code', 'pre'
+    ],
+    allowedAttributes: {
+        'a': ['href', 'target', 'rel'],
+        'span': ['class'],
+        '*': ['class', 'id']
+    },
+    allowedSchemes: ['http', 'https', 'mailto'],
+    transformTags: {
+        'a': (tagName: string, attribs: { [key: string]: string }) => ({
+            tagName,
+            attribs: {
+                ...attribs,
+                target: '_blank',
+                rel: 'noopener noreferrer'
+            }
+        })
+    }
+};
+
+// Sanitizes HTML content to prevent XSS attacks
+export function sanitizeHtmlContent(html: string | null | undefined, options = {}): string {
+    if (!html) return '';
+    
+    const sanitizeOptions = {
+        ...defaultSanitizeOptions,
+        ...options
+    };
+
+    return sanitizeHtml(html, sanitizeOptions);
 }
 
 export function calculateReadingTime(content: string, wordsPerMinute: number = 200): number {
 	const words = content.trim().split(/\s+/).length;
 	const minutes = Math.ceil(words / wordsPerMinute);
 	return Math.max(1, Math.min(minutes, 30)); // Begrenzt die Lesezeit auf maximal 30 Minuten
-  }
+}
 
 type FlyAndScaleParams = {
 	y?: number;
