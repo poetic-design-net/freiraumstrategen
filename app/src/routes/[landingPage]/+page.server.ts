@@ -41,37 +41,10 @@ export const load: ServerLoad = async (event) => {
 			throw error(404, `Page not found: ${landingPage}`);
 		}
 
-		// Handle nested data structure
-		const pageData = result.data;
-		if (!pageData) {
-			console.error('Debug - No page data:', {
-				timestamp: new Date().toISOString()
-			});
-			throw error(404, `Page not found: ${landingPage}`);
-		}
-
-		// Validate the required fields
-		if (!pageData._type || !pageData.title || !pageData.slug?.current) {
-			console.error('Debug - Invalid page data:', {
-				hasType: !!pageData._type,
-				hasTitle: !!pageData.title,
-				hasSlug: !!pageData.slug?.current,
-				timestamp: new Date().toISOString()
-			});
-			throw error(500, 'Invalid page data structure');
-		}
-
 		return {
 			query: landingPageQuery,
 			params: { slug: landingPage },
-			options: { 
-				initial: pageData,
-				// Add cache control for better performance
-				cache: {
-					maxAge: 60, // Cache for 1 minute
-					revalidate: true // Allow background revalidation
-				}
-			}
+			initial: result
 		};
 	} catch (err) {
 		console.error('Debug - Error loading landing page:', {

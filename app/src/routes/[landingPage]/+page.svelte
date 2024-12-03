@@ -9,27 +9,25 @@
     export let data: {
         query: string;
         params: { slug: string };
-        options: {
-            initial: any;
-        };
+        initial: any;
     };
 
     // Create a reactive query that updates when params change
     $: currentParams = { slug: $storePage.params.landingPage };
     $: query = useQuery(data.query, currentParams, {
-        initial: data.options.initial
+        initial: data.initial
     });
     
     // Track loading state and directly use the query data
     $: isLoading = $query.loading;
-    $: rawData = $query.data as any;
-    $: page = rawData as LandingPageData;
+    $: rawData = $query.data as LandingPageData;
+    $: page = rawData;
     $: error = $query.error as Error | null;
 
     onMount(() => {
         console.log('Debug - Component mounted with:', {
             currentParams,
-            initialData: data.options.initial,
+            initialData: data.initial,
             pageData: page,
             error,
             rawQueryData: rawData
