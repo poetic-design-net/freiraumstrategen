@@ -8,7 +8,17 @@ const config = {
   ],
 
   kit: {
-    adapter: vercel()
+    adapter: vercel({
+      // Enable edge runtime for better performance
+      runtime: 'edge',
+      // Ensure all routes are processed
+      routes: {
+        include: ['/*'],
+        exclude: []
+      },
+      // Enable streaming responses
+      split: true
+    })
   }
 };
 
