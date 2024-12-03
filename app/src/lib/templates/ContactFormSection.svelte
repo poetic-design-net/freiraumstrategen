@@ -20,7 +20,7 @@
       <div class="flex flex-wrap -mx-4 xl:items-center">
         <div class="w-full lg:w-1/2 xl:w-1/2 px-4 order-last lg:order-first">
           <div class="relative max-w-xl mx-auto lg:mx-0 lg:max-w-3xl h-full">
-            <img class="block w-full h-166 lg:h-full object-cover rounded-lg" src="assets/hero_home-old.jpg" alt="">
+            <img class="block w-full h-166 lg:h-full object-cover rounded-lg" src="/assets/hero_home-old.jpg" alt="">
             <div class="absolute bottom-0 w-full left-0 p-4 sm:p-6">
               <div class="p-6 sm:p-10 backdrop-blur-md backdrop-filter bg-black bg-opacity-30 rounded-5xl">
                 <div class="overflow-hidden">
@@ -102,7 +102,3 @@
     display: none;
   }
 </style>
-
-
-
-

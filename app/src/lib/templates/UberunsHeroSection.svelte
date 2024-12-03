@@ -74,7 +74,7 @@ function toggleVideo() {
   <div class="absolute inset-0">
     <img 
       class="w-full h-full object-cover" 
-      src="assets/ueberunshero.jpg" 
+      src="/assets/ueberunshero.jpg" 
       alt=""
     >
     <div class="absolute inset-0 backdrop-blur-[6px]"></div>

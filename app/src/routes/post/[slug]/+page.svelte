@@ -163,7 +163,7 @@ function setupIntersectionObserver() {
 					{:else}
 					  <img 
 						class="block w-full rounded-lg mb-12" 
-						src="../assets/hero_home-old.jpg" 
+						src="/assets/hero_home-old.jpg" 
 						alt={`Cover image for ${post.title}`}
 					  />
 					{/if}	
@@ -228,5 +228,3 @@ function setupIntersectionObserver() {
 		</div>
 	</div>
   </section>
-
-

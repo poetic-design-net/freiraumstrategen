@@ -3,7 +3,7 @@ import Button from "$lib/components/Button.svelte";
 </script>
 
 <img class="absolute top-0 left-0" src="saturn-assets/images/team/light-blue.png" alt="">
-<img class="absolute bottom-0 right-0 mr-32" src="saturn-assets/images/team/light-primary.png" alt="">
+<img class="absolute bottom-0 right-0 mr-32" src="saturn-assets/images/team/light-blue.png" alt="">
 <div class="relative container px-4 mx-auto">
   <div class="max-w-2xl lg:max-w-3xl mx-auto xl:max-w-7xl">
     <div class="flex flex-wrap mb-20 -mx-4 items-center">

@@ -8,7 +8,22 @@ const config = {
   ],
 
   kit: {
-    adapter: vercel()
+    adapter: vercel(),
+    prerender: {
+      handleHttpError: ({ path, referrer, message }) => {
+        // Ignore asset 404s and recursive path issues
+        if (path.includes('/assets/') || 
+            path.includes('/saturn-assets/') || 
+            path.includes(path.split('/').pop())) {
+          console.warn(`[prerender] Warning: ${message}`);
+          return;
+        }
+        // For other 404s, throw an error
+        throw new Error(message);
+      },
+      entries: ['*'],
+      handleMissingId: 'ignore'
+    }
   }
 };
 

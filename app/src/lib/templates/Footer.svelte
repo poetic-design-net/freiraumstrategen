@@ -64,16 +64,16 @@
         <div class="lg:flex items-center">
           <div class="flex mb-6 lg:mb-0 lg:mr-18 items-center">
             <a class="inline-block mr-5 hover:bg-gray-200 rounded-md p-1" href="/">
-              <img src="saturn-assets/images/footers/icon-facebook.svg" alt="">
+              <img src="/saturn-assets/images/footers/icon-facebook.svg" alt="">
             </a>
             <a class="inline-block mr-5 hover:bg-gray-200 rounded-md p-1" href="/">
-              <img src="saturn-assets/images/footers/icon-instagram.svg" alt="">
+              <img src="/saturn-assets/images/footers/icon-instagram.svg" alt="">
             </a>
             <a class="inline-block mr-5 hover:bg-gray-200 rounded-md p-1" href="/">
-              <img src="saturn-assets/images/footers/icon-youtube.svg" alt="">
+              <img src="/saturn-assets/images/footers/icon-youtube.svg" alt="">
             </a>
             <a class="inline-block hover:bg-gray-200 rounded-md p-1" href="/">
-              <img src="saturn-assets/images/footers/icon-linkedin.svg" alt="">
+              <img src="/saturn-assets/images/footers/icon-linkedin.svg" alt="">
             </a>
           </div>
           <div class="flex mb-6 lg:mb-0 items-center"><a class="inline-block mr-4 sm:mr-10 text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Privacy Policy</a><a class="inline-block mr-4 sm:mr-10 text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Terms & Conditions</a><a class="inline-block text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Support</a></div>
