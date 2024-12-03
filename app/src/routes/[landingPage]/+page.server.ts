@@ -3,6 +3,10 @@ import type { ServerLoad } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import type { LandingPageData } from '$lib/sanity/queries/pages';
 
+// Configure prerendering
+export const prerender = true;
+export const trailingSlash = 'never';
+
 export const load: ServerLoad = async (event) => {
 	const { loadQuery } = event.locals;
 	const { landingPage } = event.params;
@@ -24,7 +28,8 @@ export const load: ServerLoad = async (event) => {
 			hasResult: !!result,
 			resultType: result ? typeof result : 'null',
 			timestamp: new Date().toISOString(),
-			slug: landingPage
+			slug: landingPage,
+			data: result
 		});
 
 		// More specific error handling
@@ -36,11 +41,11 @@ export const load: ServerLoad = async (event) => {
 			throw error(404, `Page not found: ${landingPage}`);
 		}
 
-		// Type guard to ensure result has required properties
-		if (!('title' in result) || !('slug' in result)) {
-			console.error('Debug - Invalid result structure:', {
-				hasTitle: 'title' in result,
-				hasSlug: 'slug' in result,
+		// Basic validation without accessing potentially undefined properties
+		const validationResult = validatePageData(result);
+		if (!validationResult.valid) {
+			console.error('Debug - Invalid page data:', {
+				error: validationResult.error,
 				timestamp: new Date().toISOString()
 			});
 			throw error(500, 'Invalid page data structure');
@@ -75,3 +80,28 @@ export const load: ServerLoad = async (event) => {
 		throw error(500, 'Error loading page');
 	}
 };
+
+function validatePageData(data: unknown): { valid: boolean; error?: string } {
+    try {
+        if (!data || typeof data !== 'object') {
+            return { valid: false, error: 'Data is not an object' };
+        }
+
+        // Use type assertion after basic check
+        const record = data as Record<string, unknown>;
+
+        // Check if required properties exist and have correct types
+        if (!record.slug || typeof record.slug !== 'object') {
+            return { valid: false, error: 'Missing or invalid slug object' };
+        }
+
+        const slug = record.slug as Record<string, unknown>;
+        if (!slug.current || typeof slug.current !== 'string') {
+            return { valid: false, error: 'Missing or invalid slug.current' };
+        }
+
+        return { valid: true };
+    } catch (e) {
+        return { valid: false, error: e instanceof Error ? e.message : 'Unknown validation error' };
+    }
+}

@@ -10,7 +10,8 @@ import type {
   CallToActionSectionData,
   TestimonialSectionData,
   FeatureSectionData,
-  Section 
+  Section,
+  BaseSection 
 } from '$lib/types/sections';
 
 import type { CaseSectionData } from '$lib/types/caseSection';
@@ -37,10 +38,8 @@ export interface SEO {
   canonicalUrl?: string;
 }
 
-export interface KachelSection extends Section {
+export interface KachelSection extends BaseSection {
   _type: 'kachelSection';
-  _key: string;
-  enabled: boolean;
   heading: {
     badge: string;
     title: {
@@ -67,9 +66,11 @@ export interface KachelSection extends Section {
 }
 
 export interface LandingPageData {
+  _id: string;
+  _type: 'landingPage';
   title: string;
   slug: { current: string };
   description?: string;
   seo?: SEO;
-  sections?: Section[];
+  sections?: (Section | KachelSection)[];
 }
