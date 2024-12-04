@@ -134,7 +134,6 @@
 
 <div class="relative isolate overflow-hidden">
   <div class="relative container mt-12 md:mt-24 px-4 mx-auto">
-    <div class="relative container px-4 mx-auto">
       <div class="flex flex-wrap -mx-4 items-center">
         <div class="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
           <div class="max-w-xl lg:mx-0 lg:max-w-2xl relative">
@@ -235,4 +234,3 @@
       </div>
     </div>
   </div>
-</div>

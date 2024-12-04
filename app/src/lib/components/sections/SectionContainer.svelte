@@ -40,8 +40,6 @@
         {...section.id ? { id: section.id } : {}}
         data-section-type={section._type}
     >
-        <div class="relative z-10 flex items-center justify-center w-full min-h-[inherit]">
-            <slot />
-        </div>
+        <slot />
     </section>
 {/if}

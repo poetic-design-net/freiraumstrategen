@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SalesHeroSection } from '$lib/types/salesHeroSection'
-  import { onMount, createEventDispatcher } from 'svelte'
+  import { onMount } from 'svelte'
   import { gsap } from 'gsap'
   import SanityImage from '$lib/components/SanityImage.svelte'
   import Icon from '$lib/components/icons/Icon.svelte'
@@ -80,121 +80,123 @@
   }
 </script>
 
-<!-- Background -->
-<div class="absolute inset-0 -z-10">
-  {#if data.backgroundImage}
-    <SanityImage
-      value={data.backgroundImage}
-      customClass="w-full h-full object-cover hero-bg"
-    />
-  {/if}
-  <div class="absolute inset-0 backdrop-blur-[6px]"></div>
-
-  <!-- Gradient Overlay -->
-  <div class="absolute inset-0 
-    bg-gradient-to-b 
-    from-black/10
-    via-black/20 
-    to-black/40"
-  ></div>
-  <div class="absolute inset-0 
-    bg-black/20 
-    backdrop-brightness-90 
-    backdrop-contrast-110"
-  ></div>
-</div>
-
-<div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-  <!-- Headlines -->
-  <div class="space-y-4">
-    <div bind:this={headlineRef}>
-      <CleanText 
-        text={data.headline}
-        tag="h1"
-        className="{theme.headings} font-heading text-4xl xs:text-5xl md:text-6xl xl:text-7xl font-bold"
+<div class="relative w-full min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-5rem)] flex items-center">
+  <!-- Background -->
+  <div class="absolute inset-0 -z-10">
+    {#if data.backgroundImage}
+      <SanityImage
+        value={data.backgroundImage}
+        customClass="w-full h-full object-cover hero-bg"
       />
-    </div>
-    {#if data.subheadline}
-      <div bind:this={subheadlineRef}>
-        <CleanText 
-          text={data.subheadline}
-          tag="p"
-          className="{theme.text} text-2xl md:text-3xl font-light opacity-95"
-        />
-      </div>
     {/if}
+    <div class="absolute inset-0 backdrop-blur-[6px]"></div>
+
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 
+      bg-gradient-to-b 
+      from-black/10
+      via-black/20 
+      to-black/40"
+    ></div>
+    <div class="absolute inset-0 
+      bg-black/20 
+      backdrop-brightness-90 
+      backdrop-contrast-110"
+    ></div>
   </div>
 
-  <!-- Stats -->
-  {#if data.stats && data.stats.length > 0}
-    <div bind:this={statsBoxRef} class="w-full max-w-3xl mt-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        {#each data.stats as stat}
-          <div class="text-center">
-            <CleanText 
-              text={stat.value}
-              className="block text-2xl font-bold bg-gradient-to-br from-primary-400 to-primary-600 bg-clip-text text-transparent"
-            />
-            <CleanText 
-              text={stat.label}
-              className="{theme.text} block text-sm font-medium mt-1 opacity-95"
-            />
-          </div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  <!-- Description -->
-  {#if data.description}
-    <div bind:this={descriptionRef} class="mt-8">
-      <CleanText 
-        text={data.description}
-        tag="p"
-        className="{theme.text} text-lg md:text-xl opacity-95 max-w-3xl mx-auto"
-      />
-    </div>
-  {/if}
-
-  <!-- CTA Buttons -->
-  <div class="cta-container flex flex-wrap gap-4 justify-center mt-8">
-    {#if data.primaryCTA}
-      <a 
-        href={data.primaryCTA.link}
-        bind:this={ctaButtonRef}
-        class="group relative flex items-center gap-2 px-8 py-4
-          text-primary-900
-          rounded-md
-          bg-white hover:bg-primary-50
-          transition-all duration-300
-          shadow-lg shadow-black/5"
-      >
+  <div class="w-full max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+    <!-- Headlines -->
+    <div class="space-y-4">
+      <div bind:this={headlineRef}>
         <CleanText 
-          text={data.primaryCTA.text}
-          className="text-base font-medium"
+          text={data.headline}
+          tag="h1"
+          className="{theme.headings} font-heading text-4xl xs:text-5xl md:text-6xl xl:text-7xl font-bold"
         />
-        <div class="relative glow-icon-container">
-          <div class="absolute -inset-1 animate-[pulse_4s_ease-in-out_infinite] opacity-20
-            rounded-full 
-            bg-primary-500/5 
-            blur-sm"
-          ></div>
-          <Icon 
-            name="cursor-arrow" 
-            size={20} 
-            className="relative animate-[bounce_2s_ease-in-out_infinite] text-primary-600"
+      </div>
+      {#if data.subheadline}
+        <div bind:this={subheadlineRef}>
+          <CleanText 
+            text={data.subheadline}
+            tag="p"
+            className="{theme.text} text-2xl md:text-3xl font-light opacity-95"
           />
         </div>
-      </a>
+      {/if}
+    </div>
+
+    <!-- Stats -->
+    {#if data.stats && data.stats.length > 0}
+      <div bind:this={statsBoxRef} class="w-full max-w-3xl mt-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {#each data.stats as stat}
+            <div class="text-center">
+              <CleanText 
+                text={stat.value}
+                className="block text-2xl font-bold bg-gradient-to-br from-primary-400 to-primary-600 bg-clip-text text-transparent"
+              />
+              <CleanText 
+                text={stat.label}
+                className="{theme.text} block text-sm font-medium mt-1 opacity-95"
+              />
+            </div>
+          {/each}
+        </div>
+      </div>
     {/if}
-    {#if data.secondaryCTA}
-      <a 
-        href={data.secondaryCTA.link}
-        class="px-8 py-4 text-base font-medium {theme.text} border-2 border-current/20 
-          hover:bg-current/10 rounded-md transition-colors"
-      >
-        <CleanText text={data.secondaryCTA.text} />
-      </a>
+
+    <!-- Description -->
+    {#if data.description}
+      <div bind:this={descriptionRef} class="mt-8">
+        <CleanText 
+          text={data.description}
+          tag="p"
+          className="{theme.text} text-lg md:text-xl opacity-95 max-w-3xl mx-auto"
+        />
+      </div>
     {/if}
+
+    <!-- CTA Buttons -->
+    <div class="cta-container flex flex-wrap gap-4 justify-center mt-8">
+      {#if data.primaryCTA}
+        <a 
+          href={data.primaryCTA.link}
+          bind:this={ctaButtonRef}
+          class="group relative flex items-center gap-2 px-8 py-4
+            text-primary-900
+            rounded-md
+            bg-white hover:bg-primary-50
+            transition-all duration-300
+            shadow-lg shadow-black/5"
+        >
+          <CleanText 
+            text={data.primaryCTA.text}
+            className="text-base font-medium"
+          />
+          <div class="relative glow-icon-container">
+            <div class="absolute -inset-1 animate-[pulse_4s_ease-in-out_infinite] opacity-20
+              rounded-full 
+              bg-primary-500/5 
+              blur-sm"
+            ></div>
+            <Icon 
+              name="cursor-arrow" 
+              size={20} 
+              className="relative animate-[bounce_2s_ease-in-out_infinite] text-primary-600"
+            />
+          </div>
+        </a>
+      {/if}
+      {#if data.secondaryCTA}
+        <a 
+          href={data.secondaryCTA.link}
+          class="px-8 py-4 text-base font-medium {theme.text} border-2 border-current/20 
+            hover:bg-current/10 rounded-md transition-colors"
+        >
+          <CleanText text={data.secondaryCTA.text} />
+        </a>
+      {/if}
+    </div>
   </div>
 </div>
