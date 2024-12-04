@@ -40,7 +40,7 @@
     <!-- Pricing Box -->
     <div class="relative">
       <!-- Content -->
-      <div class="{boxTheme.background} rounded-2xl shadow-lg overflow-hidden">
+      <div class="{boxTheme.background} rounded-xl shadow bg-black/20 overflow-hidden">
         <div class="p-8 lg:p-12">
           <!-- Header -->
           <div class="text-center mb-12">
@@ -129,11 +129,11 @@
           <div class="bg-primary-800 text-white px-8 py-6 text-center">
             <CleanText 
               text={data.guaranteeBox.title}
-              className="text-primary-200 font-medium mb-1 block"
+              className="text-white  mb-1 block"
             />
             <CleanText 
               text={data.guaranteeBox.description}
-              className="text-sm text-primary-200"
+              className="text-sm text-primary-50"
             />
           </div>
         {/if}
