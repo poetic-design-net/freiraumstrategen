@@ -128,7 +128,7 @@
       disabled={loading}
     >
       <div class="absolute inset-0 bg-black/10 transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100"></div>
-      <div class="relative flex items-center justify-center gap-2">
+      <div class="relative flex items-center justify-center gap-2 text-gray-950">
         {#if loading}
           <Icon name="spinner" size={20} className="animate-spin" />
           <span>Wird verarbeitet...</span>

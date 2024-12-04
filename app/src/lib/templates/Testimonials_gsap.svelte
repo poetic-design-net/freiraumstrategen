@@ -22,7 +22,8 @@
   };
 </script>
 
-<div class="container px-4 mx-auto">
+<div class="w-full">
+  <div class="max-w-xl lg:max-w-7xl mx-auto">
 {#if data.enabled && data.testimonials.length > 0}
 
       <Header header={data.header} />
@@ -34,4 +35,5 @@
       {navigation}
     />
 {/if}
+</div>
 </div>

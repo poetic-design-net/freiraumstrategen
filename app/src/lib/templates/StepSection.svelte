@@ -95,7 +95,8 @@
 </script>
 
 {#if data.enabled}
-  <div class="container px-8 overflow-visible">
+<div class="w-full">
+  <div class="max-w-xl lg:max-w-7xl mx-auto">
     <div class="pb-32 text-center">
       <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">{data.badge}</span>
       <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium text-light">
@@ -146,6 +147,7 @@
       </div>
     </div>
   </div>
+</div>
 {/if}
 
 <style lang="postcss">

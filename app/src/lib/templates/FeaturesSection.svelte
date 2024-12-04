@@ -72,7 +72,7 @@
   $: featuresSecondHalf = isVideoLayout ? data.features.slice(3) : data.features.slice(Math.ceil(data.features.length / 2));
 </script>
 
-<div class="max-w-3xl mx-auto text-center">
+<div class="max-w-7xl mx-auto text-center">
   {#if data.eyebrow}
     <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">{data.eyebrow}</span>
   {/if}

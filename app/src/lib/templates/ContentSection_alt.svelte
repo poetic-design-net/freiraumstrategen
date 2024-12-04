@@ -90,7 +90,7 @@
   {/if}
 
   <div class="relative container px-4 mx-auto">
-    <div class="px-4 mx-auto">
+    <div class="max-w-7xl mx-auto">
       <div class="flex flex-wrap -mx-4">
         <!-- Left column -->
         <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">

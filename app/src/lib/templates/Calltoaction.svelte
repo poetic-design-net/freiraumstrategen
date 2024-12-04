@@ -164,7 +164,7 @@
       <h4 class="headline font-heading text-4xl sm:text-5xl md:text-6xl text-gray-50 font-medium">
         {cleanedHeadline}
       </h4>
-      <p class="text-lg font-semibold text-gray-50 animate-paragraph">
+      <p class="text-lg font-light text-gray-50 animate-paragraph">
         {cleanedDescription}
       </p>
     </div>
