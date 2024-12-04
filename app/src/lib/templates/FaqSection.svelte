@@ -25,7 +25,7 @@
 <div class="relative container px-4 mx-auto">
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-24">
-      <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full">FREQUENTLY ASK QUESTION</span>
+      <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 shadow rounded-full">FREQUENTLY ASK QUESTION</span>
       <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-bold">
         <span>Du hast Fragen?</span>
         <span class="font-thin block">Wir haben die Antworten</span>

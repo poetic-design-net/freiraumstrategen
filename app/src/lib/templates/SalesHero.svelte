@@ -80,7 +80,7 @@
   }
 </script>
 
-<div class="relative w-full min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-5rem)] flex items-center">
+<div class="relative w-full h-full-header flex items-center">
   <!-- Background -->
   <div class="absolute inset-0 -z-10">
     {#if data.backgroundImage}

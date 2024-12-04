@@ -18,7 +18,7 @@
 </script>
 
 
-<div class="w-full">
+    <div class="w-full">
     <div class="max-w-xl lg:max-w-7xl mx-auto">
             <div class="max-w-2xl mx-auto mb-16 text-center">
                 <span class="inline-block py-1 px-3 mb-4 text-xs font-semibold text-primary-900 bg-primary-50 rounded-full shadow">{eyebrow}</span>

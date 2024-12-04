@@ -12,7 +12,7 @@
     const transformedStyles = transformSectionStyles(section.styles, section._type);
     
     // Get section classes once and ensure theme styles take precedence
-    const sectionClasses = `${getSectionClasses(section._type, transformedStyles)} ${fullHeight ? 'min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-5rem)]' : ''}`;
+    const sectionClasses = `${getSectionClasses(section._type, transformedStyles)} ${fullHeight ? '' : ''}`;
 </script>
 
 {#if sticky}
