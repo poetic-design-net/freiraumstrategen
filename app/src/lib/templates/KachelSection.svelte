@@ -174,9 +174,8 @@
     --hover-color: hsl(189 100% 94%);  /* primary-800 für alle */
   }
 </style>
-
-<div class="w-full">
-  <div class="max-w-xl lg:max-w-7xl mx-auto">
+<div class="container px-4 mx-auto">
+  <div class="max-w-7xl mx-auto">
     <div class="flex flex-wrap -mx-4 mb-18 items-center">
       <div class="w-full lg:w-2/3 xl:w-1/2 px-4 mb-12 lg:mb-0">
         <div class="kachel-heading">

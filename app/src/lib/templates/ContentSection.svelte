@@ -75,8 +75,8 @@
 {/if}
 
 <!-- Content container -->
-<div class="container py-20 mx-auto px-4">
-  <div class="text-center mb-18">
+<div class="container px-4 mx-auto">
+  <div class="max-w-7xl text-center mb-18">
     {#if currentHeader.badge}
       <span class="inline-block py-1 px-3 mb-4 text-xs font-medium shadow {isDarkTheme ? 'text-primary-900 bg-gray-50' : 'text-primary-900 bg-primary-50'} rounded-full">
         {currentHeader.badge}

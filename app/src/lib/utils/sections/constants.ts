@@ -96,6 +96,10 @@ export const defaultSectionStyles: Record<string, SectionStyles> = {
   },
   contentSection: { 
     theme: 'light-gray', 
+    padding: { 
+      top: '20',
+      bottom: '20'
+    }, 
     overflow: true 
   },
   callToActionSection: { 

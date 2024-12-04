@@ -89,14 +89,14 @@
     </div>
   {/if}
 
-  <div class="relative container px-4 mx-auto">
-    <div class="max-w-7xl mx-auto">
+  <div class=" container mx-auto">
+    <div class="container px-0 ">
       <div class="flex flex-wrap -mx-4">
         <!-- Left column -->
         <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
           <div class="max-w-md md:max-w-lg mx-auto lg:mx-0">
             {#if data.leftColumn.badge}
-              <span class="inline-block py-1 px-3 mb-4 text-xs font-semibold text-primary-900 bg-primary-50 rounded-full shadow">
+              <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">
                 {data.leftColumn.badge}
               </span>
             {/if}

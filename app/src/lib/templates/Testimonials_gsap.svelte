@@ -23,7 +23,7 @@
 </script>
 
 <div class="w-full">
-  <div class="max-w-xl lg:max-w-7xl mx-auto">
+  <div class="max-w-xl lg:max-w-7xl mx-auto container">
 {#if data.enabled && data.testimonials.length > 0}
 
       <Header header={data.header} />

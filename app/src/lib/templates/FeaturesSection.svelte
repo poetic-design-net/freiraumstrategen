@@ -72,7 +72,8 @@
   $: featuresSecondHalf = isVideoLayout ? data.features.slice(3) : data.features.slice(Math.ceil(data.features.length / 2));
 </script>
 
-<div class="max-w-7xl mx-auto text-center">
+<div class="container px-4 mx-auto">
+  <div class="max-w-7xl text-center mx-auto">
   {#if data.eyebrow}
     <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">{data.eyebrow}</span>
   {/if}
@@ -154,7 +155,7 @@
     </div>
 
     {#if isVideoLayout && data.videoId}
-      <div class="w-full lg:w-3/5 px-16 mb-16 lg:mb-0">
+      <div class="w-full lg:w-3/5 px-0 sm:px-16 mb-16 lg:mb-0">
         <div class="max-w-4xl mx-auto">  
           <YouTubePlayer videoId={data.videoId} />
         </div>  
@@ -221,7 +222,7 @@
     </div>
   </div>
 </div>
-
+</div>
 <style>
   .hover-box {
     position: absolute;
