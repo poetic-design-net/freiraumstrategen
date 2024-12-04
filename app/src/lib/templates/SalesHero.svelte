@@ -191,8 +191,8 @@
       {#if data.secondaryCTA}
         <a 
           href={data.secondaryCTA.link}
-          class="px-8 py-4 text-base font-medium {theme.text} border-2 border-current/20 
-            hover:bg-current/10 rounded-md transition-colors"
+          class="relative px-8 py-4 text-base font-medium {theme.text} border-2 border-current/20 
+            hover:bg-current/10 hover:backdrop-blur-sm rounded-md transition-all duration-300"
         >
           <CleanText text={data.secondaryCTA.text} />
         </a>

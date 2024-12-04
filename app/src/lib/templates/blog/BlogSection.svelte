@@ -18,8 +18,8 @@
 </script>
 
 
-    <div class="w-full">
-        <div class="max-w-xl lg:max-w-7xl mx-auto">
+    <div class="container">
+        <div class="mx-auto">
             <div class="max-w-2xl mx-auto mb-16 text-center">
                 <span class="inline-block py-1 px-3 mb-4 text-xs font-semibold text-primary-900 bg-primary-50 rounded-full shadow">{eyebrow}</span>
                 <h1 class="font-heading tracking-tight text-4xl sm:text-5xl font-medium ">
@@ -30,7 +30,7 @@
 
             <div class="relative">
                 <!-- Blog Content -->
-                <div class="transition-all duration-500" class:opacity-30={!showContent}>
+                <div class="transition-all duration-500">
                     <!-- Featured Posts -->
                     <div class="flex flex-wrap -mx-4 mb-18">
                         {#if posts && posts[0]}
@@ -40,7 +40,7 @@
                                         <ImageRenderer value={posts[0].mainImage} />
                                     </div>
                                     <div class="flex mb-4 items-center">    
-                                        <span class="inline-block py-1 px-3 text-xs font-medium text-primary-900 bg-primary-50 rounded-full">{posts[0].category.title}</span>
+                                        <span class="inline-block py-1 px-3 text-xs font-medium text-primary-900 bg-primary-50 shadow rounded-full">{posts[0].category.title}</span>
                                         <span class="inline-block mx-4">
                                             <Icon name="vertical-line" size={24} className="text-primary-900" />
                                         </span>
@@ -54,7 +54,7 @@
 
                         <div class="w-full lg:w-1/2 px-4">
                             {#each posts.slice(1, maxPosts) as post}
-                                <a class="block md:flex group rounded-lg transition-colors p-4 -mx-4 first:pt-0 hover:bg-primary-800/10" href={`/post/${post.slug.current}`}>
+                                <a class="block md:flex group rounded-lg transition-colors p-4 -mx-4 first:pt-0" href={`/post/${post.slug.current}`}>
                                     <div class="flex-shrink-0">
                                         <div class="relative w-full md:w-48 aspect-[4/3] overflow-hidden rounded-lg">
                                             <img 
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="flex-grow md:ms-6 mt-4 md:mt-0">
                                         <div class="flex items-center gap-4 mb-3">
-                                            <span class="inline-block py-1 px-3 text-xs font-medium text-primary-900 bg-primary-50 rounded-full">{post.category.title}</span>
+                                            <span class="inline-block py-1 px-3 text-xs font-medium text-primary-900 shadow bg-primary-50 rounded-full">{post.category.title}</span>
                                             <span class="text-xs ">{formatDate(post._createdAt)}</span>  
                                         </div>
                                         <h4 class="text-xl font-medium  group-hover:text-gray-800 transition duration-200 mb-2">{post.title}</h4>
@@ -82,21 +82,6 @@
                 </div>
             </div>
 
-                <!-- Overlay -->
-                {#if !showContent}
-                    <div class="absolute bottom-0 left-0 z-10 py-32 lg:py-64 flex items-center justify-center w-full bg-gradient-to-t from-white via-gray-50 to-transparent">
-                        <div class="text-center">
-                            <button 
-                                on:click={() => showContent = true}
-                                class="group inline-flex items-center py-4 px-6 text-sm font-medium transition duration-200"
-                            >
-                                <div class="flex items-center justify-center h-16 w-16 text-white bg-primary-800 border-opacity-100 group-hover:border-gray-600 hover:bg-primary-600 rounded-full me-3">
-                                    <Icon name="chevron-down" size={24} />
-                                </div>
-                                <span>Zum Blog</span>
-                            </button>
-                        </div>
-                    </div>
-                {/if}
+               
             </div>
         </div>

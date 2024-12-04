@@ -22,11 +22,11 @@
   };
 </script>
 
-<div class="container relative">
+<div class="container px-4 mx-auto">
 {#if data.enabled && data.testimonials.length > 0}
-    <div class="container px-4 mx-auto">
+
       <Header header={data.header} />
-    </div>
+
     
     <TestimonialSlider
       testimonials={data.testimonials}

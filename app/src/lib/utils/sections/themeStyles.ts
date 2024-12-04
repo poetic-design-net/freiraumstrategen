@@ -30,14 +30,14 @@ interface ThemeConfig {
 const baseColors = {
   'light': {
     bg: 'bg-white',
-    text: 'text-gray-600',
+    text: '',
     headings: 'text-gray-900',
     links: 'text-primary hover:text-primary-dark',
     border: 'border-gray-200'
   },
   'light-gray': {
     bg: 'bg-gray-50',
-    text: 'text-gray-600',
+    text: '',
     headings: 'text-gray-900',
     links: 'text-primary hover:text-primary-dark',
     border: 'border-gray-200'

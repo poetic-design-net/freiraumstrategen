@@ -95,7 +95,7 @@
 </script>
 
 {#if data.enabled}
-  <div class="container px-4 overflow-visible">
+  <div class="container px-8 overflow-visible">
     <div class="pb-32 text-center">
       <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">{data.badge}</span>
       <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium text-light">
@@ -123,7 +123,7 @@
                 />
               </div>
             </div>
-            <div class="mt-4 lg:hidden">
+            <div class="mt-4 pl-12 lg:hidden">
               <SanityImage
                 value={step.image}
                 customClass="w-full h-auto object-cover rounded-lg shadow-md"
@@ -132,7 +132,7 @@
           </div>
         {/each}
       </div>
-      <div class="hidden lg:block w-1/2 relative">
+      <div class="hidden sm:pl-12 lg:pl-0 lg:block w-1/2 relative">
         <div class="sticky top-32 h-[40vh]">
           {#each data.steps as step, index}
             <div class="absolute inset-0 transition-opacity duration-300 ease-out {activeStep === index ? 'opacity-100' : 'opacity-0'}">

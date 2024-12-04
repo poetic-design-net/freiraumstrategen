@@ -130,8 +130,13 @@
     opacity: 0;
   }
 </style>
+<img 
+  class="absolute bottom-0 left-0 pointer-events-none" 
+  src="saturn-assets/images/headers/blue-light-left-bottom.png" 
+  alt=""
+>
 
-
+<div class="px-4 container h-full-header">
 <div class="relative isolate overflow-hidden">
   <div class="relative container mt-12 md:mt-24 px-4 mx-auto">
       <div class="flex flex-wrap -mx-4 items-center">
@@ -234,3 +239,4 @@
       </div>
     </div>
   </div>
+</div>

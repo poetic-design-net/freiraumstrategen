@@ -1,3 +1,4 @@
+import type { CaseSection_gsap } from '$lib/components/sections';
 import type { ThemeOption, PaddingConfig, SectionStyles } from './themeStyles';
 import { getSectionThemeClasses } from './themeStyles';
 
@@ -6,8 +7,8 @@ export const defaultSectionStyles: Record<string, SectionStyles> = {
   // Hero Sections
   heroSection: { 
     theme: 'light', 
-    overflow: true,
-    customClasses: 'w-full min-h-screen flex flex-col'
+    overflow: false,
+    customClasses: 'w-full flex flex-col'
   },
   salesHeroSection: { 
     theme: 'light', 
@@ -39,14 +40,14 @@ export const defaultSectionStyles: Record<string, SectionStyles> = {
   },
 
   // Content Sections
-  caseSection: { 
+  CaseSection_gsap: { 
     theme: 'light', 
     padding: { 
       top: '20',
       bottom: '20',
       bottomXl: '32'
     }, 
-    overflow: true 
+    overflow: false 
   },
   salesContentSection: { 
     theme: 'light', 

@@ -86,7 +86,7 @@
   </p>
 </div>
 
-<div class="max-w-7xl mx-auto">
+<div class="max-full container mx-auto">
   <div class="flex flex-wrap -mx-4 items-center">
     <div class="{isVideoLayout ? 'w-full lg:w-1/5' : 'w-full lg:w-1/2'} px-4 lg:pb-10 mb-16 lg:mb-0">
       <div class="mx-auto {isVideoLayout ? 'max-w-sm' : 'max-w-lg'}">

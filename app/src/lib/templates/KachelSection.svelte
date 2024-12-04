@@ -176,7 +176,7 @@
 </style>
 
 <div class="relative container px-4 mx-auto">
-  <div class="max-w-7xl mx-auto">
+  <div class="w-full mx-auto">
     <div class="flex flex-wrap -mx-4 mb-18 items-center">
       <div class="w-full lg:w-2/3 xl:w-1/2 px-4 mb-12 lg:mb-0">
         <div class="kachel-heading">
