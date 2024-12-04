@@ -4,11 +4,16 @@
   import Icon from '$lib/components/icons/Icon.svelte';
   import CleanText from '$lib/components/CleanText.svelte';
   import Button from '$lib/components/Button.svelte';
+  import { getSectionClasses, getThemeStyles } from '$lib/utils/sections'
 
   export let data: SalesEmotionalFreedomSection
+
+  // Get theme-based styles while preserving section-specific styling
+  const sectionClasses = getSectionClasses('salesEmotionalFreedomSection', data.styles)
+  const theme = getThemeStyles(data.styles?.theme)
 </script>
 
-<div class="w-full min-h-[80vh] flex items-center">
+<section class="relative w-full min-h-[80vh] flex items-center {sectionClasses}">
   <!-- Background Image Layer -->
   <div class="absolute inset-0 w-full h-full">
     {#if data.backgroundImage}
@@ -35,20 +40,20 @@
         <CleanText 
           text={data.title}
           tag="h2"
-          className="text-4xl lg:text-5xl font-bold text-white mb-6"
+          className="{theme.headings} text-4xl lg:text-5xl font-bold text-white mb-6"
         />
         {#if data.description}
           <CleanText 
             text={data.description}
             tag="p"
-            className="text-xl text-white mb-8"
+            className="{theme.text} text-xl text-white mb-8"
           />
         {/if}
         {#if data.additionalText}
           <CleanText 
             text={data.additionalText}
             tag="p"
-            className="text-lg text-white/90"
+            className="{theme.text} text-lg text-white/90"
           />
         {/if}
         {#if data.ctaButton}
@@ -65,4 +70,4 @@
       </div>
     </div>
   </div>
-</div>
+</section>

@@ -1,5 +1,6 @@
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types"
 import type { Section } from '$lib/sanity/queries/types'
+import { isSectionStyles } from '$lib/utils/sections'
 
 export interface SalesHeroStat {
   value: string
@@ -35,5 +36,51 @@ export interface SalesHeroSection extends Section {
 
 // Type guard
 export function isSalesHeroSection(section: any): section is SalesHeroSection {
-  return section._type === 'salesHeroSection'
+  if (!section || typeof section !== 'object') return false
+  if (section._type !== 'salesHeroSection') return false
+
+  // Check required fields
+  if (typeof section.headline !== 'string') return false
+  
+  // Check optional fields
+  if (section.subheadline && typeof section.subheadline !== 'string') return false
+  
+  // Check backgroundImage
+  if (!section.backgroundImage || 
+      section.backgroundImage._type !== 'image' || 
+      !section.backgroundImage.asset) return false
+      
+  // Check stats array
+  if (!Array.isArray(section.stats)) return false
+  for (const stat of section.stats) {
+    if (!stat || typeof stat.value !== 'string' || typeof stat.label !== 'string') {
+      return false
+    }
+  }
+
+  // Check optional description
+  if (section.description && typeof section.description !== 'string') return false
+
+  // Check optional CTAs
+  if (section.primaryCTA && (
+    typeof section.primaryCTA.text !== 'string' || 
+    typeof section.primaryCTA.link !== 'string'
+  )) return false
+
+  if (section.secondaryCTA && (
+    typeof section.secondaryCTA.text !== 'string' || 
+    typeof section.secondaryCTA.link !== 'string'
+  )) return false
+
+  // Check optional video button
+  if (section.videoButton && (
+    typeof section.videoButton.text !== 'string' || 
+    typeof section.videoButton.duration !== 'string' ||
+    typeof section.videoButton.videoId !== 'string'
+  )) return false
+
+  // Check styles if present
+  if (section.styles && !isSectionStyles(section.styles)) return false
+
+  return true
 }

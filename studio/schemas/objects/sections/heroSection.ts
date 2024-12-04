@@ -23,6 +23,10 @@ export default defineType({
     {
       name: 'stats',
       title: 'Statistics',
+    },
+    {
+      name: 'styles',
+      title: 'Styles',
     }
   ],
   fields: [
@@ -41,6 +45,12 @@ export default defineType({
       title: 'Section aktivieren',
       type: 'boolean',
       initialValue: true,
+    }),
+    defineField({
+      name: 'styles',
+      title: 'Section Styles',
+      type: 'sectionStyles',
+      group: 'styles'
     }),
     anchorField,
     defineField({
@@ -182,14 +192,16 @@ export default defineType({
       media: 'previewImage',
       heading: 'heading',
       gradientText: 'gradientText',
-      id: 'id'
+      id: 'id',
+      styles: 'styles'
     },
-    prepare({ enabled, media, heading, gradientText, id }) {
+    prepare({ enabled, media, heading, gradientText, id, styles }) {
+      const theme = styles?.theme ? ` | Theme: ${styles.theme}` : '';
       return {
         title: heading?.highlighted 
           ? `${heading.highlighted} ${heading.regular || ''}`
           : 'Hero Section',
-        subtitle: `${enabled ? '✓' : '✗'} ${id ? `#${id}` : ''} ${gradientText || ''}`.trim(),
+        subtitle: `${enabled ? '✓' : '✗'} ${id ? `#${id}` : ''} ${gradientText || ''}${theme}`.trim(),
         media: media || BlockElementIcon
       }
     }

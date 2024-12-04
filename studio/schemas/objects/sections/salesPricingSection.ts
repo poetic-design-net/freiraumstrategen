@@ -1,11 +1,42 @@
 import {defineField, defineType} from 'sanity'
 import {BlockElementIcon} from '@sanity/icons'
+import {anchorField} from '../../utils/anchorField'
 
 export default defineType({
   name: 'salesPricingSection',
   title: 'Sales Pricing Section',
   type: 'object',
   icon: BlockElementIcon,
+  groups: [
+    {
+      name: 'content',
+      title: 'Content',
+    },
+    {
+      name: 'pricing',
+      title: 'Pricing',
+    },
+    {
+      name: 'features',
+      title: 'Features',
+    },
+    {
+      name: 'bonuses',
+      title: 'Bonuses',
+    },
+    {
+      name: 'trust',
+      title: 'Trust Elements',
+    },
+    {
+      name: 'cta',
+      title: 'Call to Action',
+    },
+    {
+      name: 'styles',
+      title: 'Styles',
+    }
+  ],
   fields: [
     defineField({
       name: 'enabled',
@@ -14,33 +45,50 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'styles',
+      title: 'Section Styles',
+      type: 'sectionStyles',
+      group: 'styles',
+      description: 'Customize the appearance of this section',
+      initialValue: {
+        theme: 'light',
+        overflow: true
+      }
+    }),
+    anchorField,
+    defineField({
       name: 'badge',
       title: 'Badge Text',
       type: 'string',
-      description: 'The text displayed in the badge above the title'
+      description: 'The text displayed in the badge above the title',
+      group: 'content'
     }),
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'The main title of the section'
+      description: 'The main title of the section',
+      group: 'content'
     }),
     defineField({
       name: 'subtitle',
       title: 'Subtitle',
       type: 'text',
-      description: 'A brief description below the title'
+      description: 'A brief description below the title',
+      group: 'content'
     }),
     defineField({
       name: 'earlyBirdBadge',
       title: 'Early Bird Badge',
       type: 'string',
-      description: 'Text displayed in the early bird badge'
+      description: 'Text displayed in the early bird badge',
+      group: 'pricing'
     }),
     defineField({
       name: 'pricing',
       title: 'Pricing',
       type: 'object',
+      group: 'pricing',
       fields: [
         defineField({
           name: 'originalPrice',
@@ -63,7 +111,8 @@ export default defineType({
       name: 'features',
       title: 'Features',
       type: 'array',
-      of: [{ type: 'string' }]
+      of: [{ type: 'string' }],
+      group: 'features'
     }),
     defineField({
       name: 'bonuses',
@@ -88,12 +137,14 @@ export default defineType({
             type: 'text'
           })
         ]
-      }]
+      }],
+      group: 'bonuses'
     }),
     defineField({
       name: 'ctaButton',
       title: 'Call to Action Button',
       type: 'object',
+      group: 'cta',
       fields: [
         defineField({
           name: 'text',
@@ -111,6 +162,7 @@ export default defineType({
       name: 'guaranteeBox',
       title: 'Guarantee Box',
       type: 'object',
+      group: 'trust',
       fields: [
         defineField({
           name: 'title',
@@ -128,6 +180,7 @@ export default defineType({
       name: 'trustElements',
       title: 'Trust Elements',
       type: 'array',
+      group: 'trust',
       of: [{
         type: 'object',
         fields: [
@@ -156,12 +209,13 @@ export default defineType({
     select: {
       title: 'title',
       subtitle: 'subtitle',
-      enabled: 'enabled'
+      enabled: 'enabled',
+      styles: 'styles'
     },
-    prepare({title, subtitle, enabled}) {
+    prepare({title, subtitle, enabled, styles}) {
       return {
         title: title || 'Sales Pricing Section',
-        subtitle: `${enabled ? '✓' : '✗'} ${subtitle || 'No subtitle set'}`,
+        subtitle: `${enabled ? '✓' : '✗'} | Theme: ${styles?.theme || 'default'}`,
         media: BlockElementIcon
       }
     }

@@ -1,6 +1,7 @@
 import type { SanityImage } from '$lib/types/heroSection';
 import type { CasePageReference, CasePostReference, DisplaySettings, AnimationSettings } from '$lib/types/caseSection';
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import type { SectionStyles } from '$lib/utils/sections';
 
 export interface SEO {
   metaTitle?: string;
@@ -14,6 +15,7 @@ export interface Section {
   _type: string;
   _key: string;
   enabled: boolean;
+  styles?: SectionStyles;
   [key: string]: any;
 }
 

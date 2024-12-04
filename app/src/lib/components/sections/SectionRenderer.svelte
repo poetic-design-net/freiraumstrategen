@@ -3,7 +3,6 @@
     import type { StrategySection } from '$lib/types/strategySection';
     import type { Post, Testimonial } from '$lib/sanity/queries';
     import {
-        getSectionClasses,
         isHeroSection,
         isContentSection,
         isCallToActionSection,
@@ -92,111 +91,114 @@
 </script>
 
 {#if section?.enabled}
-    <section 
-        class={getSectionClasses(section._type)} 
-        {...section.id ? { id: section.id } : {}}
-    >
-        {#if isTestimonialsSection(section)}
-            <SectionContainer>
-                <Testimonials_gsap data={getTestimonialsSectionProps(section)} />
+    {#if isTestimonialsSection(section)}
+        <SectionContainer {section}>
+            <Testimonials_gsap data={getTestimonialsSectionProps(section)} />
+        </SectionContainer>
+    {:else if isCallToActionSection(section)}
+        <SectionContainer {section} sticky>
+            <Calltoaction {...getCallToActionProps(section)} />
+        </SectionContainer>
+    {:else if isKachelSection(section)}
+        <SectionContainer {section} showOverlay overlayOpacity={Math.max(0, (scrollProgress - 0.5) * 2)}>
+            <KachelSection data={getKachelSectionProps(section)} />
+        </SectionContainer>
+    {:else if isHeroSection(section)}
+        <SectionContainer {section}>
+            <HeroSection {...getHeroSectionProps(section)} />
+        </SectionContainer>
+    {:else if isSalesHeroSection(section)}
+        <SectionContainer {section}>
+            <SalesHero data={getSalesHeroProps(section)} />
+        </SectionContainer>
+    {:else if isSalesAdvantagesSection(section)}
+        <SectionContainer {section}>
+            <SalesAdvantages data={getSalesAdvantagesProps(section)} />
+        </SectionContainer>
+    {:else if isSalesContentSection(section)}
+        <SectionContainer {section}>
+            <SalesContent data={getSalesContentProps(section)} />
+        </SectionContainer>
+    {:else if isSalesCurriculumSection(section)}
+        <SectionContainer {section}>
+            <SalesCurriculum data={getSalesCurriculumProps(section)} />
+        </SectionContainer>
+    {:else if isSalesEmotionalSection(section)}
+        <SectionContainer {section}>
+            <SalesEmotional data={getSalesEmotionalProps(section)} />
+        </SectionContainer>
+    {:else if isSalesEmotionalFreedomSection(section)}
+        <SectionContainer {section}>
+            <SalesEmotionalFreedom data={getSalesEmotionalFreedomProps(section)} />
+        </SectionContainer>
+    {:else if isSalesFaqSection(section)}
+        <SectionContainer {section}>
+            <SalesFaq data={getSalesFaqProps(section)} />
+        </SectionContainer>
+    {:else if isSalesFeaturesSection(section)}
+        <SectionContainer {section}>
+            <SalesFeatures data={getSalesFeaturesProps(section)} />
+        </SectionContainer>
+    {:else if isSalesForWhoSection(section)}
+        <SectionContainer {section}>
+            <SalesForWho data={getSalesForWhoProps(section)} />
+        </SectionContainer>
+    {:else if isSalesPricingSection(section)}
+        <SectionContainer {section}>
+            <SalesPricing data={getSalesPricingProps(section)} />
+        </SectionContainer>
+    {:else if isSalesWhyContentSection(section)}
+        <SectionContainer {section}>
+            <SalesWhyContent data={getSalesWhyContentProps(section)} />
+        </SectionContainer>
+    {:else if isCaseSection(section)}
+        {@const props = getCaseSectionProps(section)}
+        {#if props.selectedPages.length > 0 || props.selectedPosts.length > 0}
+            <SectionContainer {section}>
+                <CaseSection_gsap data={props} />
             </SectionContainer>
-        {:else if isCallToActionSection(section)}
-            <SectionContainer sticky>
-                <Calltoaction {...getCallToActionProps(section)} />
-            </SectionContainer>
-        {:else if isKachelSection(section)}
-            <SectionContainer showOverlay overlayOpacity={Math.max(0, (scrollProgress - 0.5) * 2)}>
-                <KachelSection data={getKachelSectionProps(section)} />
-            </SectionContainer>
-        {:else if isHeroSection(section)}
-            <SectionContainer>
-                <HeroSection {...getHeroSectionProps(section)} />
-            </SectionContainer>
-        {:else if isSalesHeroSection(section)}
-            <SectionContainer>
-                <SalesHero data={getSalesHeroProps(section)} />
-            </SectionContainer>
-        {:else if isSalesAdvantagesSection(section)}
-            <SectionContainer>
-                <SalesAdvantages data={getSalesAdvantagesProps(section)} />
-            </SectionContainer>
-        {:else if isSalesContentSection(section)}
-            <SectionContainer>
-                <SalesContent data={getSalesContentProps(section)} />
-            </SectionContainer>
-        {:else if isSalesCurriculumSection(section)}
-            <SectionContainer>
-                <SalesCurriculum data={getSalesCurriculumProps(section)} />
-            </SectionContainer>
-        {:else if isSalesEmotionalSection(section)}
-            <SectionContainer>
-                <SalesEmotional data={getSalesEmotionalProps(section)} />
-            </SectionContainer>
-        {:else if isSalesEmotionalFreedomSection(section)}
-            <SectionContainer>
-                <SalesEmotionalFreedom data={getSalesEmotionalFreedomProps(section)} />
-            </SectionContainer>
-        {:else if isSalesFaqSection(section)}
-            <SectionContainer>
-                <SalesFaq data={getSalesFaqProps(section)} />
-            </SectionContainer>
-        {:else if isSalesFeaturesSection(section)}
-            <SectionContainer>
-                <SalesFeatures data={getSalesFeaturesProps(section)} />
-            </SectionContainer>
-        {:else if isSalesForWhoSection(section)}
-            <SectionContainer>
-                <SalesForWho data={getSalesForWhoProps(section)} />
-            </SectionContainer>
-        {:else if isSalesPricingSection(section)}
-            <SectionContainer>
-                <SalesPricing data={getSalesPricingProps(section)} />
-            </SectionContainer>
-        {:else if isSalesWhyContentSection(section)}
-            <SectionContainer>
-                <SalesWhyContent data={getSalesWhyContentProps(section)} />
-            </SectionContainer>
-        {:else if isCaseSection(section)}
-            {@const props = getCaseSectionProps(section)}
-            {#if props.selectedPages.length > 0 || props.selectedPosts.length > 0}
-                <SectionContainer>
-                    <CaseSection_gsap data={props} />
-                </SectionContainer>
-            {/if}
-        {:else if isContentSectionAlt(section)}
-            <SectionContainer>
-                <ContentSection_alt data={getContentSectionAltProps(section)} />
-            </SectionContainer>
-        {:else if isStepSection(section)}
-            <SectionContainer>
-                <StepSection data={getStepSectionProps(section)} />
-            </SectionContainer>
-        {:else if isFeatureSection(section)}
-            <SectionContainer>
-                <FeaturesSection data={getFeatureSectionProps(section)} />
-            </SectionContainer>
-        {:else if isContentSection(section)}
-            <ContentSection {...getContentSectionProps(section)} />
-        {:else if isStrategyHeroSection(section)}
-            <StrategyHeroSection {...getStrategyHeroProps(section)} />
-        {:else if isStrategyIntroSection(section)}
-            <StrategyIntroSection data={getStrategyIntroProps(section)} />
-        {:else if isStrategyFeaturesSection(section)}
-            {@const props = getStrategyFeaturesProps(section)}
-            {#if props._type === 'strategyFeaturesSection'}
-                <SectionContainer>
-                    <StrategyFeaturesSection data={props} />
-                </SectionContainer>
-            {/if}
-        {:else if isStrategyFeaturesSectionAlt(section)}
-            {@const props = getStrategyFeaturesProps(section)}
-            {#if props._type === 'strategyFeaturesSectionAlt'}
-                <SectionContainer>
-                    <StrategyFeaturesSection_alt data={props} />
-                </SectionContainer>
-            {/if}
-        {:else if isBlogSection(section)}
-            <BlogSection {...getBlogSectionProps({ ...section, posts })} />
         {/if}
-    </section>
+    {:else if isContentSectionAlt(section)}
+        <SectionContainer {section}>
+            <ContentSection_alt data={getContentSectionAltProps(section)} />
+        </SectionContainer>
+    {:else if isStepSection(section)}
+        <SectionContainer {section}>
+            <StepSection data={getStepSectionProps(section)} />
+        </SectionContainer>
+    {:else if isFeatureSection(section)}
+        <SectionContainer {section}>
+            <FeaturesSection data={getFeatureSectionProps(section)} />
+        </SectionContainer>
+    {:else if isContentSection(section)}
+        <SectionContainer {section}>
+            <ContentSection {...getContentSectionProps(section)} />
+        </SectionContainer>
+    {:else if isStrategyHeroSection(section)}
+        <SectionContainer {section}>
+            <StrategyHeroSection {...getStrategyHeroProps(section)} />
+        </SectionContainer>
+    {:else if isStrategyIntroSection(section)}
+        <SectionContainer {section}>
+            <StrategyIntroSection data={getStrategyIntroProps(section)} />
+        </SectionContainer>
+    {:else if isStrategyFeaturesSection(section)}
+        {@const props = getStrategyFeaturesProps(section)}
+        {#if props._type === 'strategyFeaturesSection'}
+            <SectionContainer {section}>
+                <StrategyFeaturesSection data={props} />
+            </SectionContainer>
+        {/if}
+    {:else if isStrategyFeaturesSectionAlt(section)}
+        {@const props = getStrategyFeaturesProps(section)}
+        {#if props._type === 'strategyFeaturesSectionAlt'}
+            <SectionContainer {section}>
+                <StrategyFeaturesSection_alt data={props} />
+            </SectionContainer>
+        {/if}
+    {:else if isBlogSection(section)}
+        <SectionContainer {section}>
+            <BlogSection {...getBlogSectionProps({ ...section, posts })} />
+        </SectionContainer>
+    {/if}
 {/if}

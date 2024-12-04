@@ -5,8 +5,13 @@
   import Icon from '$lib/components/icons/Icon.svelte';
   import CleanText from '$lib/components/CleanText.svelte';
   import Button from '$lib/components/Button.svelte';
+  import { getSectionClasses, getThemeStyles } from '$lib/utils/sections'
 
   export let data: SalesFeaturesSection
+
+  // Get theme-based styles while preserving section-specific styling
+  const sectionClasses = getSectionClasses('salesFeaturesSection', data.styles)
+  const theme = getThemeStyles(data.styles?.theme)
 
   let featuresRef: HTMLElement
 
@@ -52,7 +57,7 @@
   }
 </script>
 
-<div class="container  w-full py-20 lg:py-20 overflow-hidden">
+<section class="relative w-full py-20 lg:py-20 overflow-hidden {sectionClasses}">
   <!-- Background Elements -->
   <div class="absolute inset-0">
     <div class="absolute inset-0 bg-gradient-to-br from-primary-900/5 to-transparent"></div>
@@ -72,13 +77,13 @@
         <CleanText 
           text={data.title}
           tag="h2"
-          className="text-4xl lg:text-5xl font-bold mb-6"
+          className="{theme.headings} text-4xl lg:text-5xl font-bold mb-6"
         />
         {#if data.subtitle}
           <CleanText 
             text={data.subtitle}
             tag="p"
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            className="{theme.text} text-xl max-w-3xl mx-auto"
           />
         {/if}
       </div>
@@ -115,12 +120,12 @@
               <CleanText 
                 text={feature.title}
                 tag="h3"
-                className="text-xl font-bold mb-4 group-hover:text-primary-800 transition-colors duration-300"
+                className="{theme.headings} text-xl font-bold mb-4 group-hover:text-primary-800 transition-colors duration-300"
               />
               <CleanText 
                 text={feature.shortText}
                 tag="p"
-                className="text-gray-600"
+                className="{theme.text}"
               />
 
               <!-- Hover Line -->
@@ -144,7 +149,7 @@
       {/if}
     </div>
   </div>
-</div>
+</section>
 
 <style>
   .feature-card {

@@ -6,6 +6,28 @@ export default defineType({
   title: 'Sales Hero Section',
   type: 'object',
   icon: PresentationIcon,
+  groups: [
+    {
+      name: 'content',
+      title: 'Content',
+    },
+    {
+      name: 'media',
+      title: 'Media',
+    },
+    {
+      name: 'cta',
+      title: 'Call to Actions',
+    },
+    {
+      name: 'stats',
+      title: 'Statistics',
+    },
+    {
+      name: 'styles',
+      title: 'Styles',
+    }
+  ],
   fields: [
     defineField({
       name: 'enabled',
@@ -14,23 +36,38 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'styles',
+      title: 'Section Styles',
+      type: 'sectionStyles',
+      group: 'styles',
+      description: 'Customize the appearance of this section',
+      initialValue: {
+        theme: 'light',
+        overflow: true,
+        customClasses: 'w-full min-h-screen flex flex-col'
+      }
+    }),
+    defineField({
       name: 'headline',
       title: 'Headline',
       type: 'string',
       description: 'The main headline of the hero section',
       validation: (Rule) => Rule.required(),
+      group: 'content'
     }),
     defineField({
       name: 'subheadline',
       title: 'Subheadline',
       type: 'string',
       description: 'The secondary headline below the main headline',
+      group: 'content'
     }),
     defineField({
       name: 'backgroundImage',
       title: 'Background Image',
       type: 'image',
       description: 'The background image for the hero section',
+      group: 'media',
       fields: [
         defineField({
           name: 'alt',
@@ -45,6 +82,7 @@ export default defineType({
       title: 'Statistics',
       type: 'array',
       description: 'Key statistics to display in the hero section',
+      group: 'stats',
       of: [
         {
           type: 'object',
@@ -70,11 +108,13 @@ export default defineType({
       title: 'Description',
       type: 'text',
       description: 'A brief description or tagline',
+      group: 'content'
     }),
     defineField({
       name: 'primaryCTA',
       title: 'Primary Call to Action',
       type: 'object',
+      group: 'cta',
       fields: [
         defineField({
           name: 'text',
@@ -92,6 +132,7 @@ export default defineType({
       name: 'secondaryCTA',
       title: 'Secondary Call to Action',
       type: 'object',
+      group: 'cta',
       fields: [
         defineField({
           name: 'text',
@@ -109,6 +150,7 @@ export default defineType({
       name: 'videoButton',
       title: 'Video Button',
       type: 'object',
+      group: 'cta',
       fields: [
         defineField({
           name: 'text',
@@ -136,11 +178,13 @@ export default defineType({
       title: 'headline',
       subtitle: 'subheadline',
       media: 'backgroundImage',
+      enabled: 'enabled',
+      styles: 'styles'
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ title, subtitle, media, enabled, styles }) {
       return {
         title: title || 'Sales Hero Section',
-        subtitle: subtitle || 'No subheadline set',
+        subtitle: `${enabled ? '✓' : '✗'} ${subtitle || 'No subheadline'} | Theme: ${styles?.theme || 'default'}`,
         media: media || PresentationIcon,
       }
     },

@@ -28,10 +28,29 @@ export const imageFields = groq`
   crop
 `;
 
+export const styleFields = groq`
+  theme,
+  padding {
+    top,
+    bottom,
+    topMd,
+    bottomMd,
+    topLg,
+    bottomLg,
+    topXl,
+    bottomXl
+  },
+  overflow,
+  customClasses
+`;
+
 export const baseFields = groq`
   _type,
   enabled,
-  _key
+  _key,
+  styles {
+    ${styleFields}
+  }
 `;
 
 // Helper to expand image references

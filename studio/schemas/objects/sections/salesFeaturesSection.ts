@@ -1,11 +1,30 @@
 import {defineField, defineType} from 'sanity'
 import {BlockElementIcon} from '@sanity/icons'
+import {anchorField} from '../../utils/anchorField'
 
 export default defineType({
   name: 'salesFeaturesSection',
   title: 'Sales Features Section',
   type: 'object',
   icon: BlockElementIcon,
+  groups: [
+    {
+      name: 'content',
+      title: 'Content',
+    },
+    {
+      name: 'features',
+      title: 'Features',
+    },
+    {
+      name: 'cta',
+      title: 'Call to Action',
+    },
+    {
+      name: 'styles',
+      title: 'Styles',
+    }
+  ],
   fields: [
     defineField({
       name: 'enabled',
@@ -14,22 +33,37 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'styles',
+      title: 'Section Styles',
+      type: 'sectionStyles',
+      group: 'styles',
+      description: 'Customize the appearance of this section',
+      initialValue: {
+        theme: 'light',
+        overflow: true
+      }
+    }),
+    anchorField,
+    defineField({
       name: 'badge',
       title: 'Badge Text',
       type: 'string',
-      description: 'The text displayed in the badge above the title'
+      description: 'The text displayed in the badge above the title',
+      group: 'content'
     }),
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'The main title of the features section'
+      description: 'The main title of the features section',
+      group: 'content'
     }),
     defineField({
       name: 'subtitle',
       title: 'Subtitle',
       type: 'text',
-      description: 'A brief description below the title'
+      description: 'A brief description below the title',
+      group: 'content'
     }),
     defineField({
       name: 'features',
@@ -89,7 +123,8 @@ export default defineType({
             }
           })
         ]
-      }]
+      }],
+      group: 'features'
     }),
     defineField({
       name: 'ctaButton',
@@ -106,19 +141,21 @@ export default defineType({
           title: 'Button Link',
           type: 'string'
         })
-      ]
+      ],
+      group: 'cta'
     })
   ],
   preview: {
     select: {
       title: 'title',
       subtitle: 'subtitle',
-      enabled: 'enabled'
+      enabled: 'enabled',
+      styles: 'styles'
     },
-    prepare({title, subtitle, enabled}) {
+    prepare({title, subtitle, enabled, styles}) {
       return {
         title: title || 'Sales Features Section',
-        subtitle: `${enabled ? '✓' : '✗'} ${subtitle || 'No subtitle set'}`,
+        subtitle: `${enabled ? '✓' : '✗'} | Theme: ${styles?.theme || 'default'}`,
         media: BlockElementIcon
       }
     }

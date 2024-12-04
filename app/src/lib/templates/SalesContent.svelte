@@ -9,8 +9,13 @@
   import PortableTextButton from '$lib/components/PortableTextButton.svelte'
   import Icon from '$lib/components/icons/Icon.svelte'
   import { cleanText } from '$lib/utils/textCleaner'
+  import { getThemeStyles } from '$lib/utils/sections'
 
   export let data: SalesContentSection
+
+  // Get theme-based styles for text colors and background with opacity
+  const theme = getThemeStyles(data.styles?.theme)
+  const boxTheme = getThemeStyles(data.styles?.theme || 'light', 80) // Using 80% opacity for the box background
 
   function sanitizePortableText(blocks: any[]): any[] {
     return blocks.map(block => {
@@ -50,7 +55,8 @@
   $: sanitizedRightContent = data.rightColumnContent ? sanitizePortableText(data.rightColumnContent) : [];
 </script>
 
-<div class="relative z-10 container px-4 mx-auto">
+<!-- Content only, no section-level styling -->
+<div class="container px-4 mx-auto">
   <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
     <div class="text-center mb-16">
       {#if data.badge}
@@ -58,13 +64,14 @@
           {cleanText(data.badge)}
         </span>
       {/if}
-      <h2 class="text-3xl lg:text-4xl font-bold mb-8">
+      <h2 class="{theme.headings} text-3xl lg:text-4xl font-bold mb-8">
         {cleanText(data.title)}</h2>
 
         {#if data.subtitle}
-        <span class="inline-block py-1 text-2xl font-medium">{cleanText(data.subtitle)}</span>
+        <span class="inline-block py-1 text-2xl font-medium {theme.text}">
+          {cleanText(data.subtitle)}
+        </span>
         {/if}
-    
     </div>
 
     <div class="flex flex-wrap -mx-4">
@@ -74,7 +81,7 @@
           <PortableTextContent 
             value={sanitizedLeftContent} 
             components={portableTextComponents}
-            customClass="text-lg text-gray-700"
+            customClass="{theme.text} text-lg"
           />
         </div>
       </div>
@@ -85,47 +92,51 @@
           <PortableTextContent 
             value={sanitizedRightContent} 
             components={portableTextComponents}
-            customClass="text-lg text-gray-700"
+            customClass="{theme.text} text-lg"
           />
         </div>
       </div>
     </div>
 
     <!-- Image Box with Benefits -->
-    <div class="bg-white mt-12 shadow-lg rounded-lg overflow-hidden">
-      <div class="flex flex-col md:flex-row">
-        <!-- Image -->
-        <div class="md:w-1/2">
+    {#if data.image || data.benefits?.length > 0}
+      <div class="{boxTheme.background} mt-12 shadow-lg rounded-lg overflow-hidden">
+        <div class="flex flex-col md:flex-row">
+          <!-- Image -->
           {#if data.image}
-            <SanityImage
-              value={data.image}
-              customClass="w-full h-full object-cover"
-            />
-          {/if}
-        </div>
-
-        <!-- Benefits -->
-        <div class="md:w-1/2 p-6 flex flex-col justify-center">
-          {#if data.benefitsIntro}
-            <p class="text-xl text-gray-700 font-medium mb-6">
-              {cleanText(data.benefitsIntro)}
-            </p>
-          {/if}
-
-          <ul class="space-y-4">
-            {#each data.benefits as benefit}
-              <li class="flex items-center gap-2">
-                <Icon 
-                name="check" 
-                size={18} 
-                className="text-primary-600 mt-1"
+            <div class="md:w-1/2">
+              <SanityImage
+                value={data.image}
+                customClass="w-full h-full object-cover"
               />
-                <span class="text-base text-gray-700">{cleanText(benefit)}</span>
-              </li>
-            {/each}
-          </ul>
+            </div>
+          {/if}
+
+          <!-- Benefits -->
+          {#if data.benefits?.length > 0}
+            <div class="md:w-1/2 p-6 flex flex-col justify-center">
+              {#if data.benefitsIntro}
+                <p class="{theme.headings} text-xl font-medium mb-6">
+                  {cleanText(data.benefitsIntro)}
+                </p>
+              {/if}
+
+              <ul class="space-y-4">
+                {#each data.benefits as benefit}
+                  <li class="flex items-center gap-2">
+                    <Icon 
+                      name="check" 
+                      size={18} 
+                      className="text-primary-600 mt-1"
+                    />
+                    <span class="{theme.text} text-base">{cleanText(benefit)}</span>
+                  </li>
+                {/each}
+              </ul>
+            </div>
+          {/if}
         </div>
       </div>
-    </div>
+    {/if}
   </div>
 </div>

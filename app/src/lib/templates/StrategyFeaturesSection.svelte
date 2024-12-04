@@ -75,7 +75,7 @@ const getTextColorClass = (index: number): string => {
             {#if data.mainImage}
               <SanityImage
                 value={data.mainImage}
-                customClass="mx-auto pb-14"
+                customClass="mx-auto pb-6"
               />
             {/if}
           </div>

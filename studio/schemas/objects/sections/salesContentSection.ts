@@ -7,6 +7,24 @@ export default defineType({
   title: 'Sales Content Section',
   type: 'object',
   icon: BlockElementIcon,
+  groups: [
+    {
+      name: 'content',
+      title: 'Content',
+    },
+    {
+      name: 'media',
+      title: 'Media',
+    },
+    {
+      name: 'benefits',
+      title: 'Benefits',
+    },
+    {
+      name: 'styles',
+      title: 'Styles',
+    }
+  ],
   fields: [
     defineField({
       name: 'enabled',
@@ -14,12 +32,24 @@ export default defineType({
       type: 'boolean',
       initialValue: true,
     }),
+    defineField({
+      name: 'styles',
+      title: 'Section Styles',
+      type: 'sectionStyles',
+      group: 'styles',
+      description: 'Customize the appearance of this section',
+      initialValue: {
+        theme: 'light',
+        overflow: true
+      }
+    }),
     anchorField,
     defineField({
       name: 'badge',
       title: 'Badge Text',
       type: 'string',
       description: 'The text displayed in the badge above the title',
+      group: 'content'
     }),
     defineField({
       name: 'title',
@@ -27,30 +57,35 @@ export default defineType({
       type: 'string',
       description: 'The main title of the content section',
       validation: (Rule) => Rule.required(),
+      group: 'content'
     }),
     defineField({
       name: 'subtitle',
       title: 'Subtitle',
       type: 'string',
       description: 'The subtitle that follows the title',
+      group: 'content'
     }),
     defineField({
       name: 'leftColumnContent',
       title: 'Left Column Content',
       description: 'Rich text content for the left column with formatting options',
-      type: 'blockContent'
+      type: 'blockContent',
+      group: 'content'
     }),
     defineField({
       name: 'rightColumnContent',
       title: 'Right Column Content',
       description: 'Rich text content for the right column with formatting options',
-      type: 'blockContent'
+      type: 'blockContent',
+      group: 'content'
     }),
     defineField({
       name: 'image',
       title: 'Content Image',
       type: 'image',
       description: 'The image to display in the content box',
+      group: 'media',
       fields: [
         defineField({
           name: 'alt',
@@ -65,6 +100,7 @@ export default defineType({
       title: 'Benefits Introduction',
       type: 'string',
       description: 'Optional introductory text before the benefits list (e.g., "Wir haben ein System entwickelt, das Dir erlaubt:")',
+      group: 'benefits'
     }),
     defineField({
       name: 'benefits',
@@ -78,6 +114,7 @@ export default defineType({
         }),
       ],
       description: 'List of benefits to display in the content box',
+      group: 'benefits'
     }),
   ],
   preview: {
@@ -85,11 +122,12 @@ export default defineType({
       title: 'title',
       subtitle: 'subtitle',
       enabled: 'enabled',
+      styles: 'styles'
     },
-    prepare({ title, subtitle, enabled }) {
+    prepare({ title, subtitle, enabled, styles }) {
       return {
         title: title || 'Sales Content Section',
-        subtitle: `${enabled ? '✓' : '✗'} ${subtitle || 'No subtitle set'}`,
+        subtitle: `${enabled ? '✓' : '✗'} ${subtitle || 'No subtitle'} | Theme: ${styles?.theme || 'default'}`,
         media: BlockElementIcon,
       }
     },

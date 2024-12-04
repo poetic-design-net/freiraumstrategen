@@ -1,31 +1,223 @@
-import { isSalesForWhoSection } from "$lib/types/salesForWhoSection";
+import type { ThemeOption, PaddingConfig, SectionStyles } from './themeStyles';
+import { getSectionThemeClasses } from './themeStyles';
 
-export const typeClasses = {
-  heroSection: 'overflow-hidden',
-  caseSection: 'pt-20 pb-20 xl:pb-32 overflow-hidden',
-  salesContentSection: 'pt-20 pb-20 xl:pb-32 overflow-hidden',
-  contentSectionAlt: 'py-20 lg:py-24 overflow-hidden bg-gray-100',
-  stepSection: 'text-dark py-20 lg:pb-32',
-  testimonialsSection: 'py-20 lg:pt-24 lg:pb-24 bg-gray-50 overflow-hidden',
-  featuresSection: 'py-32 overflow-hidden',
-  contentSection: 'bg-gray-50 overflow-hidden',
-  callToActionSection: 'w-full min-h-dvh lg:min-h-[200vh]',
-  kachelSection: 'py-20 lg:py-24 overflow-hidden',
-  strategyHeroSection: 'relative overflow-hidden h-full-header ',
-  strategyIntroSection: 'relative py-20 lg:py-32 overflow-hidden',
-  strategyFeaturesSection: 'relative py-12 lg:py-16 z-10',
-  strategyFeaturesSectionAlt: 'relative py-20 lg:py-24 overflow-hidden',
-  salesEmotionalFreedomSection: 'w-full overflow-hidden',
-  salesEmotionalSection: 'w-full overflow-hidden',
-  salesWhyContentSection: 'pt-20 pb-20 xl:pb-32 overflow-hidden bg-gray-50 ',
-  salesAdvantagesSection: 'pt-20 pb-20 xl:pb-32 overflow-hidden',
-  salesFeaturesSection: 'pt-20 pb-20 xl:pb-32 overflow-hidden',
-  salesForWhoSection: 'pt-20 pb-20 xl:pb-32 overflow-hidden',
-  salesCurriculumSection: 'pt-20 pb-20 xl:pb-32 overflow-hidden'
-   
-} as const;
+// Default styles for each section type if no custom styles are provided
+export const defaultSectionStyles: Record<string, SectionStyles> = {
+  // Hero Sections
+  heroSection: { 
+    theme: 'light', 
+    overflow: true,
+    customClasses: 'w-full min-h-screen flex flex-col'
+  },
+  salesHeroSection: { 
+    theme: 'light', 
+    overflow: true,
+    customClasses: 'w-full min-h-screen flex flex-col'
+  },
+  strategyHeroSection: { 
+    theme: 'light', 
+    overflow: true,
+    customClasses: 'w-full h-full-header'
+  },
+  uberunsHeroSection: { 
+    theme: 'light', 
+    overflow: true,
+    customClasses: 'w-full min-h-screen flex flex-col'
+  },
+  contactHeroSection: { 
+    theme: 'light', 
+    overflow: true,
+    customClasses: 'w-full min-h-screen flex flex-col'
+  },
 
-export function getSectionClasses(type: string): string {
-  const baseClasses = 'relative';
-  return `${baseClasses} ${typeClasses[type as keyof typeof typeClasses] || ''}`;
+  // Content Sections
+  caseSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  },
+  salesContentSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  },
+  contentSectionAlt: { 
+    theme: 'light-gray', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      topLg: '24',
+      bottomLg: '24'
+    }, 
+    overflow: true 
+  },
+  stepSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomLg: '32'
+    }
+  },
+  testimonialsSection: { 
+    theme: 'light-gray', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      topLg: '24',
+      bottomLg: '24'
+    }, 
+    overflow: true 
+  },
+  featuresSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '32',
+      bottom: '32'
+    }, 
+    overflow: true 
+  },
+  contentSection: { 
+    theme: 'light-gray', 
+    overflow: true 
+  },
+  callToActionSection: { 
+    theme: 'primary', 
+    customClasses: 'w-full min-h-dvh lg:min-h-[200vh]' 
+  },
+  kachelSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      topLg: '24',
+      bottomLg: '24'
+    }, 
+    overflow: true 
+  },
+  strategyIntroSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      topLg: '32',
+      bottomLg: '32'
+    }, 
+    overflow: true 
+  },
+  strategyFeaturesSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '12',
+      bottom: '12',
+      topLg: '16',
+      bottomLg: '16'
+    }, 
+    customClasses: 'z-10' 
+  },
+  strategyFeaturesSectionAlt: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      topLg: '24',
+      bottomLg: '24'
+    }, 
+    overflow: true 
+  },
+  salesEmotionalFreedomSection: { 
+    theme: 'light', 
+    overflow: true 
+  },
+  salesEmotionalSection: { 
+    theme: 'light', 
+    overflow: true 
+  },
+  salesWhyContentSection: { 
+    theme: 'light-gray', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  },
+  salesAdvantagesSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  },
+  salesFeaturesSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  },
+  salesForWhoSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  },
+  salesCurriculumSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  },
+  salesPricingSection: { 
+    theme: 'light', 
+    padding: { 
+      top: '20',
+      bottom: '20',
+      bottomXl: '32'
+    }, 
+    overflow: true 
+  }
+};
+
+export function getSectionClasses(type: string, customStyles?: SectionStyles): string {
+  const defaultStyles = defaultSectionStyles[type] || {};
+  
+  // Deep merge of padding values to preserve responsive settings
+  const mergedPadding = customStyles?.padding
+    ? {
+        ...defaultStyles.padding,
+        ...customStyles.padding
+      }
+    : defaultStyles.padding;
+
+  // Merge styles with proper type handling
+  const styles: SectionStyles = {
+    ...defaultStyles,
+    ...customStyles,
+    padding: mergedPadding,
+    // Merge customClasses properly
+    customClasses: [defaultStyles.customClasses, customStyles?.customClasses]
+      .filter(Boolean)
+      .join(' ')
+  };
+
+  return getSectionThemeClasses(styles);
 }
