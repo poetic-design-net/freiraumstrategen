@@ -34,6 +34,7 @@ import faqSection from './objects/sections/faqSection'
 import uberunsHeroSection from './objects/sections/uberunsHeroSection'
 import uberunsIntroSection from './objects/sections/uberunsIntroSection'
 import uberunsTeamSection from './objects/sections/uberunsTeamSection'
+import comingSoonSection from './objects/sections/comingSoonSection'
 
 // Import sales section schemas
 import salesHeroSection from './objects/sections/salesHeroSection'
@@ -91,6 +92,7 @@ export const schemaTypes = [
   uberunsHeroSection,
   uberunsIntroSection,
   uberunsTeamSection,
+  comingSoonSection,
 
   // Sales Section Schemas
   salesHeroSection,

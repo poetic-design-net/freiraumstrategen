@@ -4,6 +4,7 @@ import type { TestimonialData } from '$lib/templates/Testimonials_gsap/types/tes
 import type { PortableTextBlock } from '@portabletext/types';
 import type { Column, BackgroundImage } from './contentSection';
 import type { FeatureIcon, FeatureLayout } from './featureSection';
+import type { ComingSoonSection } from './comingSoonSection';
 
 // Base interface for all sections
 export interface BaseSection {
@@ -128,4 +129,5 @@ export type Section =
   | CallToActionSectionData
   | CaseSectionData
   | TestimonialSectionData
-  | FeatureSectionData;
+  | FeatureSectionData
+  | ComingSoonSection;

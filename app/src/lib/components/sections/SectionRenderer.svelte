@@ -15,6 +15,7 @@
         isFeatureSection,
         isBlogSection,
         isKachelSection,
+        isComingSoonSection,
         getHeroSectionProps,
         getContentSectionProps,
         getCallToActionProps,
@@ -29,7 +30,8 @@
         isStepSection,
         getStepSectionProps,
         getBlogSectionProps,
-        getKachelSectionProps
+        getKachelSectionProps,
+        getComingSoonProps
     } from '$lib/utils/sections/index';
     import { 
         isSalesHeroSection, 
@@ -83,6 +85,7 @@
         SalesPricing,
         SalesWhyContent
     } from '.';
+    import ComingSoonSection from '$lib/templates/ComingSoonSection.svelte';
 
     export let section: Section | StrategySection;
     export let scrollProgress: number = 0;
@@ -91,7 +94,11 @@
 </script>
 
 {#if section?.enabled}
-    {#if isTestimonialsSection(section)}
+    {#if isComingSoonSection(section)}
+        <SectionContainer {section}>
+            <ComingSoonSection data={getComingSoonProps(section)} />
+        </SectionContainer>
+    {:else if isTestimonialsSection(section)}
         <SectionContainer {section}>
             <Testimonials_gsap data={getTestimonialsSectionProps(section)} />
         </SectionContainer>

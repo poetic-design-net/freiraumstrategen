@@ -212,7 +212,8 @@ const NO_PADDING_SECTIONS = [
   'heroSection',
   'uberunsHeroSection',
   'strategyHeroSection',
-  'contactHeroSection'
+  'contactHeroSection',
+  'comingSoonSection'  // Added ComingSoon section to no-padding list
 ];
 
 export function getSectionClasses(type: string, customStyles?: SectionStyles): string {

@@ -13,7 +13,8 @@ import {
   TagIcon,
   HeartIcon,
   UserIcon,
-  CommentIcon
+  CommentIcon,
+  ClockIcon
 } from '@sanity/icons'
 
 interface SectionType {
@@ -24,6 +25,12 @@ interface SectionType {
 }
 
 export const getSectionTypes = (): SectionType[] => [
+  {
+    type: 'comingSoonSection',
+    title: 'Coming Soon Sektion',
+    icon: ClockIcon,
+    description: 'Platzhalter-Sektion für zukünftige Inhalte'
+  },
   {
     type: 'salesHeroSection',
     title: 'Sales Hero Sektion',
