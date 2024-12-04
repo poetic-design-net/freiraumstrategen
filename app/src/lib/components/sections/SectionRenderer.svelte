@@ -172,7 +172,7 @@
         </SectionContainer>
     {:else if isContentSection(section)}
         <SectionContainer {section}>
-            <ContentSection {...getContentSectionProps(section)} />
+            <ContentSection {...getContentSectionProps(section)} {section} />
         </SectionContainer>
     {:else if isStrategyHeroSection(section)}
         <SectionContainer {section}>

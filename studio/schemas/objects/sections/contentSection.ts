@@ -17,8 +17,8 @@ export default defineType({
       title: 'Layout',
     },
     {
-      name: 'design',
-      title: 'Design',
+      name: 'styles',
+      title: 'Styles',
     }
   ],
   fields: [
@@ -42,15 +42,14 @@ export default defineType({
       }
     }),
     defineField({
-      name: 'theme',
-      title: 'Theme',
-      type: 'string',
-      group: 'design',
-      options: {
-        list: [
-          {title: 'Light', value: 'light'},
-          {title: 'Dark', value: 'dark'}
-        ]
+      name: 'styles',
+      title: 'Section Styles',
+      type: 'sectionStyles',
+      group: 'styles',
+      description: 'Customize the appearance of this section',
+      initialValue: {
+        theme: 'light-gray',
+        overflow: true
       }
     }),
     defineField({
@@ -127,7 +126,7 @@ export default defineType({
       name: 'backgroundImage',
       title: 'Background Image',
       type: 'image',
-      group: 'design',
+      group: 'styles',
       options: {
         hotspot: true
       }
@@ -139,12 +138,13 @@ export default defineType({
       subtitle: 'header.badge',
       enabled: 'enabled',
       id: 'id',
-      media: 'backgroundImage'
+      media: 'backgroundImage',
+      styles: 'styles'
     },
-    prepare({title, subtitle, enabled, id, media}) {
+    prepare({title, subtitle, enabled, id, media, styles}) {
       return {
         title: title || 'Content Section',
-        subtitle: `${enabled ? '✓' : '✗'} ${id ? `#${id}` : ''} ${subtitle || ''}`.trim(),
+        subtitle: `${enabled ? '✓' : '✗'} ${id ? `#${id}` : ''} ${subtitle || ''} | Theme: ${styles?.theme || 'default'}`.trim(),
         media: media || BlockElementIcon
       }
     }

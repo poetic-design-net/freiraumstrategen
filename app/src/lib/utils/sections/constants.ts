@@ -29,6 +29,14 @@ export const defaultSectionStyles: Record<string, SectionStyles> = {
     overflow: true,
     customClasses: 'w-full min-h-screen flex flex-col'
   },
+  blogSection: { 
+    theme: 'light-gray', 
+    padding: { 
+      top: '24',
+      bottom: '12'
+    }, 
+    overflow: true 
+  },
 
   // Content Sections
   caseSection: { 
@@ -121,7 +129,8 @@ export const defaultSectionStyles: Record<string, SectionStyles> = {
       topLg: '16',
       bottomLg: '16'
     }, 
-    customClasses: 'z-10' 
+    customClasses: 'z-10 overflow-visible'
+
   },
   strategyFeaturesSectionAlt: { 
     theme: 'light', 
@@ -197,24 +206,42 @@ export const defaultSectionStyles: Record<string, SectionStyles> = {
   }
 };
 
+// List of section types that should not have default padding
+const NO_PADDING_SECTIONS = [
+  'salesHeroSection',
+  'heroSection',
+  'uberunsHeroSection',
+  'strategyHeroSection',
+  'contactHeroSection'
+];
+
 export function getSectionClasses(type: string, customStyles?: SectionStyles): string {
-  const defaultStyles = defaultSectionStyles[type] || {};
+  const baseStyles = defaultSectionStyles[type] || {};
+  
+  // Create a new object for the section styles
+  let sectionStyles: SectionStyles = { ...baseStyles };
+  
+  // For hero sections, remove padding
+  if (NO_PADDING_SECTIONS.includes(type)) {
+    const { padding, ...restStyles } = sectionStyles;
+    sectionStyles = restStyles;
+  }
   
   // Deep merge of padding values to preserve responsive settings
-  const mergedPadding = customStyles?.padding
+  const mergedPadding = customStyles?.padding && !NO_PADDING_SECTIONS.includes(type)
     ? {
-        ...defaultStyles.padding,
+        ...sectionStyles.padding,
         ...customStyles.padding
       }
-    : defaultStyles.padding;
+    : sectionStyles.padding;
 
   // Merge styles with proper type handling
   const styles: SectionStyles = {
-    ...defaultStyles,
+    ...sectionStyles,
     ...customStyles,
     padding: mergedPadding,
     // Merge customClasses properly
-    customClasses: [defaultStyles.customClasses, customStyles?.customClasses]
+    customClasses: [sectionStyles.customClasses, customStyles?.customClasses]
       .filter(Boolean)
       .join(' ')
   };

@@ -102,7 +102,7 @@ export function getContentSectionProps(section: ContentSectionData & LegacyConte
   return {
     enabled: section.enabled ?? true,
     layout: section.layout ?? 'single-column',
-    theme: section.theme ?? 'light',
+    theme: section.theme ?? 'light-gray', // Changed default theme to light-gray
     header: section.header ? {
       badge: section.header.badge || '',
       heading: {

@@ -8,7 +8,7 @@
     export let section: any;
 
     // Transform and ensure styles are properly set with defaults
-    const transformedStyles = transformSectionStyles(section.styles);
+    const transformedStyles = transformSectionStyles(section.styles, section._type);
     
     // Get section classes once and ensure theme styles take precedence
     const sectionClasses = getSectionClasses(section._type, transformedStyles);

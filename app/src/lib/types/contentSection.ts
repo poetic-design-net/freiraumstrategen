@@ -1,7 +1,7 @@
 import type { PortableTextBlock } from '@portabletext/types';
 
 export type ContentSectionLayout = 'single-column' | 'two-columns';
-export type ContentSectionTheme = 'light' | 'dark';
+export type ContentSectionTheme = 'light' | 'dark' | 'light-gray';
 export type TextAlignment = 'start' | 'center' | 'end';
 export type ButtonStyle = 'primary' | 'secondary' | 'orange';
 export type ButtonSize = 'sm' | 'md' | 'lg';

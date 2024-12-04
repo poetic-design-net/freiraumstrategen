@@ -22,6 +22,7 @@
   };
 </script>
 
+<div class="container relative">
 {#if data.enabled && data.testimonials.length > 0}
     <div class="container px-4 mx-auto">
       <Header header={data.header} />
@@ -33,3 +34,4 @@
       {navigation}
     />
 {/if}
+</div>

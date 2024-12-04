@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Header, Column, BackgroundImage, ContentSectionLayout, ContentSectionTheme } from '$lib/types/contentSection';
+  import type { Header, Column, BackgroundImage, ContentSectionLayout } from '$lib/types/contentSection';
   import { defaultHeader, defaultColumn, defaultBackgroundImage } from '$lib/types/contentSection';
   import type { PortableTextComponents } from '@portabletext/svelte';
   import ContentImageRenderer from '$lib/components/ContentImageRenderer.svelte';
@@ -16,14 +16,14 @@
   export let rightColumn: Column | undefined = defaultColumn;
   export let backgroundImage: BackgroundImage | undefined = defaultBackgroundImage;
   export let layout: ContentSectionLayout = 'two-columns';
-  export let theme: ContentSectionTheme = 'light';
+  export let section: any; // This contains the section data including styles
 
   $: currentHeader = cleanObject(header) ?? defaultHeader;
   $: currentLeftColumn = cleanObject(leftColumn) ?? defaultColumn;
   $: currentRightColumn = cleanObject(rightColumn) ?? defaultColumn;
   $: currentBackgroundImage = backgroundImage ?? defaultBackgroundImage;
   $: isSingleColumn = layout === 'single-column';
-  $: isDarkTheme = theme === 'dark';
+  $: isDarkTheme = section?.styles?.theme === 'dark';
 
   function sanitizePortableText(blocks: any[]): any[] {
     return blocks.map(block => {
@@ -65,38 +65,70 @@
   $: sanitizedRightRegular = currentRightColumn.regularContent ? sanitizePortableText(currentRightColumn.regularContent) : [];
 </script>
 
-<!-- Full-width background section -->
-<div class="{isDarkTheme ? 'bg-primary-900' : 'bg-gray-50'} relative py-16">
-  {#if currentBackgroundImage?.asset}
+{#if currentBackgroundImage?.asset}
+  <slot name="background">
     <SanityImage
       value={currentBackgroundImage}
       customClass="absolute top-0 start-0 mt-10 {isDarkTheme ? 'opacity-20' : 'opacity-80'}"
     />
-  {/if}
+  </slot>
+{/if}
 
-  <!-- Content container -->
-  <div class="container py-20 mx-auto px-4">
-    <div class="text-center mb-18">
-      {#if currentHeader.badge}
-        <span class="inline-block py-1 px-3 mb-4 text-xs font-medium shadow {isDarkTheme ? 'text-primary-900 bg-gray-50' : 'text-primary-900 bg-primary-50'} rounded-full">
-          {currentHeader.badge}
-        </span>
-      {/if}
-      {#if currentHeader.heading?.regular || currentHeader.heading?.thin}
-        <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium {isDarkTheme ? 'text-white' : 'text-gray-900'} mb-8">
-          {#if currentHeader.heading.regular}
-            <span>{currentHeader.heading.regular} </span>
+<!-- Content container -->
+<div class="container py-20 mx-auto px-4">
+  <div class="text-center mb-18">
+    {#if currentHeader.badge}
+      <span class="inline-block py-1 px-3 mb-4 text-xs font-medium shadow {isDarkTheme ? 'text-primary-900 bg-gray-50' : 'text-primary-900 bg-primary-50'} rounded-full">
+        {currentHeader.badge}
+      </span>
+    {/if}
+    {#if currentHeader.heading?.regular || currentHeader.heading?.thin}
+      <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium {isDarkTheme ? 'text-white' : 'text-gray-900'} mb-8">
+        {#if currentHeader.heading.regular}
+          <span>{currentHeader.heading.regular}</span>
+        {/if}
+        {#if currentHeader.heading.thin}
+          <span class="font-light block">{currentHeader.heading.thin}</span>
+        {/if}
+      </h1>
+    {/if}
+  </div>
+  <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
+    <div class="flex flex-wrap {isSingleColumn ? '' : '-mx-8'}">
+      {#if isSingleColumn}
+        <div class="w-full max-w-3xl mx-auto">
+          {#if sanitizedLeftHighlighted.length > 0}
+            <PortableTextContent
+              value={sanitizedLeftHighlighted}
+              components={portableTextComponents}
+              customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-8"
+            />
           {/if}
-          {#if currentHeader.heading.thin}
-            <span class="font-light block">{currentHeader.heading.thin}</span>
+          {#if sanitizedLeftRegular.length > 0}
+            <PortableTextContent
+              value={sanitizedLeftRegular}
+              components={portableTextComponents}
+              customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'} mb-8"
+            />
           {/if}
-        </h1>
-      {/if}
-    </div>
-    <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
-      <div class="flex flex-wrap {isSingleColumn ? '' : '-mx-8'}">
-        {#if isSingleColumn}
-          <div class="w-full max-w-3xl mx-auto">
+          {#if sanitizedRightHighlighted.length > 0}
+            <PortableTextContent
+              value={sanitizedRightHighlighted}
+              components={portableTextComponents}
+              customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
+            />
+          {/if}
+          {#if sanitizedRightRegular.length > 0}
+            <PortableTextContent
+              value={sanitizedRightRegular}
+              components={portableTextComponents}
+              customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
+            />
+          {/if}
+        </div>
+      {:else}
+        <div class="w-full lg:w-1/2 px-8 mb-8 lg:mb-0">
+          <div class="max-w-lg">
             {#if sanitizedLeftHighlighted.length > 0}
               <PortableTextContent
                 value={sanitizedLeftHighlighted}
@@ -108,14 +140,18 @@
               <PortableTextContent
                 value={sanitizedLeftRegular}
                 components={portableTextComponents}
-                customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'} mb-8"
+                customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
               />
             {/if}
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2 px-8">
+          <div class="max-w-lg">
             {#if sanitizedRightHighlighted.length > 0}
               <PortableTextContent
                 value={sanitizedRightHighlighted}
                 components={portableTextComponents}
-                customClass="text-2xl  {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
+                customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
               />
             {/if}
             {#if sanitizedRightRegular.length > 0}
@@ -126,45 +162,8 @@
               />
             {/if}
           </div>
-        {:else}
-          <div class="w-full lg:w-1/2 px-8 mb-8 lg:mb-0">
-            <div class="max-w-lg">
-              {#if sanitizedLeftHighlighted.length > 0}
-                <PortableTextContent
-                  value={sanitizedLeftHighlighted}
-                  components={portableTextComponents}
-                  customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-8"
-                />
-              {/if}
-              {#if sanitizedLeftRegular.length > 0}
-                <PortableTextContent
-                  value={sanitizedLeftRegular}
-                  components={portableTextComponents}
-                  customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
-                />
-              {/if}
-            </div>
-          </div>
-          <div class="w-full lg:w-1/2 px-8">
-            <div class="max-w-lg">
-              {#if sanitizedRightHighlighted.length > 0}
-                <PortableTextContent
-                  value={sanitizedRightHighlighted}
-                  components={portableTextComponents}
-                  customClass="text-2xl  {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
-                />
-              {/if}
-              {#if sanitizedRightRegular.length > 0}
-                <PortableTextContent
-                  value={sanitizedRightRegular}
-                  components={portableTextComponents}
-                  customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
-                />
-              {/if}
-            </div>
-          </div>
-        {/if}
-      </div>
+        </div>
+      {/if}
     </div>
   </div>
 </div>

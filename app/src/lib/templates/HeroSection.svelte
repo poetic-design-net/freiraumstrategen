@@ -131,11 +131,6 @@
   }
 </style>
 
-<img 
-  class="absolute bottom-0 left-0 pointer-events-none" 
-  src="saturn-assets/images/headers/blue-light-left-bottom.png" 
-  alt=""
->
 
 <div class="relative isolate overflow-hidden">
   <div class="relative container mt-12 md:mt-24 px-4 mx-auto">
@@ -148,8 +143,9 @@
             </div>
             
             <h1 bind:this={headlineRef} class="font-heading text-5xl xs:text-6xl md:text-8xl xl:text-10xl font-thin text-gray-900 mb-8 sm:mb-14">              
-              <span class="relative inline-block">                     
-                <span class="font-medium">Erfolgreich</span> an der Börse handeln​​​​‌﻿‍﻿​‍​‍‌‍
+              <span class="relative inline-block">  
+                <span class="hidden">Erfolgreich an der Börse handeln</span>    
+                <span class="font-medium">Erfolgreich</span> an der Börse handeln
               </span>            
             </h1>
             <div class="lg:flex mb-24 items-center">
