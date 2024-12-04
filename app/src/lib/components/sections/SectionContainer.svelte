@@ -1,17 +1,17 @@
 <script lang="ts">
     import { getSectionClasses } from '$lib/utils/sections';
+    import { transformSectionStyles } from '$lib/utils/sections/transformers/sectionStyles';
 
     export let sticky = false;
     export let showOverlay = false;
     export let overlayOpacity = 0;
     export let section: any;
 
+    // Transform and ensure styles are properly set with defaults
+    const transformedStyles = transformSectionStyles(section.styles);
+    
     // Get section classes once and ensure theme styles take precedence
-    const sectionClasses = getSectionClasses(section._type, {
-        ...section.styles,
-        // Ensure theme styles are properly applied
-        theme: section.styles?.theme || 'light'
-    });
+    const sectionClasses = getSectionClasses(section._type, transformedStyles);
 
     let slotContent: HTMLElement;
     $: hasSection = slotContent?.querySelector('section') !== null;

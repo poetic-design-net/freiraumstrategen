@@ -1,35 +1,53 @@
 import type { SectionStyles } from '../themeStyles'
 import { isSectionStyles } from '../guards/sectionStyles'
 
+const DEFAULT_STYLES: SectionStyles = {
+  theme: 'light',
+  padding: {
+    top: '20',
+    bottom: '20',
+    topLg: '24',
+    bottomLg: '24',
+    topXl: '24',
+    bottomXl: '32'
+  },
+  overflow: true
+}
+
 export function transformSectionStyles(value: unknown): SectionStyles {
+  if (!value || typeof value !== 'object') {
+    return DEFAULT_STYLES
+  }
+
   if (!isSectionStyles(value)) {
-    // Return default styles if invalid
-    return {
-      theme: 'light',
-      padding: {
-        top: '20',
-        bottom: '20'
-      },
-      overflow: true
-    }
+    return DEFAULT_STYLES
   }
 
-  // Clean up padding values
-  if (value.padding) {
-    const cleanPadding = Object.entries(value.padding).reduce((acc, [key, val]) => {
-      if (val) {
-        acc[key as keyof typeof value.padding] = val
-      }
-      return acc
-    }, {} as NonNullable<SectionStyles['padding']>)
+  // Ensure theme is always set
+  const theme = value.theme || DEFAULT_STYLES.theme
 
-    return {
-      ...value,
-      padding: Object.keys(cleanPadding).length > 0 ? cleanPadding : undefined
-    }
+  // Clean up padding values while preserving defaults
+  const padding = value.padding
+    ? Object.entries(value.padding).reduce((acc, [key, val]) => {
+        if (val) {
+          acc[key as keyof typeof value.padding] = val
+        } else if (DEFAULT_STYLES.padding?.[key as keyof typeof DEFAULT_STYLES.padding]) {
+          // Use default value if available
+          acc[key as keyof typeof value.padding] = DEFAULT_STYLES.padding[key as keyof typeof DEFAULT_STYLES.padding]
+        }
+        return acc
+      }, {} as NonNullable<SectionStyles['padding']>)
+    : DEFAULT_STYLES.padding
+
+  // Ensure overflow has a default value
+  const overflow = typeof value.overflow === 'boolean' ? value.overflow : DEFAULT_STYLES.overflow
+
+  return {
+    theme,
+    padding: Object.keys(padding || {}).length > 0 ? padding : DEFAULT_STYLES.padding,
+    overflow,
+    ...(value.customClasses ? { customClasses: value.customClasses } : {})
   }
-
-  return value
 }
 
 export function transformSectionStylesToString(value: unknown): string {
@@ -42,13 +60,6 @@ export function transformStringToSectionStyles(value: string): SectionStyles {
     const parsed = JSON.parse(value)
     return transformSectionStyles(parsed)
   } catch {
-    return {
-      theme: 'light',
-      padding: {
-        top: '20',
-        bottom: '20'
-      },
-      overflow: true
-    }
+    return DEFAULT_STYLES
   }
 }
