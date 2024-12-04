@@ -1,6 +1,26 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{html,js,svelte,ts}"],
+  safelist: [
+    // Safelist padding classes used in section styles
+    'pt-12', 'pb-12',
+    'pt-20', 'pb-20',
+    'pt-24', 'pb-24',
+    'pt-32', 'pb-32',
+    // Responsive variants
+    'md:pt-12', 'md:pb-12',
+    'md:pt-20', 'md:pb-20',
+    'md:pt-24', 'md:pb-24',
+    'md:pt-32', 'md:pb-32',
+    'lg:pt-12', 'lg:pb-12',
+    'lg:pt-20', 'lg:pb-20',
+    'lg:pt-24', 'lg:pb-24',
+    'lg:pt-32', 'lg:pb-32',
+    'xl:pt-12', 'xl:pb-12',
+    'xl:pt-20', 'xl:pb-20',
+    'xl:pt-24', 'xl:pb-24',
+    'xl:pt-32', 'xl:pb-32',
+  ],
   theme: {
     container: {
       center: true,
