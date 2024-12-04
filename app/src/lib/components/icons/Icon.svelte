@@ -7,7 +7,7 @@
   export let strokeWidth: number = 1.5;
 
   $: icon = icons[name];
-  $: isStrokeIcon = !icon?.hasRule && (!icon?.path || name === 'mail');
+  $: isStrokeIcon = !icon?.hasRule && (!icon?.path || name === 'mail' || name === 'shield');
 </script>
 
 {#if icon}

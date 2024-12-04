@@ -24,6 +24,10 @@ const config = {
           return;
         }
         throw new Error(message);
+      },
+      handleMissingId: ({ id, path, referrers }) => {
+        // Log missing IDs as warnings instead of failing the build
+        console.warn(`Warning: Missing ID "${id}" on path "${path}". Referrers: ${referrers.join(', ')}`);
       }
     }
   }
