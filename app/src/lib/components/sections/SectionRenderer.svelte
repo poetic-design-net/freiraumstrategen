@@ -95,7 +95,7 @@
 
 {#if section?.enabled}
     {#if isComingSoonSection(section)}
-        <SectionContainer {section}>
+        <SectionContainer {section} fullHeight>
             <ComingSoonSection data={getComingSoonProps(section)} />
         </SectionContainer>
     {:else if isTestimonialsSection(section)}
@@ -115,7 +115,7 @@
             <HeroSection {...getHeroSectionProps(section)} />
         </SectionContainer>
     {:else if isSalesHeroSection(section)}
-        <SectionContainer {section}>
+        <SectionContainer {section} fullHeight>
             <SalesHero data={getSalesHeroProps(section)} />
         </SectionContainer>
     {:else if isSalesAdvantagesSection(section)}

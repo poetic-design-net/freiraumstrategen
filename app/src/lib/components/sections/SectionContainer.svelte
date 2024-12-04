@@ -6,15 +6,13 @@
     export let showOverlay = false;
     export let overlayOpacity = 0;
     export let section: any;
+    export let fullHeight = false;
 
     // Transform and ensure styles are properly set with defaults
     const transformedStyles = transformSectionStyles(section.styles, section._type);
     
     // Get section classes once and ensure theme styles take precedence
-    const sectionClasses = getSectionClasses(section._type, transformedStyles);
-
-    let slotContent: HTMLElement;
-    $: hasSection = slotContent?.querySelector('section') !== null;
+    const sectionClasses = `${getSectionClasses(section._type, transformedStyles)} ${fullHeight ? 'min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-5rem)]' : ''}`;
 </script>
 
 {#if sticky}
@@ -37,18 +35,13 @@
         <slot />
     </section>
 {:else}
-    <div bind:this={slotContent}>
-        {#if hasSection}
+    <section 
+        class="{sectionClasses} relative"
+        {...section.id ? { id: section.id } : {}}
+        data-section-type={section._type}
+    >
+        <div class="relative z-10 flex items-center justify-center w-full min-h-[inherit]">
             <slot />
-        {:else}
-            <section 
-                class={sectionClasses} 
-                {...section.id ? { id: section.id } : {}}
-                data-section-type={section._type}
-            >
-                <slot name="background" />
-                <slot />
-            </section>
-        {/if}
-    </div>
+        </div>
+    </section>
 {/if}

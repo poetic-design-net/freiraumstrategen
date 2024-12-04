@@ -3,8 +3,12 @@
     import type { LandingPageData } from '$lib/sanity/queries/pages';
     import { useScrollProgress } from '$lib/hooks/useScrollProgress';
     import { SEO, SectionRenderer } from '$lib/components/sections';
+    import VideoButton from '$lib/components/VideoButton.svelte';
     import { page as storePage } from '$app/stores';
     import { onMount } from 'svelte';
+    import { getThemeStyles } from '$lib/utils/sections';
+    import { isSalesHeroSection } from '$lib/utils/sections/transformers/salesSections';
+    import type { SalesHeroSection } from '$lib/types/salesHeroSection';
 
     export let data: {
         query: string;
@@ -23,6 +27,11 @@
     $: rawData = $query.data as LandingPageData;
     $: page = rawData;
     $: error = $query.error as Error | null;
+
+    // Find the first SalesHero section to get video button data
+    $: salesHeroSection = rawData?.sections?.find(section => isSalesHeroSection(section)) as SalesHeroSection | undefined;
+    $: videoButtonData = salesHeroSection?.videoButton;
+    $: theme = getThemeStyles(salesHeroSection?.styles?.theme);
 
     onMount(() => {
         console.log('Debug - Component mounted with:', {
@@ -73,5 +82,9 @@
         {#each rawData.sections as section (section._key)}
             <SectionRenderer {section} scrollProgress={$scrollProgress} />
         {/each}
+    {/if}
+
+    {#if videoButtonData}
+        <VideoButton videoButton={videoButtonData} {theme} />
     {/if}
 {/if}

@@ -11,15 +11,14 @@
   import { cleanText } from '$lib/utils/textCleaner'
   import { onMount } from 'svelte'
   import { browser } from '$app/environment'
-  import { getSectionClasses, getThemeStyles } from '$lib/utils/sections'
+  import { getThemeStyles } from '$lib/utils/sections'
 
   let gsap: any
   let ScrollTrigger: any
 
   export let data: SalesWhyContentSection
 
-  // Get theme-based styles while preserving section-specific styling
-  const sectionClasses = getSectionClasses('salesWhyContentSection', data.styles)
+  // Get theme-based styles for content
   const theme = getThemeStyles(data.styles?.theme)
 
   let statsContainer: HTMLElement
@@ -185,94 +184,92 @@
   $: sanitizedRightContent = data.rightColumnContent ? sanitizePortableText(data.rightColumnContent) : [];
 </script>
 
-<section class="relative w-full {sectionClasses}">
-  <div class="relative z-10 container px-4 mx-auto">
-    <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
-      <div class="text-center mb-16">
-        {#if data.badge}
-          <CleanText 
-            text={data.badge}
-            className="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow"
-          />
-        {/if}
+<div class="relative z-10 container px-4 mx-auto">
+  <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
+    <div class="text-center mb-16">
+      {#if data.badge}
         <CleanText 
-          text={data.title}
-          tag="h2"
-          className="{theme.headings} text-4xl lg:text-5xl font-bold mb-6"
+          text={data.badge}
+          className="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow"
         />
-      </div>
-
-      <div class="flex flex-wrap -mx-4">
-        <!-- Left Column -->
-        <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
-          <div class="max-w-lg transform">
-            <PortableTextContent 
-              value={sanitizedLeftContent} 
-              components={portableTextComponents}
-              customClass="{theme.text} text-lg"
-            />
-          </div>
-        </div>
-
-        <!-- Right Column -->
-        <div class="w-full lg:w-1/2 px-4">
-          <div class="max-w-lg transform">
-            <PortableTextContent 
-              value={sanitizedRightContent} 
-              components={portableTextComponents}
-              customClass="{theme.text} text-lg"
-            />
-            
-            {#if data.bulletPoints && data.bulletPoints.length > 0}
-              <ul class="space-y-4 mt-6">
-                {#each data.bulletPoints as point}
-                  <li class="flex items-start space-x-3 group">
-                    <span class="flex-shrink-0 mt-1">
-                      <Icon 
-                        name="check" 
-                        size={18} 
-                        className="text-primary-600"
-                      />
-                    </span>
-                    <CleanText 
-                      text={point}
-                      className="{theme.text} text-lg transform group-"
-                    />
-                  </li>
-                {/each}
-              </ul>
-            {/if}
-          </div>
-        </div>
-      </div>
-
-      {#if data.stats && data.stats.length > 0}
-        <!-- Stats with enhanced animations -->
-        <div 
-          bind:this={statsContainer}
-          class="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 shadow-lg"
-        >
-          <!-- Animated background effect -->
-          <div class="absolute inset-0 bg-gradient-to-br from-primary-50/30 to-transparent rounded-2xl 
-            animate-pulse [animation-duration:3s]"></div>
-
-          {#each data.stats as stat, i}
-            <div 
-              bind:this={statsElements[i]}
-              class="relative text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl 
-                rounded-md p-4 bg-white/80 backdrop-blur-sm"
-            >
-              <div class="stat-value text-3xl lg:text-4xl font-bold text-primary-800 mb-2">
-                {stat.value}
-              </div>
-              <CleanText 
-                text={stat.label}
-                className="stat-label text-sm {theme.text} opacity-0"
-              />
-            </div>
-          {/each}
-        </div>
       {/if}
+      <CleanText 
+        text={data.title}
+        tag="h2"
+        className="{theme.headings} text-4xl lg:text-5xl font-bold mb-6"
+      />
     </div>
+
+    <div class="flex flex-wrap -mx-4">
+      <!-- Left Column -->
+      <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
+        <div class="max-w-lg transform">
+          <PortableTextContent 
+            value={sanitizedLeftContent} 
+            components={portableTextComponents}
+            customClass="{theme.text} text-lg"
+          />
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="w-full lg:w-1/2 px-4">
+        <div class="max-w-lg transform">
+          <PortableTextContent 
+            value={sanitizedRightContent} 
+            components={portableTextComponents}
+            customClass="{theme.text} text-lg"
+          />
+          
+          {#if data.bulletPoints && data.bulletPoints.length > 0}
+            <ul class="space-y-4 mt-6">
+              {#each data.bulletPoints as point}
+                <li class="flex items-start space-x-3 group">
+                  <span class="flex-shrink-0 mt-1">
+                    <Icon 
+                      name="check" 
+                      size={18} 
+                      className="text-primary-600"
+                    />
+                  </span>
+                  <CleanText 
+                    text={point}
+                    className="{theme.text} text-lg transform group-"
+                  />
+                </li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
+      </div>
+    </div>
+
+    {#if data.stats && data.stats.length > 0}
+      <!-- Stats with enhanced animations -->
+      <div 
+        bind:this={statsContainer}
+        class="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 shadow-lg"
+      >
+        <!-- Animated background effect -->
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-50/30 to-transparent rounded-2xl 
+          animate-pulse [animation-duration:3s]"></div>
+
+        {#each data.stats as stat, i}
+          <div 
+            bind:this={statsElements[i]}
+            class="relative text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl 
+              rounded-md p-4 bg-white/80 backdrop-blur-sm"
+          >
+            <div class="stat-value text-3xl lg:text-4xl font-bold text-primary-800 mb-2">
+              {stat.value}
+            </div>
+            <CleanText 
+              text={stat.label}
+              className="stat-label text-sm {theme.text} opacity-0"
+            />
+          </div>
+        {/each}
+      </div>
+    {/if}
   </div>
-</section>
+</div>

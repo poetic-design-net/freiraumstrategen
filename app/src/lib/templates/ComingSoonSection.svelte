@@ -8,7 +8,7 @@
     const fallbackImage = '/assets/mesh-gradient.png';
 </script>
 
-<div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+<div class="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0">
         {#if data.backgroundImage}
             <SanityImage
