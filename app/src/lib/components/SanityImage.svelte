@@ -1,23 +1,61 @@
 <script lang="ts">
   import { enhanceUrl } from '$lib/sanity/image';
+  import type { ImageFormat } from '@sanity/image-url/lib/types/types';
   import { onMount, createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
 
   export let value: any;
   export let customClass = '';
-  export let sizes = '100vw'; // Allow custom sizes value
+  export let sizes = '100vw';
+  export let width: number | undefined = undefined;
+  export let height: number | undefined = undefined;
+  export let quality = 75; // Reduced quality for better performance
+  export let format: ImageFormat = 'webp';
+  export let priority = false; // New prop for priority loading
+  export let fetchpriority: 'high' | 'low' | 'auto' = 'auto'; // New prop for resource priority
+  export let blur = true; // Enable blur-up loading by default
 
   let isLoading = true;
   let hasError = false;
   let mounted = false;
+  let imageRef: HTMLImageElement;
+  let blurDataURL: string | null = null;
 
   function sanitizeAlt(text: string | undefined) {
     return text ? text.replace(/[^\w\s]/gi, '').trim() : '';
   }
 
-  // Handle both direct URLs and Sanity references
-  $: imageUrl = value?.asset?.url || (value?.asset?._ref && enhanceUrl(value).url()) || null;
+  // Generate blur data URL for progressive loading
+  $: {
+    if (blur && value?.asset?._ref) {
+      blurDataURL = enhanceUrl(value)
+        .quality(10)
+        .blur(20)
+        .width(20)
+        .format('webp')
+        .url();
+    }
+  }
+
+  // Enhanced URL generation with more aggressive optimizations
+  $: imageUrl = value?.asset?.url || 
+    (value?.asset?._ref && enhanceUrl(value)
+      .auto('format')
+      .quality(quality)
+      .format(format)
+      .width(width || 640) // Reduced default size
+      .url()) || 
+    null;
+  
+  // Generate optimized srcset for responsive images
+  $: srcSet = width ? [
+    enhanceUrl(value).auto('format').quality(quality).format(format).width(Math.floor(width * 0.5)).url() + ` ${Math.floor(width * 0.5)}w`,
+    enhanceUrl(value).auto('format').quality(quality).format(format).width(width).url() + ` ${width}w`,
+    enhanceUrl(value).auto('format').quality(quality).format(format).width(Math.floor(width * 1.5)).url() + ` ${Math.floor(width * 1.5)}w`,
+    enhanceUrl(value).auto('format').quality(quality).format(format).width(Math.floor(width * 2)).url() + ` ${Math.floor(width * 2)}w`,
+  ].join(', ') : '';
+
   $: altText = sanitizeAlt(value?.alt);
   $: className = `block ${customClass}`.trim();
 
@@ -49,26 +87,53 @@
 </script>
 
 {#if imageUrl && mounted}
-  <div class="relative {className}">
+  <div 
+    class="relative {className}" 
+    style={width && height ? `aspect-ratio: ${width}/${height};` : ''}
+  >
     <picture>
+      {#if format === 'webp'}
+        <source
+          type="image/webp"
+          srcset={srcSet || imageUrl}
+          {sizes}
+        />
+      {/if}
       <source
-        type="image/webp"
-        srcset={imageUrl}
+        type="image/jpeg"
+        srcset={srcSet || imageUrl}
         {sizes}
       />
       <img 
+        bind:this={imageRef}
         class="{className} transition-opacity duration-300 {isLoading ? 'opacity-0' : 'opacity-100'}"
         src={imageUrl}
+        srcset={srcSet}
         {sizes}
         alt={altText}
-        loading="lazy"
-        decoding="async"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={fetchpriority}
+        decoding={priority ? 'sync' : 'async'}
+        width={width}
+        height={height}
         on:load={handleLoad}
         on:error={handleError}
       />
     </picture>
     {#if isLoading}
-      <div class="absolute inset-0 bg-gray-100 animate-pulse" />
+      <div 
+        class="absolute inset-0 bg-gray-100 animate-pulse overflow-hidden" 
+        style={width && height ? `aspect-ratio: ${width}/${height};` : ''}
+      >
+        {#if blur && blurDataURL}
+          <img
+            src={blurDataURL}
+            alt=""
+            class="w-full h-full object-cover filter blur-lg transform scale-110"
+            aria-hidden="true"
+          />
+        {/if}
+      </div>
     {/if}
   </div>
 {:else if hasError}

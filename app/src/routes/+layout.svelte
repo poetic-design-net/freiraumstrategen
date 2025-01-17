@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { isPreviewing, VisualEditing } from '@sanity/visual-editing/svelte';
 	import { page } from '$app/stores';
+	import { onMount, onDestroy } from 'svelte';
 	import LiveMode from '$lib/components/LiveMode.svelte';
 	import "../app.pcss";
 	import Header from '$lib/templates/Header.svelte';
 	import Footer from '$lib/templates/Footer.svelte';
 	import { afterNavigate } from '$app/navigation';
-	import CookieConsentComponent from '$lib/cookie/cookieconsent.svelte';
 	import { browser } from '$app/environment';
 	import { cleanText } from '$lib/utils/textCleaner';
 	
@@ -18,9 +18,17 @@
 	export let data;
 	let isArticlePage = false;
 	let ready = false;
+	let scrollProgress = 0;
+	let scrollTimeout: number;
+	let rafId: number;
+	let CookieConsentComponent: any = null;
 
 	if (browser) {
 		ready = true;
+		// Load cookie consent component
+		import('$lib/cookie/cookieconsent.svelte').then(module => {
+			CookieConsentComponent = module.default;
+		});
 	}
 
 	afterNavigate(() => {
@@ -31,20 +39,46 @@
 		}
 	});
 
-	let scrollProgress = 0;
-	
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', () => {
-			const section = document.querySelector('section:has(.sticky)');
-			if (section) {
-				const rect = section.getBoundingClientRect();
-				const viewportHeight = window.innerHeight;
-				const totalHeight = section.offsetHeight + viewportHeight;
-				const scrolled = window.scrollY;
-				scrollProgress = Math.min(Math.max(scrolled / totalHeight, 0), 1);
+	// Optimized scroll handler with debounce and RAF
+	function handleScroll() {
+		if (scrollTimeout) {
+			clearTimeout(scrollTimeout);
+		}
+
+		scrollTimeout = window.setTimeout(() => {
+			if (rafId) {
+				cancelAnimationFrame(rafId);
 			}
-		});
+
+			rafId = requestAnimationFrame(() => {
+				const section = document.querySelector('section:has(.sticky)') as HTMLElement;
+				if (section) {
+					const viewportHeight = window.innerHeight;
+					const totalHeight = section.offsetHeight + viewportHeight;
+					const scrolled = window.scrollY;
+					scrollProgress = Math.min(Math.max(scrolled / totalHeight, 0), 1);
+				}
+			});
+		}, 16); // ~60fps
 	}
+
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			window.addEventListener('scroll', handleScroll, { passive: true });
+		}
+
+		return () => {
+			if (typeof window !== 'undefined') {
+				window.removeEventListener('scroll', handleScroll);
+				if (scrollTimeout) {
+					clearTimeout(scrollTimeout);
+				}
+				if (rafId) {
+					cancelAnimationFrame(rafId);
+				}
+			}
+		};
+	});
 </script>
 
 <Header {data} />	
@@ -56,7 +90,9 @@
 		style="transition-duration: 0.3s"
 	>
 		<slot />
-		<CookieConsentComponent/>
+		{#if browser && CookieConsentComponent}
+			<svelte:component this={CookieConsentComponent} />
+		{/if}
 	</div>
 </main>
 
@@ -69,14 +105,17 @@
 
 <style lang="postcss">
 	:global(body.article-page) {
-    @apply bg-radial-gradient;
-    backface-visibility: hidden;
-  	}
+		@apply bg-radial-gradient;
+		transform: translate3d(0, 0, 0);
+		will-change: transform;
+	}
 	
 	.footer {
 		display: flex;
 		justify-content: flex-end;
 		padding: 0 var(--space-3);
+		transform: translate3d(0, 0, 0);
+		will-change: transform;
 	}
 
 	.footer .footer__text {
@@ -97,23 +136,20 @@
 		backdrop-filter: blur(12px);
 		border-radius: 0.25rem;
 		bottom: 1rem;
-		box-shadow:
-			0 10px 15px -3px rgba(0, 0, 0, 0.1),
-			0 4px 6px -2px rgba(0, 0, 0, 0.05);
+		box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
 		color: #1f2937;
 		display: block;
 		font-size: 0.75rem;
 		font-weight: 500;
 		line-height: 1rem;
-		padding-bottom: 0.5rem;
-		padding-left: 0.75rem;
-		padding-right: 0.75rem;
-		padding-top: 0.5rem;
+		padding: 0.5rem 0.75rem;
 		position: fixed;
 		right: 1rem;
 		text-align: center;
 		text-decoration: none;
 		z-index: 50;
+		transform: translate3d(0, 0, 0);
+		will-change: transform;
 	}
 
 	.preview-toggle:hover {
@@ -135,15 +171,18 @@
 		display: block;
 	}
 
-  .page-transition {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-    transition-delay: 0.1s;
-  }
+	.page-transition {
+		opacity: 0;
+		visibility: hidden;
+		transform: translate3d(0, 10px, 0);
+		transition: opacity 0.3s ease-out, visibility 0.3s ease-out, transform 0.3s ease-out;
+		transition-delay: 0.1s;
+		will-change: transform, opacity;
+	}
 
-  .page-transition.page-ready {
-    opacity: 1;
-    visibility: visible;
-  }
+	.page-transition.page-ready {
+		opacity: 1;
+		visibility: visible;
+		transform: translate3d(0, 0, 0);
+	}
 </style>
