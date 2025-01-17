@@ -86,13 +86,6 @@ export default defineType({
             validation: (Rule) => Rule.required()
           }),
           defineField({
-            name: 'fullText',
-            title: 'Full Description',
-            type: 'text',
-            description: 'Detailed description shown when expanded',
-            validation: (Rule) => Rule.required()
-          }),
-          defineField({
             name: 'icon',
             title: 'Icon',
             type: 'string',

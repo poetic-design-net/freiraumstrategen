@@ -1,22 +1,55 @@
 <script lang="ts">
 	export let portableText;
   
-	// Extrahiere die YouTube-Video-ID
 	const videoUrl = portableText.value?.url || '';
-	const videoId = videoUrl.includes('youtube.com') ? videoUrl.split('v=')[1] : '';
-  
-	const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}` : '';
-  </script>
-  
-  {#if embedUrl}
+	
+	// Funktion zum Extrahieren der Video-ID und Platform
+	function getVideoDetails(url: string) {
+		// YouTube
+		if (url.includes('youtube.com') || url.includes('youtu.be')) {
+			let videoId = '';
+			if (url.includes('v=')) {
+				videoId = url.split('v=')[1];
+				// Handle additional parameters
+				const ampersandPosition = videoId.indexOf('&');
+				if (ampersandPosition !== -1) {
+					videoId = videoId.substring(0, ampersandPosition);
+				}
+			} else if (url.includes('youtu.be/')) {
+				videoId = url.split('youtu.be/')[1];
+			}
+			return {
+				platform: 'youtube',
+				id: videoId,
+				embedUrl: `https://www.youtube.com/embed/${videoId}`
+			};
+		}
+		
+		// Vimeo
+		if (url.includes('vimeo.com')) {
+			const vimeoId = url.split('vimeo.com/')[1];
+			return {
+				platform: 'vimeo',
+				id: vimeoId,
+				embedUrl: `https://player.vimeo.com/video/${vimeoId}`
+			};
+		}
+		
+		return null;
+	}
+
+	const videoDetails = getVideoDetails(videoUrl);
+</script>
+
+{#if videoDetails}
 	<iframe
-	  class="w-full aspect-[16/9] rounded-lg mt-12 mb-12"
-	  src={embedUrl}
-	  title="YouTube-Video"
-	  frameborder="0"
-	  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-	  allowfullscreen
+		class="w-full aspect-[16/9] rounded-lg mt-12 mb-12"
+		src={videoDetails.embedUrl}
+		title={`${videoDetails.platform === 'youtube' ? 'YouTube' : 'Vimeo'}-Video`}
+		frameborder="0"
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+		allowfullscreen
 	></iframe>
-  {:else}
+{:else}
 	<p class="error-message">Video nicht verfügbar oder ungültige URL</p>
-  {/if}
+{/if}

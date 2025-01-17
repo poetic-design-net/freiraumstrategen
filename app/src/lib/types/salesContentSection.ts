@@ -12,6 +12,7 @@ export interface SalesContentSection extends Section {
   badge?: string
   title: string
   subtitle?: string
+  layout?: 'single' | 'double'  // Add layout option
   leftColumn: Column
   rightColumn: Column
   image: {

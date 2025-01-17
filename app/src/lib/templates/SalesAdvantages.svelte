@@ -1,9 +1,12 @@
 <script lang="ts">
   import { slide } from 'svelte/transition'
   import type { SalesAdvantagesSection } from '$lib/types/salesAdvantagesSection'
+  import type { PortableTextComponents } from '@portabletext/svelte'
   import Icon from '$lib/components/icons/Icon.svelte';
   import CleanText from '$lib/components/CleanText.svelte';
   import Button from '$lib/components/Button.svelte';
+  import PortableTextContent from '$lib/components/PortableTextContent.svelte';
+  import CustomListItem from '$lib/components/CustomListItem.svelte';
   import { cleanText } from '$lib/utils/textCleaner';
   import { getThemeStyles } from '$lib/utils/sections'
 
@@ -18,27 +21,13 @@
     expandedAdvantage = expandedAdvantage === index ? null : index
   }
 
-  function formatTextWithChecks(text: string) {
-    // Split text into lines
-    const lines = text.split('\n');
-    
-    // Process each line
-    return lines.map(line => {
-      // Check if line starts with a bullet point
-      if (line.trim().startsWith('•')) {
-        // Replace bullet with check icon and wrap in flex container
-        return `<div class="flex items-start gap-2 my-2">
-          <span class="flex-shrink-0 mt-1">
-            <svg class="w-4 h-4 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
-            </svg>
-          </span>
-          <span>${line.replace('•', '').trim()}</span>
-        </div>`;
-      }
-      return line;
-    }).join('');
-  }
+  const portableTextComponents: PortableTextComponents = {
+    listItem: {
+      bullet: CustomListItem,
+      normal: CustomListItem,
+    }
+  };
+
 </script>
 
 <!-- Content -->
@@ -65,14 +54,14 @@
   </div>
 
   <!-- Advantages Grid -->
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div class="grid gap-8" class:md:grid-cols-2={data.advantages.length >= 2} class:lg:grid-cols-3={data.advantages.length >= 5}>
     {#each data.advantages as advantage, index}
       <div class="h-full">
         <button 
           class="w-full h-full text-left cursor-pointer group"
           on:click={() => toggleAdvantage(index)}
         >
-          <div class="h-full p-8 {theme.background} rounded-3xl shadow transition-all duration-300 hover:shadow-lg hover:{theme.background}/90">
+          <div class="h-full p-8 {theme.background} rounded-lg shadow transition-all duration-300 hover:shadow-lg hover:{theme.background}/90">
             <!-- Content -->
             <div>
               <div class="flex items-start justify-between gap-4 mb-4">
@@ -92,17 +81,33 @@
                   </svg>
                 </div>
               </div>
-              <div class="{theme.text} text-gray-700">
-                {#if expandedAdvantage === index}
-                  <div transition:slide={{ duration: 300 }}>
-                    {@html formatTextWithChecks(cleanText(advantage.fullText))}
-                  </div>
-                {:else}
-                  <CleanText 
-                    text={advantage.shortText}
-                    tag="p"
-                  />
-                {/if}
+              <div class="{theme.text} text-gray-700 relative">
+                <div class="overflow-hidden">
+                  {#if expandedAdvantage === index}
+                    <div 
+                      class="py-2"
+                      transition:slide|local={{ duration: 300 }}
+                    >
+                      <div class="[&_.page-content_:last-child]:mb-0">
+                        <PortableTextContent 
+                          value={advantage.fullText} 
+                          components={portableTextComponents}
+                        />
+                      </div>
+                    </div>
+                  {:else if advantage.shortText}
+                    <div 
+                      class="py-2"
+                      transition:slide|local={{ duration: 300 }}
+                    >
+                      <CleanText 
+                        text={advantage.shortText}
+                        tag="p"
+                        className="mb-0"
+                      />
+                    </div>
+                  {/if}
+                </div>
               </div>
             </div>
           </div>

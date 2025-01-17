@@ -30,7 +30,7 @@
   };
 </script>
 <img class="absolute top-0 right-0" src="saturn-assets/images/features/star-element-right.png" alt="">
-<img class="absolute top-0 left-0 scale-y-[-1]" src="saturn-assets/images/headers/blue-light-left-bottom.png" alt="">
+
 {#if data.enabled !== false && items.length > 0}
   <div class="relative">
 

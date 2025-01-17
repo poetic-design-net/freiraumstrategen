@@ -14,6 +14,20 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'alignment',
+      title: 'Content Alignment',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Left', value: 'left'},
+          {title: 'Center', value: 'center'},
+          {title: 'Right', value: 'right'}
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'left'
+    }),
+    defineField({
       name: 'badge',
       title: 'Badge Text',
       type: 'string',
@@ -28,14 +42,16 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'text',
+      type: 'array',
+      of: [{type: 'block'}],
       description: 'The main descriptive text'
     }),
     defineField({
-      name: 'quote',
-      title: 'Quote',
-      type: 'text',
-      description: 'An inspirational quote to display'
+      name: 'additionalText',
+      title: 'Additional Text',
+      type: 'array',
+      of: [{type: 'block'}],
+      description: 'Additional text content below the main description'
     }),
     defineField({
       name: 'backgroundImage',

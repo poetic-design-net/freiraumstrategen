@@ -6,7 +6,6 @@ export type IconColor = 'primary' | 'blue' | 'green' | 'orange' | 'purple' | 're
 export interface SalesFeature {
   title: string
   shortText: string
-  fullText: string
   icon?: IconType
   iconColor?: IconColor
 }

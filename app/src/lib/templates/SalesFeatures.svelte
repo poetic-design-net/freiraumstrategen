@@ -48,7 +48,7 @@
       case 'time': return 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
       case 'chart': return 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'
       case 'team': return 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
-      case 'education': return 'M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 016.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z'
+      case 'education': return 'M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5'
       case 'structure': return 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'
       case 'strategy': return 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'
       default: return 'M13 10V3L4 14h7v7l9-11h-7z'
@@ -83,13 +83,13 @@
     <!-- Features Grid -->
     <div 
       bind:this={featuresRef}
-      class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+      class="grid gap-8" class:md:grid-cols-2={data.features.length >= 2} class:lg:grid-cols-3={data.features.length >= 5}
     >
       {#each data.features as feature}
         <div class="feature-card group">
-          <div class="relative h-full p-8 bg-white rounded-xl shadow hover:shadow-lg transition-all duration-300">
+          <div class="relative h-full p-8 bg-white rounded-lg shadow hover:shadow-lg transition-all duration-300">
             <!-- Hover Gradient Border -->
-            <div class="absolute inset-0 rounded-xl bg-gradient-to-br {getIconColor(feature.iconColor)} opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 rounded-lg bg-gradient-to-br {getIconColor(feature.iconColor)} opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
             
             <!-- Icon -->
             <div class="w-12 h-12 mb-6 flex items-center justify-center rounded-full bg-gradient-to-br {getIconColor(feature.iconColor)} bg-opacity-10">
@@ -102,7 +102,7 @@
                 <path 
                   stroke-linecap="round" 
                   stroke-linejoin="round" 
-                  stroke-width="2" 
+                  stroke-width="1.5" 
                   d={getIconPath(feature.icon)}
                 />
               </svg>

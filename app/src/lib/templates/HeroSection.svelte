@@ -2,10 +2,10 @@
   import AnimatedGradientText from "$lib/components/AnimatedGradientText.svelte";
   import Button from "$lib/components/Button.svelte";
   import SanityImage from "$lib/components/SanityImage.svelte";
+  import LogoCarousel from "$lib/components/LogoCarousel.svelte";
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import { SplitText, ScrollTrigger } from 'gsap/all';
-  import type { HeroSectionProps } from '$lib/types/heroSection';
 
   export let gradientText: string = "Hier lernst Du mit klarer Strategie und wenig Zeitaufwand.";
   export let button: { text: string; link: string } = { text: 'Kennenlerntour starten', link: '' };
@@ -46,15 +46,21 @@
     const arrowPath = arrowRef?.querySelector('path');
     if (!arrowPath) return;
 
-    // Set initial state
+    // Set initial states
     gsap.set(arrowPath, {
       strokeDasharray: 120,
       strokeDashoffset: 120,
       opacity: 0
     });
+
+    // Set initial state for hero image
+    gsap.set(heroImageRef, {
+      opacity: 0,
+      translateX: 40,
+      force3D: true
+    });
     
     const tl = gsap.timeline({
-      paused: false,
       onComplete: () => {
         tl.kill();
       }
@@ -85,10 +91,12 @@
       duration: 0.6,
       ease: "power2.inOut"
     })
-    .from(heroImageRef, {
-      opacity: 0,
-      x: 40,
-      duration: 0.8
+    .to(heroImageRef, {
+      opacity: 1,
+      translateX: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      force3D: true
     }, "-=0.4")
     .from(statsBoxRef, {
       opacity: 0,
@@ -100,8 +108,6 @@
       y: 20,
       duration: 0.4
     }, "-=0.2");
-
-    tl.play();
 
     return () => {
       mounted = false;
@@ -116,10 +122,6 @@
     from { opacity: 0; }
     to { opacity: 1; }
   }
-  
-  .char {
-    display: inline-block;
-  }
 
   /* Initial States */
   :global(.hero-headline),
@@ -129,12 +131,42 @@
   :global(.hero-partners) {
     opacity: 0;
   }
+
+  .hero-image-wrapper {
+    position: relative;
+    height: 448px;
+    transform: translateZ(0);
+  }
+
+  @media (min-width: 768px) {
+    .hero-image-wrapper {
+      height: 600px;
+    }
+  }
+
+  /* Create a stacking context for the background image */
+  .background-image-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Partner section styles */
+  .partner-section {
+    position: relative;
+    --background-color: 255 255 255; /* For the carousel gradient mask */
+  }
 </style>
-<img 
-  class="absolute bottom-0 left-0 pointer-events-none" 
-  src="saturn-assets/images/headers/blue-light-left-bottom.png" 
-  alt=""
->
+
+<div class="background-image-wrapper">
+  <img 
+    class="pointer-events-none" 
+    src="saturn-assets/images/headers/blue-light-left-bottom.png" 
+    alt=""
+  >
+</div>
 
 <div class="px-4 container sm:h-full-header">
 <div class="relative isolate overflow-hidden">
@@ -176,18 +208,12 @@
               </div>
             </div>
             {#if partners.heading || partners.logos.length > 0}
-              <div bind:this={partnerSectionRef}>
+              <div bind:this={partnerSectionRef} class="partner-section">
                 {#if partners.heading}
-                  <span class="block mb-2 text-sm font-medium text-gray-500">{partners.heading}</span>
+                  <span class="block mb-4 text-sm font-medium text-gray-500">{partners.heading}</span>
                 {/if}
                 {#if partners.logos.length > 0}
-                  <div class="flex items-center -mx-4">
-                    {#each partners.logos as logo}
-                      <div class="w-1/3 px-4">
-                        <SanityImage value={logo.image} />
-                      </div>
-                    {/each}
-                  </div>
+                  <LogoCarousel logos={partners.logos} />
                 {/if}
               </div>
             {/if}
@@ -195,16 +221,11 @@
         </div>
         <div class="w-full lg:w-1/2 px-4">
           <div bind:this={heroImageRef} class="relative max-w-xl lg:max-w-lg mx-auto lg:mr-0">
-            <img 
-              class="absolute bottom-0 left-0 -ml-64 opacity-10 pointer-events-none" 
-              src="saturn-assets/images/headers/star-dark-right.svg" 
-              alt=""
-            >
-            <div class="relative">
+            <div class="relative hero-image-wrapper">
               {#if heroImage && mounted}
                 <SanityImage 
                   value={heroImage} 
-                  customClass="relative block h-[448px] md:h-[600px] object-cover rounded-lg w-full"
+                  customClass="absolute inset-0 w-full h-full object-cover rounded-lg"
                 />
               {/if}
             </div>

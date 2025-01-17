@@ -5,3 +5,4 @@ export * from './queries/posts';
 export * from './queries/navigation';
 export * from './queries/testimonials';
 export * from './queries/faq';
+export * from './queries/team';

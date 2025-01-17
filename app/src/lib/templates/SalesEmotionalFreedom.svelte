@@ -3,6 +3,7 @@
   import SanityImage from '$lib/components/SanityImage.svelte'
   import Icon from '$lib/components/icons/Icon.svelte';
   import CleanText from '$lib/components/CleanText.svelte';
+  import PortableTextContent from '$lib/components/PortableTextContent.svelte';
   import Button from '$lib/components/Button.svelte';
   import { getThemeStyles } from '$lib/utils/sections'
 
@@ -23,7 +24,7 @@
 </div>
 
 <!-- Overlay Layer -->
-<div class="absolute inset-0 w-full h-full bg-black/40"></div>
+<div class="absolute inset-0 w-full h-full bg-black/60"></div>
 
 <!-- Content Layer -->
 <div class="relative z-10 w-full min-h-[80vh] flex items-center">
@@ -41,18 +42,14 @@
         className="{theme.headings} text-4xl lg:text-5xl font-bold text-white mb-6"
       />
       {#if data.description}
-        <CleanText 
-          text={data.description}
-          tag="p"
-          className="{theme.text} text-xl text-white mb-8"
-        />
+        <div class="{theme.text} text-xl text-white mb-8">
+          <PortableTextContent value={data.description} />
+        </div>
       {/if}
       {#if data.additionalText}
-        <CleanText 
-          text={data.additionalText}
-          tag="p"
-          className="{theme.text} text-lg text-white/90"
-        />
+        <div class="{theme.text} text-lg text-white/90">
+          <PortableTextContent value={data.additionalText} />
+        </div>
       {/if}
       {#if data.ctaButton}
         <div class="mt-8">

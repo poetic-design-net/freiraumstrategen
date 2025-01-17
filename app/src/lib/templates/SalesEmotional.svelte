@@ -25,7 +25,11 @@
   
   <!-- Content Layer -->
   <div class="container px-4 mx-auto relative z-10">
-    <div class="max-w-3xl mr-auto">
+    <div class="max-w-3xl {
+      data.alignment === 'right' ? 'ml-auto text-right' : 
+      data.alignment === 'center' ? 'mx-auto text-center' : 
+      'mr-auto text-left'
+    }">
       {#if data.badge}
         <CleanText 
           text={data.badge}
@@ -51,7 +55,11 @@
         />
       {/if}
       {#if data.ctaButton}
-        <div class="mt-8">
+        <div class="mt-8 {
+          data.alignment === 'right' ? 'flex justify-end' : 
+          data.alignment === 'center' ? 'flex justify-center' : 
+          ''
+        }">
           <Button 
             text={data.ctaButton.text}
             href={data.ctaButton.link}

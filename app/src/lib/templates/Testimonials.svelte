@@ -2,12 +2,14 @@
   import { fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import { onMount } from 'svelte';
+  import NavigationDots from '$lib/components/navigation/NavigationDots.svelte';
 
   export let testimonials;
   let currentIndex = 0;
   let container: HTMLElement;
   let cardWidth: number;
   let visibleCards: number;
+  let isAnimating = false;
 
   function updateDimensions() {
     if (container) {
@@ -18,6 +20,7 @@
 
   function scrollToIndex(index: number) {
     if (container) {
+      isAnimating = true;
       updateDimensions();
       const maxIndex = Math.max(0, testimonials.length - visibleCards);
       const targetIndex = Math.min(Math.max(0, index), maxIndex);
@@ -29,6 +32,21 @@
       });
 
       currentIndex = targetIndex;
+      
+      // Reset isAnimating after animation completes
+      setTimeout(() => {
+        isAnimating = false;
+      }, 500); // Match this with your scroll behavior duration
+    }
+  }
+
+  function handleScroll() {
+    if (container && !isAnimating) {
+      const scrollPosition = container.scrollLeft;
+      const newIndex = Math.round(scrollPosition / cardWidth);
+      if (newIndex !== currentIndex) {
+        currentIndex = newIndex;
+      }
     }
   }
 
@@ -36,9 +54,11 @@
     if (container) {
       updateDimensions();
       window.addEventListener('resize', updateDimensions);
+      container.addEventListener('scroll', handleScroll);
 
       return () => {
         window.removeEventListener('resize', updateDimensions);
+        container.removeEventListener('scroll', handleScroll);
       };
     }
   });
@@ -88,15 +108,12 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-center pt-8">
-      {#each testimonials as _, i}
-        <button 
-          on:click={() => scrollToIndex(i)} 
-          class="mx-1 w-2 h-2 rounded-full transition-all duration-300 {i === currentIndex ? 'bg-primary-900 w-4' : 'bg-gray-300 hover:bg-primary-200'}"
-          aria-label="Gehe zu Slide {i + 1}"
-        ></button>
-      {/each}
-    </div>
+    <NavigationDots
+      totalSlides={testimonials?.length ?? 0}
+      {currentIndex}
+      onDotClick={scrollToIndex}
+      {isAnimating}
+    />
   </div>
 </div>
 

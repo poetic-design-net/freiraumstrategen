@@ -8,7 +8,7 @@
 </script>
 
 <div class="h-full">
-  <div class="px-12 py-12 xs:pl-12 xs:pr-14 bg-gray-100 rounded-3xl h-full">
+  <div class="px-12 py-12 xs:pl-12 xs:pr-14 bg-white border rounded-xl h-full">
     <div class="flex flex-col lg:flex-row items-start">
   
 

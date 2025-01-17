@@ -43,6 +43,20 @@ export default defineType({
         overflow: true
       }
     }),
+    defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      group: 'styles',
+      options: {
+        list: [
+          { title: 'Two Columns', value: 'two-columns' },
+          { title: 'Single Column', value: 'single-column' }
+        ]
+      },
+      initialValue: 'two-columns',
+      description: 'Choose between single or two column layout'
+    }),
     anchorField,
     defineField({
       name: 'badge',
@@ -69,6 +83,8 @@ export default defineType({
       name: 'modules',
       title: 'Curriculum Modules',
       type: 'array',
+      validation: Rule => Rule.required(),
+      initialValue: [],
       of: [{
         type: 'object',
         name: 'module',
@@ -77,6 +93,26 @@ export default defineType({
             name: 'week',
             title: 'Week Number',
             type: 'number'
+          }),
+          defineField({
+            name: 'date',
+            title: 'Module Date',
+            type: 'date',
+            description: 'The date when this module takes place'
+          }),
+          defineField({
+            name: 'startTime',
+            title: 'Start Time',
+            type: 'string',
+            description: 'Start time of the module (e.g. 14:00)',
+            validation: Rule => Rule.regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).error('Please enter a valid time in 24h format (HH:MM)')
+          }),
+          defineField({
+            name: 'endTime',
+            title: 'End Time',
+            type: 'string',
+            description: 'End time of the module (e.g. 16:00)',
+            validation: Rule => Rule.regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).error('Please enter a valid time in 24h format (HH:MM)')
           }),
           defineField({
             name: 'title',
@@ -93,6 +129,27 @@ export default defineType({
             title: 'Topics',
             type: 'array',
             of: [{type: 'string'}]
+          }),
+          defineField({
+            name: 'badge',
+            title: 'Module Badge',
+            type: 'string',
+            description: 'Optional badge text shown at the bottom of the module'
+          }),
+          defineField({
+            name: 'badgeIcon',
+            title: 'Badge Icon',
+            type: 'string',
+            options: {
+              list: [
+                {title: 'Rocket', value: 'rocket'},
+                {title: 'Star', value: 'star'},
+                {title: 'Education', value: 'education'},
+                {title: 'Strategy', value: 'strategy'},
+                {title: 'Check', value: 'check'}
+              ]
+            },
+            description: 'Choose an icon to display next to the badge text'
           })
         ]
       }],
@@ -153,12 +210,13 @@ export default defineType({
       title: 'title',
       subtitle: 'subtitle',
       enabled: 'enabled',
-      styles: 'styles'
+      styles: 'styles',
+      layout: 'layout'
     },
-    prepare({title, subtitle, enabled, styles}) {
+    prepare({title, subtitle, enabled, styles, layout}) {
       return {
         title: title || 'Sales Curriculum Section',
-        subtitle: `${enabled ? '✓' : '✗'} | Theme: ${styles?.theme || 'default'}`,
+        subtitle: `${enabled ? '✓' : '✗'} | Theme: ${styles?.theme || 'default'} | Layout: ${layout || 'two-columns'}`,
         media: BlockElementIcon
       }
     }
