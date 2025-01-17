@@ -1,7 +1,6 @@
 <script lang="ts">
 import Button from "$lib/components/Button.svelte";
 import SanityImage from "$lib/components/SanityImage.svelte";
-import PortableTextContent from "$lib/components/PortableTextContent.svelte";
 import type { UberunsTeamSection } from "$lib/types/uberunsTeamSection";
 
 export let data: UberunsTeamSection;
@@ -23,11 +22,10 @@ export let data: UberunsTeamSection;
             </h1>
           </div>
         </div>
-
         <div class="w-full xl:w-1/2 px-4">
           <div class="max-w-md xl:ml-auto">
             {#if data.description}
-              <p class="text-md text-gray-600 mb-6">{data.description}</p>
+              <p class="text-lg text-gray-600 mb-6">{data.description}</p>
             {/if}
             {#if data.cta}
               <a 
@@ -44,13 +42,6 @@ export let data: UberunsTeamSection;
             {/if}
           </div>
         </div>
-        {#if data.fullWidthText}
-        <div class="w-full px-4 mt-12">
-          <div class="mx-auto prose prose-lg text-lg">
-            <PortableTextContent value={data.fullWidthText} />
-          </div>
-        </div>
-      {/if}
       </div>
       <div class="flex flex-wrap -mx-6 -mb-16">
         {#each data.teamMembers as member}
@@ -58,7 +49,7 @@ export let data: UberunsTeamSection;
             {#if member.image}
               <SanityImage
                 value={member.image}
-                customClass="mb-6 w-full aspect-[4/3] object-cover rounded-3xl"
+                customClass="mb-6 w-full aspect-16/9 object-cover rounded-3xl"
               />
             {/if}
             <h5 class="text-2xl font-semibold text-gray-900 mb-4">{member.name}</h5>

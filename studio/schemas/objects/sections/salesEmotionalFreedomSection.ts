@@ -61,14 +61,16 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'text',
+      type: 'array',
+      of: [{type: 'block'}],
       description: 'The main descriptive text',
       group: 'content'
     }),
     defineField({
       name: 'additionalText',
       title: 'Additional Text',
-      type: 'text',
+      type: 'array',
+      of: [{type: 'block'}],
       description: 'Secondary descriptive text',
       group: 'content'
     }),

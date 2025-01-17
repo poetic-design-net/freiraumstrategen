@@ -26,3 +26,4 @@ export { default as SalesForWho } from '$lib/templates/SalesForWho.svelte';
 export { default as SalesPricing } from '$lib/templates/SalesPricing.svelte';
 export { default as SectionContainer } from './SectionContainer.svelte';
 export { default as SectionRenderer } from './SectionRenderer.svelte';
+export { default as UberunsTeamSection } from '$lib/templates/UberunsTeamSection.svelte';

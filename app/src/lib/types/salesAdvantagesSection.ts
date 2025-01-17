@@ -1,9 +1,10 @@
 import type { Section } from '$lib/sanity/queries/types'
+import type { PortableTextBlock } from '@portabletext/types'
 
 export interface SalesAdvantage {
   title: string
-  shortText: string
-  fullText: string
+  shortText?: string
+  fullText: PortableTextBlock[]
 }
 
 export interface SalesAdvantagesButton {

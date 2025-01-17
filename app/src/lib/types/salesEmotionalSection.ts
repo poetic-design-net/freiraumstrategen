@@ -12,6 +12,7 @@ export interface SalesEmotionalSection extends Section {
   title: string
   description?: string
   quote?: string
+  alignment?: 'left' | 'center' | 'right'
   backgroundImage: {
     _type: 'image'
     asset: SanityImageSource

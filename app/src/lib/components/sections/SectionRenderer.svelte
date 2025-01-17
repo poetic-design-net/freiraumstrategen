@@ -29,9 +29,11 @@
         getContentSectionAltProps,
         isStepSection,
         getStepSectionProps,
-        getBlogSectionProps,
-        getKachelSectionProps,
-        getComingSoonProps
+    getBlogSectionProps,
+    getKachelSectionProps,
+    getComingSoonProps,
+    isUberunsTeamSection,
+    getUberunsTeamProps
     } from '$lib/utils/sections/index';
     import { 
         isSalesHeroSection, 
@@ -83,7 +85,8 @@
         SalesFeatures,
         SalesForWho,
         SalesPricing,
-        SalesWhyContent
+        SalesWhyContent,
+        UberunsTeamSection
     } from '.';
     import ComingSoonSection from '$lib/templates/ComingSoonSection.svelte';
 
@@ -206,6 +209,10 @@
     {:else if isBlogSection(section)}
         <SectionContainer {section}>
             <BlogSection {...getBlogSectionProps({ ...section, posts })} />
+        </SectionContainer>
+    {:else if isUberunsTeamSection(section)}
+        <SectionContainer {section}>
+            <UberunsTeamSection data={getUberunsTeamProps(section)} />
         </SectionContainer>
     {/if}
 {/if}

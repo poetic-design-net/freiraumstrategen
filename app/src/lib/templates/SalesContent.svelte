@@ -64,7 +64,7 @@
           {cleanText(data.badge)}
         </span>
       {/if}
-      <h2 class="{theme.headings} text-3xl lg:text-4xl font-bold mb-8">
+      <h2 class="{theme.headings} text-3xl max-w-2xl mx-auto lg:text-4xl font-bold mb-8">
         {cleanText(data.title)}</h2>
 
         {#if data.subtitle}
@@ -74,10 +74,10 @@
         {/if}
     </div>
 
-    <div class="flex flex-wrap -mx-4">
-      <!-- Left Column -->
-      <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
-        <div class="max-w-lg">
+    {#if data.layout === 'single'}
+      <!-- Single Column Layout -->
+      <div class="max-w-5xl mx-auto px-4">
+        <div>
           <PortableTextContent 
             value={sanitizedLeftContent} 
             components={portableTextComponents}
@@ -85,25 +85,39 @@
           />
         </div>
       </div>
+    {:else}
+      <!-- Double Column Layout (Default) -->
+      <div class="flex flex-wrap -mx-4">
+        <!-- Left Column -->
+        <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
+          <div class="max-w-lg">
+            <PortableTextContent 
+              value={sanitizedLeftContent} 
+              components={portableTextComponents}
+              customClass="{theme.text} text-lg"
+            />
+          </div>
+        </div>
 
-      <!-- Right Column -->
-      <div class="w-full lg:w-1/2 px-4">
-        <div class="max-w-lg">
-          <PortableTextContent 
-            value={sanitizedRightContent} 
-            components={portableTextComponents}
-            customClass="{theme.text} text-lg"
-          />
+        <!-- Right Column -->
+        <div class="w-full lg:w-1/2 px-4">
+          <div class="max-w-lg">
+            <PortableTextContent 
+              value={sanitizedRightContent} 
+              components={portableTextComponents}
+              customClass="{theme.text} text-lg"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    {/if}
 
     <!-- Image Box with Benefits -->
-    {#if data.image || data.benefits?.length > 0}
+    {#if (data.image && data.image.asset) || data.benefits?.length > 0}
       <div class="{boxTheme.background} mt-12 shadow-lg rounded-lg overflow-hidden">
-        <div class="flex flex-col md:flex-row">
+        <div class="flex flex-col md:flex-row {!data.image?.asset && data.benefits?.length ? 'md:justify-center' : ''}">
           <!-- Image -->
-          {#if data.image}
+          {#if data.image?.asset}
             <div class="md:w-1/2">
               <SanityImage
                 value={data.image}
@@ -127,7 +141,7 @@
                     <Icon 
                       name="check" 
                       size={18} 
-                      className="text-primary-600 mt-1"
+                      className="text-primary-600 flex-shrink-0 align-self-start"
                     />
                     <span class="{theme.text} text-base">{cleanText(benefit)}</span>
                   </li>

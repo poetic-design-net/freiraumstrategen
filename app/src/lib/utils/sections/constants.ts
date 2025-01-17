@@ -246,10 +246,8 @@ export function getSectionClasses(type: string, customStyles?: SectionStyles): s
     ...sectionStyles,
     ...customStyles,
     padding: mergedPadding,
-    // Merge customClasses properly
-    customClasses: [sectionStyles.customClasses, customStyles?.customClasses]
-      .filter(Boolean)
-      .join(' ')
+    // Use only the custom classes from the merged styles, not both
+    customClasses: customStyles?.customClasses || sectionStyles.customClasses
   };
 
   return getSectionThemeClasses(styles);

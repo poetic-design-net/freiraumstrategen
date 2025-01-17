@@ -84,13 +84,22 @@ export default defineType({
               name: 'shortText',
               title: 'Short Description',
               type: 'text',
-              description: 'Brief description shown initially',
-              validation: (Rule) => Rule.required(),
+              description: 'Brief description shown initially (optional)',
             }),
             defineField({
               name: 'fullText',
               title: 'Full Description',
-              type: 'text',
+              type: 'array',
+              of: [{ 
+                type: 'block',
+                styles: [],
+                lists: [
+                  {title: 'Bullet', value: 'bullet'}
+                ],
+                marks: {
+                  decorators: []
+                }
+              }],
               description: 'Detailed description shown when expanded',
               validation: (Rule) => Rule.required(),
             }),

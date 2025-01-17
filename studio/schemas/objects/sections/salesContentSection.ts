@@ -67,6 +67,21 @@ export default defineType({
       group: 'content'
     }),
     defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      description: 'Choose between single column (centered) or double column layout',
+      options: {
+        list: [
+          { title: 'Single Column', value: 'single' },
+          { title: 'Double Column', value: 'double' }
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'double',
+      group: 'content'
+    }),
+    defineField({
       name: 'leftColumnContent',
       title: 'Left Column Content',
       description: 'Rich text content for the left column with formatting options',

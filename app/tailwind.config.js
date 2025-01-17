@@ -36,8 +36,9 @@ export default {
 	  backgroundImage: {
 		'radial-gradient': 'radial-gradient(446.50% 301.92% at 50.09% 3.49%, #002c33 13.21%, #0b8695 27.92%, #000 34.17%)',
 	},
-	  aspectRatio: {
+          aspectRatio: {
         '21/9': '21 / 9',
+        '16/9': '16 / 9',
       },
 	  margin: {
         '-15': '-60px', // Benutzerdefinierte Klasse -mb-15 für -60px

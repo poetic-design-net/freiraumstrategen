@@ -12,6 +12,12 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'fullWidthText',
+      title: 'Volle Breite Text',
+      type: 'blockContent',
+      description: 'Ein Text der die volle Breite unter dem Titel einnimmt'
+    }),
+    defineField({
       name: 'headline',
       title: 'Überschrift',
       type: 'object',

@@ -6,6 +6,7 @@ import { testimonialsSectionFields } from '../sections/testimonialsSection';
 import { kachelSectionFields } from '../sections/kachelSection';
 import { featuresSectionFields } from '../sections/featuresSection';
 import { salesHeroSectionFields } from '../sections/salesHeroSection';
+import { salesCurriculumSectionFields } from '../sections/salesCurriculumSection';
 
 const expandImage = (fieldName: string) => groq`
   ${fieldName} {
@@ -25,6 +26,9 @@ export const landingPageQuery = groq`*[_type == "landingPage" && slug.current ==
     ...,
     _type == 'salesHeroSection' => {
       ${salesHeroSectionFields}
+    },
+    _type == 'salesCurriculumSection' => {
+      ${salesCurriculumSectionFields}
     },
     _type == 'testimonialsSection' => {
       ${testimonialsSectionFields}

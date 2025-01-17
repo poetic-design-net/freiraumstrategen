@@ -1,5 +1,6 @@
 import type { Section } from '$lib/sanity/queries/types'
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types"
+import type { PortableTextBlock } from '@portabletext/types'
 
 export interface SalesEmotionalFreedomButton {
   text: string
@@ -10,8 +11,8 @@ export interface SalesEmotionalFreedomSection extends Section {
   _type: 'salesEmotionalFreedomSection'
   badge?: string
   title: string
-  description?: string
-  additionalText?: string
+  description?: PortableTextBlock[]
+  additionalText?: PortableTextBlock[]
   backgroundImage: {
     _type: 'image'
     asset: SanityImageSource

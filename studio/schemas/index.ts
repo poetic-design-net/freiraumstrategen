@@ -12,6 +12,7 @@ import legal from './documents/legal'
 import seo from './objects/seo'
 import landingPage from './documents/landingPage'
 import sectionStyles from './objects/sectionStyles'
+import textAlignment from './objects/textAlignment'
 
 // Import section schemas
 import heroSection from './objects/sections/heroSection'
@@ -70,6 +71,7 @@ export const schemaTypes = [
   likes,
   seo,
   sectionStyles,
+  textAlignment,
   
   // Section Schemas
   heroSection,

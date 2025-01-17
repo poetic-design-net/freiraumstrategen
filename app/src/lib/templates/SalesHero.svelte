@@ -84,10 +84,12 @@
   <!-- Background -->
   <div class="absolute inset-0 -z-10">
     {#if data.backgroundImage}
-      <SanityImage
-        value={data.backgroundImage}
-        customClass="w-full h-full object-cover hero-bg"
-      />
+      <div class="relative block w-full h-full">
+        <SanityImage
+          value={data.backgroundImage}
+          customClass="absolute inset-0 w-full h-full object-cover hero-bg"
+        />
+      </div>
     {/if}
     <div class="absolute inset-0 backdrop-blur-[6px]"></div>
 
@@ -115,12 +117,13 @@
           className="{theme.headings} font-heading text-4xl xs:text-5xl md:text-6xl xl:text-7xl font-bold"
         />
       </div>
+       <!-- Subtitle -->
       {#if data.subheadline}
         <div bind:this={subheadlineRef}>
           <CleanText 
             text={data.subheadline}
             tag="p"
-            className="{theme.text} text-2xl md:text-3xl font-light opacity-95"
+            className="{theme.text} text-xl font-light opacity-95"
           />
         </div>
       {/if}
@@ -128,17 +131,17 @@
 
     <!-- Stats -->
     {#if data.stats && data.stats.length > 0}
-      <div bind:this={statsBoxRef} class="w-full max-w-3xl mt-8">
+      <div bind:this={statsBoxRef} class="w-full max-w-4xl mt-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
           {#each data.stats as stat}
             <div class="text-center">
               <CleanText 
                 text={stat.value}
-                className="block text-2xl font-bold bg-gradient-to-br from-primary-400 to-primary-600 bg-clip-text text-transparent"
+                className="block text-2xl font-medium bg-gradient-to-br from-primary-400 to-primary-600 bg-clip-text text-transparent"
               />
               <CleanText 
                 text={stat.label}
-                className="{theme.text} block text-sm font-medium mt-1 opacity-95"
+                className="{theme.text} block text-sm  mt-1 opacity-95"
               />
             </div>
           {/each}
@@ -151,14 +154,14 @@
       <div bind:this={descriptionRef} class="mt-8">
         <CleanText 
           text={data.description}
-          tag="p"
-          className="{theme.text} text-lg md:text-xl opacity-95 max-w-3xl mx-auto"
+          tag="span"
+          className="{theme.text} text-lg md:text-xl font-light opacity-95 max-w-4xl mx-auto"
         />
       </div>
     {/if}
 
     <!-- CTA Buttons -->
-    <div class="cta-container flex flex-wrap gap-4 justify-center mt-8">
+    <div class="cta-container flex flex-wrap gap-4 justify-center mt-12">
       {#if data.primaryCTA}
         <a 
           href={data.primaryCTA.link}
