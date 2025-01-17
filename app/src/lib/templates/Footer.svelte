@@ -26,7 +26,7 @@
         </div>
         <div class="w-full lg:w-1/2 px-4">
           <div class="max-w-md mx-auto lg:mr-0">
-            <p class="text-2xl font-semibold text-gray-900 mb-16">Maybe your question is have been answered, check this out.</p>
+            <p class="text-2xl font-semibold text-gray-900 mb-16">Vielleicht wurde Ihre Frage bereits beantwortet, schauen Sie hier nach.</p>
             <div class="pb-5 mb-5 border-b border-gray-200">
               <a class="group flex items-center justify-between" href="/">
                 <span class="text-lg text-gray-500 group-hover:text-primary-900">Was genau ist ein Freiraumstratege?</span>
@@ -76,8 +76,8 @@
               <img src="/saturn-assets/images/footers/icon-linkedin.svg" alt="">
             </a>
           </div>
-          <div class="flex mb-6 lg:mb-0 items-center"><a class="inline-block mr-4 sm:mr-10 text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Privacy Policy</a><a class="inline-block mr-4 sm:mr-10 text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Terms & Conditions</a><a class="inline-block text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Support</a></div>
-          <span class="inline-block ml-auto text-sm text-gray-500">© All Rights Reserved</span>
+          <div class="flex mb-6 lg:mb-0 items-center"><a class="inline-block mr-4 sm:mr-10 text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Datenschutz</a><a class="inline-block mr-4 sm:mr-10 text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">AGB</a><a class="inline-block text-sm font-semibold text-gray-500 hover:text-gray-600" href="/">Support</a></div>
+          <span class="inline-block ml-auto text-sm text-gray-500">© Alle Rechte vorbehalten</span>
         </div>
       </div>
     </div>
