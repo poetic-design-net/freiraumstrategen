@@ -56,17 +56,25 @@
               {#each navigationItems as item}
                 <li>
                   {#if item.columns}
-                    <button 
-                      class="flex items-center justify-between w-full p-3 text-gray-900 hover:bg-primary-50 rounded-lg transition-colors duration-200"
-                      on:click={() => toggleSubmenu(item._key)}
-                    >
-                      <span class="text-base font-medium">{item.title}</span>
-                      <Icon 
-                        name="chevron-down"
-                        size={16}
-                        className="transform transition-transform duration-300 {activeSubmenu === item._key ? 'rotate-180' : ''}"
-                      />
-                    </button>
+                    <div class="flex items-center justify-between w-full">
+                      <a 
+                        href={item.path || `/${item.title.toLowerCase()}`}
+                        class="flex-grow p-3 text-base font-medium text-gray-900 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                        on:click={handleClose}
+                      >
+                        {item.title}
+                      </a>
+                      <button 
+                        class="p-3 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                        on:click={() => toggleSubmenu(item._key)}
+                      >
+                        <Icon 
+                          name="chevron-down"
+                          size={16}
+                          className="transform transition-transform duration-300 {activeSubmenu === item._key ? 'rotate-180' : ''}"
+                        />
+                      </button>
+                    </div>
                     {#if activeSubmenu === item._key}
                       <div 
                         transition:slide={{ duration: 300, easing: cubicOut }}

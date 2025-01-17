@@ -47,16 +47,18 @@
         {#each items as item}
           <li class="group relative">
             <a
-              href={item.path}
+              href={item.path || `/${item.title.toLowerCase()}`}
               class="inline-block text-sm text-primary-800 hover:text-primary-600"
               on:mouseenter={() => handleMouseEnter(item)} 
               aria-expanded={$headerStore.activeMenu === item._key}>
               {item.title}
-              <Icon 
-                name="chevron-down" 
-                size={16} 
-                className="inline-block ms-1 transition-transform duration-200 {$headerStore.activeMenu === item._key ? 'rotate-180' : ''}"
-              />
+              {#if item.columns}
+                <Icon 
+                  name="chevron-down" 
+                  size={16} 
+                  className="inline-block ms-1 transition-transform duration-200 {$headerStore.activeMenu === item._key ? 'rotate-180' : ''}"
+                />
+              {/if}
             </a>
             
             {#if $headerStore.activeMenu === item._key && item.columns}

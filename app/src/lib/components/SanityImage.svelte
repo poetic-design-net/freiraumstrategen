@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { enhanceUrl } from '$lib/sanity/image';
+  import { enhanceUrl, getResponsiveImage } from '$lib/sanity/image';
   import type { ImageFormat } from '@sanity/image-url/lib/types/types';
   import { onMount, createEventDispatcher } from 'svelte';
 
@@ -7,7 +7,7 @@
 
   export let value: any;
   export let customClass = '';
-  export let sizes = '100vw';
+  export let sizes = '(min-width: 1024px) 1024px, (min-width: 768px) 768px, (min-width: 640px) 640px, (min-width: 480px) 480px, (min-width: 320px) 320px, 100vw';
   export let width: number | undefined = undefined;
   export let height: number | undefined = undefined;
   export let quality = 75; // Reduced quality for better performance
@@ -33,28 +33,16 @@
         .quality(10)
         .blur(20)
         .width(20)
-        .format('webp')
         .url();
     }
   }
 
-  // Enhanced URL generation with more aggressive optimizations
-  $: imageUrl = value?.asset?.url || 
-    (value?.asset?._ref && enhanceUrl(value)
-      .auto('format')
-      .quality(quality)
-      .format(format)
-      .width(width || 640) // Reduced default size
-      .url()) || 
-    null;
+  // Get responsive image data
+  $: responsiveImageData = value?.asset?._ref ? getResponsiveImage(value) : null;
   
-  // Generate optimized srcset for responsive images
-  $: srcSet = width ? [
-    enhanceUrl(value).auto('format').quality(quality).format(format).width(Math.floor(width * 0.5)).url() + ` ${Math.floor(width * 0.5)}w`,
-    enhanceUrl(value).auto('format').quality(quality).format(format).width(width).url() + ` ${width}w`,
-    enhanceUrl(value).auto('format').quality(quality).format(format).width(Math.floor(width * 1.5)).url() + ` ${Math.floor(width * 1.5)}w`,
-    enhanceUrl(value).auto('format').quality(quality).format(format).width(Math.floor(width * 2)).url() + ` ${Math.floor(width * 2)}w`,
-  ].join(', ') : '';
+  // Use responsive image data or fallback to asset URL
+  $: imageUrl = value?.asset?.url || responsiveImageData?.src || null;
+  $: srcSet = responsiveImageData?.srcSet || '';
 
   $: altText = sanitizeAlt(value?.alt);
   $: className = `block ${customClass}`.trim();
