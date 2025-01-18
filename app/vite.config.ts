@@ -8,21 +8,7 @@ export default defineConfig({
     include: ['gsap', 'gsap/all']
   },
   build: {
-    target: 'esnext',
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          // Create a chunk for GSAP
-          if (id.includes('gsap')) {
-            return 'gsap';
-          }
-          // Create a chunk for Sanity
-          if (id.includes('@sanity')) {
-            return 'sanity';
-          }
-        }
-      }
-    }
+    target: 'esnext'
   },
   resolve: {
     mainFields: ['browser', 'module', 'main'],
