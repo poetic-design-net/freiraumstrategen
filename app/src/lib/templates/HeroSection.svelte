@@ -41,73 +41,70 @@
     gsap.registerPlugin(ScrollTrigger, SplitText);
 
     const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
-    
-    // Get the arrow path element directly
     const arrowPath = arrowRef?.querySelector('path');
     if (!arrowPath) return;
 
-    // Set initial states
+    // Batch initial states for better performance
+    gsap.set([gradientTextRef, buttonRef, partnerSectionRef], { 
+      opacity: 0,
+      y: 20
+    });
+    
+    gsap.set(splitHeadline.chars, { 
+      opacity: 0,
+      y: 20
+    });
+
     gsap.set(arrowPath, {
       strokeDasharray: 120,
       strokeDashoffset: 120,
       opacity: 0
     });
 
-    // Set initial state for hero image
     gsap.set(heroImageRef, {
       opacity: 0,
       translateX: 40,
       force3D: true
     });
-    
+
+    gsap.set(statsBoxRef, {
+      opacity: 0,
+      scale: 0.8
+    });
+
+    // Batch animations for better performance
     const tl = gsap.timeline({
-      onComplete: () => {
-        tl.kill();
+      defaults: { 
+        ease: "power2.out",
+        duration: 0.4
       }
     });
-    
-    tl.from(gradientTextRef, { 
-      opacity: 0, 
-      y: 20,
-      duration: 0.6
+
+    // Animate in parallel where possible
+    tl.to([gradientTextRef, buttonRef], { 
+      opacity: 1,
+      y: 0,
     })
-    .from(splitHeadline.chars, {
-      opacity: 0,
-      y: 20,
-      stagger: 0.02,
-      duration: 0.4
-    }, "-=0.4")
-    .from(buttonRef, {
-      opacity: 0,
-      y: 20,
-      duration: 0.4
-    }, "-=0.4")
+    .to(splitHeadline.chars, {
+      opacity: 1,
+      y: 0,
+      stagger: 0.01 // Reduced stagger time
+    }, "<")
     .to(arrowPath, {
       opacity: 1,
-      duration: 0.1
-    })
-    .to(arrowPath, {
       strokeDashoffset: 0,
-      duration: 0.6,
-      ease: "power2.inOut"
-    })
-    .to(heroImageRef, {
+      duration: 0.3
+    }, "<+=0.2")
+    .to([heroImageRef, statsBoxRef], {
       opacity: 1,
       translateX: 0,
-      duration: 0.8,
-      ease: "power3.out",
+      scale: 1,
       force3D: true
-    }, "-=0.4")
-    .from(statsBoxRef, {
-      opacity: 0,
-      scale: 0.8,
-      duration: 0.4
-    }, "-=0.4")
-    .from(partnerSectionRef, {
-      opacity: 0,
-      y: 20,
-      duration: 0.4
-    }, "-=0.2");
+    }, "<+=0.1")
+    .to(partnerSectionRef, {
+      opacity: 1,
+      y: 0
+    }, "<+=0.1");
 
     return () => {
       mounted = false;
@@ -136,6 +133,7 @@
     position: relative;
     height: 448px;
     transform: translateZ(0);
+    will-change: transform;
   }
 
   @media (min-width: 768px) {
@@ -144,29 +142,12 @@
     }
   }
 
-  /* Create a stacking context for the background image */
-  .background-image-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-
   /* Partner section styles */
   .partner-section {
     position: relative;
     --background-color: 255 255 255; /* For the carousel gradient mask */
   }
 </style>
-
-<div class="background-image-wrapper">
-  <img 
-    class="pointer-events-none" 
-    src="saturn-assets/images/headers/blue-light-left-bottom.png" 
-    alt=""
-  >
-</div>
 
 <div class="px-4 container sm:h-full-header">
 <div class="relative isolate overflow-hidden">
@@ -226,6 +207,8 @@
                 <SanityImage 
                   value={heroImage} 
                   customClass="absolute inset-0 w-full h-full object-cover rounded-lg"
+                  priority={true}
+                  fetchpriority="high"
                 />
               {/if}
             </div>

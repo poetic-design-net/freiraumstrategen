@@ -7,7 +7,9 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<link rel="stylesheet" href="%sveltekit.assets%/global.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-		<link rel="stylesheet" href="https://use.typekit.net/opp4fpc.css">
+		<!-- Preload critical assets -->
+		<link rel="preload" href="https://use.typekit.net/opp4fpc.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="https://use.typekit.net/opp4fpc.css"></noscript>
 
 		%sveltekit.head%
 	</head>

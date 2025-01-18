@@ -10,11 +10,11 @@
   export let sizes = '(min-width: 1024px) 1024px, (min-width: 768px) 768px, (min-width: 640px) 640px, (min-width: 480px) 480px, (min-width: 320px) 320px, 100vw';
   export let width: number | undefined = undefined;
   export let height: number | undefined = undefined;
-  export let quality = 75; // Reduced quality for better performance
+  export let quality = 80; // Balanced quality for WebP
   export let format: ImageFormat = 'webp';
-  export let priority = false; // New prop for priority loading
-  export let fetchpriority: 'high' | 'low' | 'auto' = 'auto'; // New prop for resource priority
-  export let blur = true; // Enable blur-up loading by default
+  export let priority = false; // For LCP images
+  export let fetchpriority: 'high' | 'low' | 'auto' = priority ? 'high' : 'auto';
+  export let blur = !priority; // Disable blur for priority images
 
   let isLoading = true;
   let hasError = false;
@@ -102,8 +102,9 @@
         loading={priority ? 'eager' : 'lazy'}
         fetchpriority={fetchpriority}
         decoding={priority ? 'sync' : 'async'}
-        width={width}
-        height={height}
+        width={width || responsiveImageData?.width}
+        height={height || responsiveImageData?.height}
+        style={width && height ? `aspect-ratio: ${width}/${height};` : ''}
         on:load={handleLoad}
         on:error={handleError}
       />

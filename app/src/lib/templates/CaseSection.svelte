@@ -136,9 +136,7 @@
 </style>
 
 <div class="case-section">
-  <img class="background-image right" src="saturn-assets/images/features/star-element-right.png" alt="">
-  <img class="background-image left" src="saturn-assets/images/headers/blue-light-left-bottom.png" alt="">
-
+ 
   <div class="relative container px-4 mx-auto">
     <div class="flex flex-wrap items-center">
       <div class="w-full lg:w-2/3 xl:w-2/3 px-4 mb-12 lg:mb-0">

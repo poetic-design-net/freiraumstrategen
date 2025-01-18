@@ -3,10 +3,21 @@
   import { headerStore } from './store';
   import { clickOutside } from '$lib/actions/clickOutside';
   import Icon from '$lib/components/icons/Icon.svelte';
+  import { browser } from '$app/environment';
+  import { onMount } from 'svelte';
 
   export let items: NavigationItem[] = [];
 
   let timeoutId: ReturnType<typeof setTimeout>;
+  let ready = false;
+
+  onMount(() => {
+    if (browser) {
+      setTimeout(() => {
+        ready = true;
+      }, 400);
+    }
+  });
 
   function handleMouseEnter(item: NavigationItem) {
     clearTimeout(timeoutId);
@@ -43,7 +54,7 @@
     <div class="flex items-center relative">
       <slot name="logo" />
 
-      <ul class="flex mx-auto space-x-12">
+      <ul class="flex mx-auto space-x-12 opacity-0 transition-opacity duration-300" class:opacity-100={ready}>
         {#each items as item}
           <li class="group relative">
             <a

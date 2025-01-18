@@ -67,10 +67,12 @@
 
 {#if currentBackgroundImage?.asset}
   <slot name="background">
-    <SanityImage
-      value={currentBackgroundImage}
-      customClass="absolute top-0 start-0 mt-10 {isDarkTheme ? 'opacity-20' : 'opacity-80'}"
-    />
+    <div class="absolute inset-0 w-full h-full overflow-hidden">
+      <SanityImage
+        value={currentBackgroundImage}
+        customClass="w-full h-full object-cover {isDarkTheme ? 'opacity-20' : 'opacity-80'}"
+      />
+    </div>
   </slot>
 {/if}
 

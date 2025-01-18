@@ -29,7 +29,6 @@
     showHeroImage: data.displaySettings?.showHeroImage ?? true
   };
 </script>
-<img class="absolute top-0 right-0" src="saturn-assets/images/features/star-element-right.png" alt="">
 
 {#if data.enabled !== false && items.length > 0}
   <div class="relative">

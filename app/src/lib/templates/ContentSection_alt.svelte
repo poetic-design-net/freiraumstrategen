@@ -148,7 +148,7 @@
               <ul class="mb-6">
                 {#each data.rightColumn.featureList as feature}
                   <li class="flex mb-6 items-center">
-                    <img class="w-6 h-6 mr-4" src="saturn-assets/images/content/check-green.svg" alt="">
+                    
                     <span class="text-base xs:text-lg font-semibold text-gray-900">{feature.text}</span>
                   </li>
                 {/each}
