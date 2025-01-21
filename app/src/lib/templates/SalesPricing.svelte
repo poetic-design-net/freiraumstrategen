@@ -5,7 +5,20 @@
   import Icon from '$lib/components/icons/Icon.svelte'
   import { getThemeStyles } from '$lib/utils/sections'
 
-  export let data: SalesPricingSection
+  export let data: SalesPricingSection = {
+    _type: 'salesPricingSection',
+    _key: '',
+    enabled: true,
+    bonuses: [],
+    features: [],
+    trustElements: [],
+    pricing: {
+      originalPrice: '',
+      currentPrice: '',
+      paymentInfo: ''
+    },
+    title: ''
+  }
 
   // Get theme-based styles for content
   const theme = getThemeStyles(data.styles?.theme)
@@ -13,7 +26,7 @@
   const boxTheme = getThemeStyles(data.styles?.theme || 'light', 80)
 </script>
 
-<div class="relative z-10 container px-4 mx-auto">
+<div class="relative z-10 container  px-4 mx-auto">
   <div class="max-w-5xl mx-auto">
     <!-- Section Header -->
     <div class="text-center mb-20">
@@ -40,7 +53,7 @@
     <!-- Pricing Box -->
     <div class="relative">
       <!-- Content -->
-      <div class="{boxTheme.background} rounded-xl shadow bg-black/20 overflow-hidden">
+      <div class="{boxTheme.background} rounded-lg overflow-hidden">
         <div class="p-8 lg:p-12">
           <!-- Header -->
           <div class="text-center mb-12">
@@ -69,23 +82,26 @@
           </div>
 
           <!-- Features Grid -->
-          <div class="grid md:grid-cols-2 gap-6 mb-12">
-            {#each data.features as feature}
-              <div class="flex items-center gap-3">
-                <Icon name="check" size={20} className="text-primary-600 flex-shrink-0" />
-                <CleanText 
-                  text={feature}
-                  className="{theme.text}"
-                />
-              </div>
-            {/each}
-          </div>
+          {#if data.features && data.features.length > 0}
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+              {#each data.features as feature}
+                <div class="flex items-center gap-3">
+                  <Icon name="check" size={20} className="text-primary-600 flex-shrink-0" />
+                  <CleanText
+                    text={feature}
+                    className="{theme.text}"
+                  />
+                </div>
+              {/each}
+            </div>
+          {/if}
 
           <!-- Bonuses - Using solid background for contrast -->
+          {#if data.bonuses}
           <div class="bg-gray-100 rounded-xl p-8 mb-12 ">
-            <h3 class="text-gray-900 text-xl font-bold mb-6">Bonus-Pakete im Wert von {data.bonuses.reduce((total, bonus) => total + parseInt(bonus.value.replace(/[^0-9]/g, '')), 0)}€</h3>
+            <h3 class="text-gray-900 text-xl font-bold mb-6">Bonus-Pakete im Wert von {(data.bonuses || []).reduce((total, bonus) => total + parseInt(bonus.value.replace(/[^0-9]/g, '')), 0)}€</h3>
             <div class="space-y-6">
-              {#each data.bonuses as bonus}
+              {#each (data.bonuses || []) as bonus}
                 <div class="flex items-center gap-6">
                   <div class="w-20 text-right">
                     <CleanText 
@@ -107,7 +123,8 @@
               {/each}
             </div>
           </div>
-
+        {/if}
+  
           <!-- CTA -->
           {#if data.ctaButton}
             <div class="text-center">
@@ -141,18 +158,20 @@
     </div>
 
     <!-- Trust Elements -->
-    <div class="mt-16 text-center ">
-      <div class="flex flex-wrap justify-center gap-8 text-sm ">
-        {#each data.trustElements as element}
-          <div class="flex items-center gap-2">
-            <Icon name={element.icon} size={20} className="text-current" />
-            <CleanText 
-              text={element.text}
-              className="{theme.text}"
-            />
-          </div>
-        {/each}
+    {#if data.trustElements && data.trustElements.length > 0}
+      <div class="mt-16 text-center">
+        <div class="flex flex-wrap justify-center gap-8 text-sm">
+          {#each data.trustElements as element}
+            <div class="flex items-center gap-2">
+              <Icon name={element.icon} size={20} className="text-current" />
+              <CleanText
+                text={element.text}
+                className="{theme.text}"
+              />
+            </div>
+          {/each}
+        </div>
       </div>
-    </div>
+    {/if}
   </div>
 </div>

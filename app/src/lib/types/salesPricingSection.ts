@@ -37,7 +37,7 @@ export interface SalesPricingSection extends Section {
   earlyBirdBadge?: string
   pricing: PricingInfo
   features: string[]
-  bonuses: BonusItem[]
+  bonuses?: BonusItem[]
   ctaButton?: SalesPricingButton
   guaranteeBox?: GuaranteeBox
   trustElements: TrustElement[]
