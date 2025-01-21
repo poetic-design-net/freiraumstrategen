@@ -17,14 +17,10 @@
       ]
     }
   ],
-  "functions": {
-    "app/src/routes/**/*.server.ts": {
-      "maxDuration": 10,
-      "memory": 1024
-    },
-    "app/src/routes/**/+page.svelte": {
-      "maxDuration": 10,
-      "memory": 1024
+  "builds": [
+    {
+      "src": "app/package.json",
+      "use": "@vercel/node"
     }
-  }
+  ]
 }
