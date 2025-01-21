@@ -1,6 +1,8 @@
 import { postsQuery as query, testimonialsQuery, teamSectionQuery, type Post, type TeamSectionResponse } from '$lib/sanity/queries';
 import type { PageServerLoad } from './$types';
 
+export const prerender = false;
+
 export const load: PageServerLoad = async (event) => {
 	const { loadQuery } = event.locals;
 	const initial = await loadQuery<Post[]>(query);
