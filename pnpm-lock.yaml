@@ -17,9 +17,6 @@ importers:
 
   app:
     dependencies:
-      '@gsap/shockingly':
-        specifier: ^3.12.5
-        version: 3.12.5
       '@sanity/client':
         specifier: ^6.15.4
         version: 6.21.1
@@ -50,9 +47,6 @@ importers:
       gsap:
         specifier: ^3.12.5
         version: 3.12.5
-      outscraper:
-        specifier: ^2.0.4
-        version: 2.0.4
       sanitize-html:
         specifier: ^2.13.1
         version: 2.13.1
@@ -1790,9 +1784,6 @@ packages:
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
-
-  '@gsap/shockingly@3.12.5':
-    resolution: {integrity: sha512-JoZp6iYvOC+wkwl8zfXSqSrYCcuzTntaULCL08YMa1vonrYcr9D0K3EUe9PNpw7FYK1chjSwjjgcw3zS/O2SWg==}
 
   '@hookform/resolvers@3.9.0':
     resolution: {integrity: sha512-bU0Gr4EepJ/EQsH/IwEzYLsT/PEj5C0ynLQ4m+GSHS+xKH4TfSelhluTgOaoc4kA5s7eCsQbM4wvZLzELmWzUg==}
@@ -4661,9 +4652,6 @@ packages:
   ora@5.4.1:
     resolution: {integrity: sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==}
     engines: {node: '>=10'}
-
-  outscraper@2.0.4:
-    resolution: {integrity: sha512-shlAFGa3wli2JWKEswM48iHXcm8tz0HAZ5c1grdjVgyhfcfinw1PE53VJokH99oiknDPXFmh8uMY4azFqsctAg==}
 
   p-finally@2.0.1:
     resolution: {integrity: sha512-vpm09aKwq6H9phqRQzecoDpD8TmVyGw70qmWlyq5onxY7tqyTTFVvxMykxQSQKILBSFlbXpypIw2T1Ml7+DDtw==}
@@ -8137,8 +8125,6 @@ snapshots:
 
   '@floating-ui/utils@0.2.8': {}
 
-  '@gsap/shockingly@3.12.5': {}
-
   '@hookform/resolvers@3.9.0(react-hook-form@7.53.1(react@18.3.1))':
     dependencies:
       react-hook-form: 7.53.1(react@18.3.1)
@@ -11544,8 +11530,6 @@ snapshots:
       log-symbols: 4.1.0
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
-
-  outscraper@2.0.4: {}
 
   p-finally@2.0.1: {}
 
