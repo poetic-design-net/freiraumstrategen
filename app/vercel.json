@@ -16,5 +16,17 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "app/src/routes/api/**/*": {
+      "maxDuration": 10,
+      "memory": 1024,
+      "includeFiles": "app/src/routes/api/**/*"
+    },
+    "app/src/routes/summer-academy/**/*": {
+      "maxDuration": 10,
+      "memory": 1024,
+      "includeFiles": "app/src/routes/summer-academy/**/*"
+    }
+  }
 }

@@ -10,10 +10,10 @@ const config = {
   kit: {
     adapter: vercel({
       routes: {
-        include: ['/*'],
+        include: ['/summer-academy', '/api/*'],
         exclude: []
       },
-      split: true
+      split: false
     }),
     prerender: {
       entries: ['/summer-academy'],
