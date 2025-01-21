@@ -256,12 +256,11 @@
               <p class="text-gray-600 whitespace-pre-line">{selectedReview.text}</p>
             </div>
 
-              target="_blank"
             <div class="mt-6 flex justify-between items-center">
               <a
                 href={selectedReview.author_url}
                 target="_blank"
-              >oreferrer"
+                rel="noopener noreferrer"
                 class="text-primary-600 hover:text-primary-800 font-medium"
               >
                 Auf Google ansehen
