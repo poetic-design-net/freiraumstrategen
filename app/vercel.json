@@ -2,8 +2,8 @@
   "rewrites": [
     { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/saturn-assets/(.*)", "destination": "/saturn-assets/$1" },
-    { "source": "/", "destination": "/summer-academy" },
-    { "source": "/((?!summer-academy|assets|saturn-assets).*)", "destination": "/summer-academy" }
+    { "source": "/summer-academy", "destination": "/" },
+    { "source": "/summer-academy/(.*)", "destination": "/$1" }
   ],
   "cleanUrls": true,
   "trailingSlash": false,
