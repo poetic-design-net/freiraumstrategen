@@ -3,6 +3,20 @@
     { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/saturn-assets/(.*)", "destination": "/saturn-assets/$1" }
   ],
+  "redirects": [
+    { "source": "/", "destination": "/summer-academy", "permanent": true }
+  ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/((?!die-sommer-academy|api|_next/static|assets|saturn-assets).*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ]
 }
