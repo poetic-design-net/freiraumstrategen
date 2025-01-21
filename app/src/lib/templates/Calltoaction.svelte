@@ -2,7 +2,7 @@
   import MemberForm from '$lib/components/MemberForm.svelte';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
-  import { SplitText, ScrollTrigger } from 'gsap/all';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
   import { cleanText } from '$lib/utils/textCleaner';
   import BackgroundImage from '$lib/components/BackgroundImage.svelte';
 
@@ -84,10 +84,9 @@
   
   onMount(() => {
     if (typeof window !== 'undefined' && animation.enabled) {
-      gsap.registerPlugin(ScrollTrigger, SplitText);
+      gsap.registerPlugin(ScrollTrigger);
       
-      const splitText = new SplitText(".headline", { type: "words" });
-      gsap.set(splitText.words, { opacity: 0, y: 20 });
+      gsap.set('.headline', { opacity: 0, y: 20 });
       gsap.set('.animate-paragraph', { opacity: 0, y: 20 });
       gsap.set('.animate-form', { opacity: 0, y: 20 });
 
@@ -100,11 +99,10 @@
         }
       });
 
-      tl.to(splitText.words, {
+      tl.to('.headline', {
         opacity: 1,
         y: 0,
         duration: animation.textAnimation?.duration || 1,
-        stagger: animation.textAnimation?.stagger || 0.15,
         ease: "power4.out",
       })
       .to('.animate-paragraph', {

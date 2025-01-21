@@ -2,7 +2,7 @@
 import Button from "$lib/components/Button.svelte";
 import { onMount } from 'svelte';
 import { gsap } from 'gsap';
-import { SplitText,ScrollTrigger } from 'gsap/all';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 
 
@@ -11,21 +11,19 @@ gsap.defaults({
   ease: "power2.out"
 });
 
-let headlineRef: HTMLElement;
-let gradientTextRef: HTMLElement;
-let partnerSectionRef: HTMLElement;
-let heroImageRef: HTMLElement;
-let statsBoxRef: HTMLElement;
-let arrowRef: HTMLElement;
-let buttonRef: HTMLElement;
+let headlineRef: HTMLElement | null = null;
+let gradientTextRef: HTMLElement | null = null;
+let partnerSectionRef: HTMLElement | null = null;
+let heroImageRef: HTMLElement | null = null;
+let statsBoxRef: HTMLElement | null = null;
+let arrowRef: HTMLElement | null = null;
+let buttonRef: HTMLElement | null = null;
 
 
 onMount(() => {
   if (typeof window !== 'undefined' && !sessionStorage.getItem('heroAnimated')) {
-    gsap.registerPlugin(ScrollTrigger, SplitText);
+    gsap.registerPlugin(ScrollTrigger);
 
-    const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
-    
     const tl = gsap.timeline({
       paused: true,
       onComplete: () => {
@@ -34,14 +32,14 @@ onMount(() => {
       }
     });
     
-    tl.from(gradientTextRef, { 
-      opacity: 0, 
+    tl.from(gradientTextRef, {
+      opacity: 0,
       y: 20
     })
-    .from(splitHeadline.chars, {
+    .from(headlineRef, {
       opacity: 0,
       y: 20,
-      stagger: 0.02
+      duration: 0.8
     }, "-=0.4")
     .from(buttonRef, {
       opacity: 0,

@@ -2,7 +2,9 @@
 import Button from "$lib/components/Button.svelte";
 import { onMount } from 'svelte';
 import { gsap } from 'gsap';
-import { SplitText, ScrollTrigger } from 'gsap/all';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import YouTubePlayer from "$lib/components/YouTubePlayer.svelte";
 
 gsap.defaults({
@@ -19,9 +21,7 @@ let videoButtonRef: HTMLElement;
 
 onMount(() => {
   if (typeof window !== 'undefined') {
-    gsap.registerPlugin(SplitText);
-
-    const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
+    gsap.registerPlugin(ScrollTrigger);
     
     const tl = gsap.timeline({
       paused: false,
@@ -30,10 +30,10 @@ onMount(() => {
       }
     });
     
-    tl.from(splitHeadline.chars, {
+    tl.from(headlineRef, {
       opacity: 0,
       y: 20,
-      stagger: 0.02
+      duration: 0.8
     })
     .from(statsBoxRef, {
       opacity: 0,
@@ -53,6 +53,7 @@ onMount(() => {
     }, "+=0.2"); // 0.2 Sekunden Verzögerung nach dem Button
   }
 });
+
 // Video Modal Logic
 let isVideoOpen = false;
   
@@ -178,7 +179,6 @@ function toggleVideo() {
           >
             <span class="">Das sind wir</span>
             <span class="font-thin block">Die Freiraumstrategen</span>
-            
           </h1>
 
           <!-- Stats Box -->
@@ -216,56 +216,55 @@ function toggleVideo() {
           </div>
 
           <!-- Button -->
-         <!-- Arrow Component -->
-              <div 
-              bind:this={buttonRef}
-              class="arrow-container cursor-pointer flex flex-col items-center gap-2 pt-4"
-              on:click={() => window.location.href = '/tour'}
-              >
-              <button class="group relative flex items-center gap-2 px-6 py-2
-                text-white/90 hover:text-white
-                border border-white/20
-                rounded-lg
-                backdrop-blur-sm
-                bg-white/5 hover:bg-white/10
-                transition-all duration-300
-                shadow-sm shadow-black/5"
-              >
-                <span class="text-sm font-medium">
-                  Kennenlern-Tour starten
-                </span>
-                <div class="relative glow-icon-container">
-                  <!-- Subtle Glow -->
-                  <div class="absolute -inset-1 animate-[pulse_4s_ease-in-out_infinite] opacity-20
-                    rounded-full 
-                    bg-primary-500/5 
-                    blur-sm"
-                  ></div>
-                  
-                  <!-- Icon -->
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="size-6 relative animate-[bounce_2s_ease-in-out_infinite] text-primary-200"
-                  >
-                    <path 
-                      stroke-linecap="round" 
-                      stroke-linejoin="round" 
-                      d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672ZM12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" 
-                    />
-                  </svg>
-                </div>
+          <div 
+            bind:this={buttonRef}
+            class="arrow-container cursor-pointer flex flex-col items-center gap-2 pt-4"
+            role="button"
+            tabindex="0"
+            on:click={() => window.location.href = '/tour'}
+            on:keydown={(e) => e.key === 'Enter' && (window.location.href = '/tour')}
+          >
+            <button class="group relative flex items-center gap-2 px-6 py-2
+              text-white/90 hover:text-white
+              border border-white/20
+              rounded-lg
+              backdrop-blur-sm
+              bg-white/5 hover:bg-white/10
+              transition-all duration-300
+              shadow-sm shadow-black/5"
+            >
+              <span class="text-sm font-medium">
+                Kennenlern-Tour starten
+              </span>
+              <div class="relative glow-icon-container">
+                <!-- Subtle Glow -->
+                <div class="absolute -inset-1 animate-[pulse_4s_ease-in-out_infinite] opacity-20
+                  rounded-full 
+                  bg-primary-500/5 
+                  blur-sm"
+                ></div>
                 
-                
+                <!-- Icon -->
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="1.5" 
+                  stroke="currentColor" 
+                  class="size-6 relative animate-[bounce_2s_ease-in-out_infinite] text-primary-200"
+                >
+                  <path 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672ZM12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" 
+                  />
+                </svg>
+              </div>
 
-                <!-- Optional: Subtle hover effect -->
-                <div class="absolute inset-0 rounded-lg bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </button>
-              
-                        </div>
+              <!-- Optional: Subtle hover effect -->
+              <div class="absolute inset-0 rounded-lg bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -284,8 +283,6 @@ function toggleVideo() {
   </div>
 </div>
 
-
-
 <!-- Optional: Video Modal -->
 {#if isVideoOpen}
   <div 
@@ -297,10 +294,9 @@ function toggleVideo() {
         class="absolute top-4 right-4 z-10 p-2 text-white/20 hover:text-white bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-sm transition-all duration-300"
         on:click={toggleVideo}
       >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-      </svg>
-
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
       </button>
       
       <YouTubePlayer videoId="dQw4w9WgXcQ" />
@@ -308,12 +304,7 @@ function toggleVideo() {
   </div>
 {/if}
 
-  
 <style>
-  .arrow-path {
-    stroke-dasharray: 120;
-    stroke-dashoffset: 120;
-  }
   path {
     stroke: currentColor;
     stroke-width: 1.5px;

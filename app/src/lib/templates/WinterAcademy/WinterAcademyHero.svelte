@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
-  import { SplitText, ScrollTrigger } from 'gsap/all';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
   import YouTubePlayer from "$lib/components/YouTubePlayer.svelte";
 
   gsap.defaults({
@@ -17,10 +17,7 @@
 
   onMount(() => {
     if (typeof window !== 'undefined') {
-      gsap.registerPlugin(SplitText);
-
-      const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
-      const splitSubheadline = new SplitText(subheadlineRef, { type: "chars,words" });
+      gsap.registerPlugin(ScrollTrigger);
       
       const tl = gsap.timeline({
         paused: false,
@@ -29,15 +26,15 @@
         }
       });
       
-      tl.from(splitHeadline.chars, {
+      tl.from(headlineRef, {
         opacity: 0,
         y: 20,
-        stagger: 0.02
+        duration: 0.8
       })
-      .from(splitSubheadline.chars, {
+      .from(subheadlineRef, {
         opacity: 0,
         y: 20,
-        stagger: 0.01
+        duration: 0.8
       }, "-=0.3")
       .from(statsBoxRef, {
         opacity: 0,
