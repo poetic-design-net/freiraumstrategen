@@ -9,7 +9,10 @@ const config = {
 
   kit: {
     adapter: adapter(),
-    
+    prerender: {
+      entries: ['/'],
+      handleHttpError: 'warn'
+    },
     vite: {
       resolve: {
         alias: {

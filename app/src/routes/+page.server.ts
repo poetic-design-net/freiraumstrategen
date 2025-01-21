@@ -1,6 +1,8 @@
 import { frontpageQuery, testimonialsQuery, postsQuery } from '$lib/sanity/queries';
 import type { PageServerLoad } from './$types';
 
+export const prerender = true;
+
 export const load: PageServerLoad = async (event) => {
 	const { loadQuery } = event.locals;
 	const frontpageInitial = await loadQuery(frontpageQuery);

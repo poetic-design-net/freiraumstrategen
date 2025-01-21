@@ -33,8 +33,8 @@ export const handle = async ({ event, resolve }) => {
         return response;
     }
 
-    // Im Produktionsmodus: Root-Pfad zur Summer-Academy weiterleiten
-    if (!isDev && path === '/') {
+    // Im Produktionsmodus: Alle Pfade außer /summer-academy zur Summer-Academy weiterleiten
+    if (!isDev && path !== '/summer-academy' && !isAsset && !isApi) {
         throw redirect(307, '/summer-academy');
     }
 

@@ -16,7 +16,7 @@ const config = {
       split: true
     }),
     prerender: {
-      entries: ['*'],
+      entries: ['/summer-academy'],
       handleHttpError: ({ path, referrer, message }) => {
         // During prerendering, treat 404s and 500s as warnings
         if ([404, 500].includes(Number(message.match(/^(\d+)/)?.[1]))) {
