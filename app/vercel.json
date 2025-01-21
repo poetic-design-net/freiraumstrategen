@@ -1,6 +1,5 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/summer-academy" },
     { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/saturn-assets/(.*)", "destination": "/saturn-assets/$1" }
   ],

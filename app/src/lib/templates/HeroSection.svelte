@@ -6,17 +6,12 @@
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
   let gsap: any;
-  let SplitText: any;
-  let ScrollTrigger: any;
 
-  // Lazy load GSAP and plugins
+  // Lazy load GSAP
   const loadGSAP = async () => {
     if (browser) {
       const gsapModule = await import('gsap');
-      const gsapAll = await import('gsap/all');
       gsap = gsapModule.gsap;
-      SplitText = gsapAll.SplitText;
-      ScrollTrigger = gsapAll.ScrollTrigger;
       return true;
     }
     return false;
@@ -42,107 +37,57 @@
     avatars: []
   };
 
-  let headlineRef: HTMLElement;
-  let gradientTextRef: HTMLElement;
-  let partnerSectionRef: HTMLElement;
-  let heroImageRef: HTMLElement;
-  let statsBoxRef: HTMLElement;
   let arrowRef: HTMLElement | SVGSVGElement;
   let buttonRef: HTMLElement;
   let mounted = false;
 
   onMount(() => {
     mounted = true;
-    let splitHeadline: any;
     let tl: any;
 
-    // Initialize GSAP asynchronously
     const initGSAP = async () => {
       const gsapLoaded = await loadGSAP();
       if (!gsapLoaded || !mounted) return;
 
-      gsap.registerPlugin(ScrollTrigger, SplitText);
+      try {
+        const arrowPath = arrowRef?.querySelector('path');
+        if (!arrowPath) return;
 
-      // Create split text after GSAP is loaded
-      splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
-      const arrowPath = arrowRef?.querySelector('path');
-      if (!arrowPath) return;
+        // Nur Pfeil und Button animieren
+        gsap.set(arrowPath, {
+          strokeDasharray: 120,
+          strokeDashoffset: 120,
+          opacity: 0
+        });
+        gsap.set(buttonRef, { opacity: 0 });
 
-      // Pre-compute elements for better performance
-      const elements = {
-        initial: [gradientTextRef, buttonRef, partnerSectionRef],
-        hero: [heroImageRef, statsBoxRef]
-      };
+        // Vereinfachte Timeline
+        tl = gsap.timeline({
+          defaults: {
+            ease: "power3.out",
+            duration: 0.5
+          }
+        });
 
-      // Batch all initial states
-      gsap.set(elements.initial, { opacity: 0, y: 20 });
-      gsap.set(splitHeadline.chars, { opacity: 0, y: 20 });
-      gsap.set(arrowPath, {
-        strokeDasharray: 120,
-        strokeDashoffset: 120,
-        opacity: 0
-      });
-      gsap.set(elements.hero, {
-        opacity: 0,
-        translateX: 40,
-        force3D: true,
-        scale: (element: HTMLElement) => element === statsBoxRef ? 0.8 : 1
-      });
-
-      // Create timeline with faster sequential animations
-      tl = gsap.timeline({
-        defaults: {
-          ease: "power3.out",
-          duration: 0.5
-        }
-      });
-
-      // Sequentially animate each element with shorter durations
-      tl.to(gradientTextRef, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5
-      })
-      .to(splitHeadline.chars, {
-        opacity: 1,
-        y: 0,
-        stagger: 0.01,
-        ease: "power2.out",
-        duration: 0.6
-      }, "+=0.05")
-      .to(buttonRef, {
-        opacity: 1,
-        y: 0,
-        duration: 0.4
-      }, "+=0.1")
-      .to(arrowPath, {
-        opacity: 1,
-        strokeDashoffset: 0,
-        duration: 0.4,
-        ease: "power1.inOut"
-      }, "-=0.2")
-      .to(partnerSectionRef, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5
-      }, "+=0.05")
-      .to(elements.hero, {
-        opacity: 1,
-        translateX: 0,
-        scale: 1,
-        duration: 0.7,
-        force3D: true,
-        ease: "power2.out"
-      }, "-=0.3");
+        tl.to(buttonRef, {
+          opacity: 1,
+          duration: 0.4
+        })
+        .to(arrowPath, {
+          opacity: 1,
+          strokeDashoffset: 0,
+          duration: 0.4,
+          ease: "power1.inOut"
+        }, "-=0.2");
+      } catch (error) {
+        console.error('Animation error:', error);
+      }
     };
 
-    // Start initialization
     initGSAP();
 
-    // Return cleanup function
     return () => {
       mounted = false;
-      if (splitHeadline) splitHeadline.revert();
       if (tl) tl.kill();
     };
   });
@@ -179,16 +124,6 @@
     content-visibility: auto;
     contain-intrinsic-size: 0 200px;
   }
-
-  /* Optimize paint performance */
-  .hero-headline,
-  .hero-button,
-  .hero-image,
-  .hero-stats {
-    will-change: opacity, transform;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
 </style>
 
 <div class="px-4 container sm:h-full-header">
@@ -197,11 +132,11 @@
       <div class="flex flex-wrap -mx-4 items-center">
         <div class="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
           <div class="max-w-xl lg:mx-0 lg:max-w-2xl relative hero-content">
-            <div class="hero-gradient-text text-left mb-4" bind:this={gradientTextRef}>
+            <div class="hero-gradient-text text-left mb-4">
               <AnimatedGradientText text={gradientText} />
             </div>
             
-<h1 bind:this={headlineRef} class="font-heading text-5xl xs:text-6xl md:text-8xl xl:text-10xl font-thin text-gray-900 mb-8 sm:mb-14">
+            <h1 class="font-heading text-5xl xs:text-6xl md:text-8xl xl:text-10xl font-thin text-gray-900 mb-8 sm:mb-14">
               <span class="relative inline-block">  
                 <span class="hidden">Erfolgreich an der Börse handeln</span>    
                 <span class="font-medium">Erfolgreich</span> an der Börse handeln
@@ -231,7 +166,7 @@
               </div>
             </div>
             {#if partners.heading || partners.logos.length > 0}
-              <div bind:this={partnerSectionRef} class="partner-section">
+              <div class="partner-section">
                 {#if partners.heading}
                   <span class="block mb-4 text-sm font-medium text-gray-500">{partners.heading}</span>
                 {/if}
@@ -243,7 +178,7 @@
           </div>
         </div>
         <div class="w-full lg:w-1/2 px-4">
-          <div bind:this={heroImageRef} class="relative max-w-xl lg:max-w-lg mx-auto lg:mr-0">
+          <div class="relative max-w-xl lg:max-w-lg mx-auto lg:mr-0">
             <div class="relative hero-image-wrapper">
               {#if heroImage}
                 <SanityImage 
@@ -255,7 +190,7 @@
               {/if}
             </div>
             {#if stats}
-              <div bind:this={statsBoxRef} class="absolute bottom-0 right-0 p-7">
+              <div class="absolute bottom-0 right-0 p-7">
                 <div class="p-6 bg-white/90 rounded-2xl">
                   {#if stats.avatars.length > 0}
                     <div class="flex mb-14 items-center">
