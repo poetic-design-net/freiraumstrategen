@@ -18,10 +18,13 @@
     }
   ],
   "functions": {
-    "app/src/routes/summer-academy/**/*": {
+    "app/src/routes/**/*.server.ts": {
       "maxDuration": 10,
-      "memory": 1024,
-      "includeFiles": "app/src/routes/summer-academy/**/*"
+      "memory": 1024
+    },
+    "app/src/routes/**/+page.svelte": {
+      "maxDuration": 10,
+      "memory": 1024
     }
   }
 }
