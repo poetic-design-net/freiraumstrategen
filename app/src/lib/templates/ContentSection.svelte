@@ -100,32 +100,32 @@
       {#if isSingleColumn}
         <div class="w-full max-w-3xl mx-auto">
           {#if sanitizedLeftHighlighted.length > 0}
-            <PortableTextContent
-              value={sanitizedLeftHighlighted}
-              components={portableTextComponents}
-              customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-8"
-            />
+<PortableTextContent
+  value={sanitizedLeftHighlighted}
+  components={portableTextComponents}
+  customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-8"
+/>
           {/if}
           {#if sanitizedLeftRegular.length > 0}
-            <PortableTextContent
-              value={sanitizedLeftRegular}
-              components={portableTextComponents}
-              customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'} mb-8"
-            />
+<PortableTextContent
+  value={sanitizedLeftRegular}
+  components={portableTextComponents}
+  customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'} mb-8"
+/>
           {/if}
           {#if sanitizedRightHighlighted.length > 0}
-            <PortableTextContent
-              value={sanitizedRightHighlighted}
-              components={portableTextComponents}
-              customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
-            />
+<PortableTextContent
+  value={sanitizedRightHighlighted}
+  components={portableTextComponents}
+  customClass="text-2xl {isDarkTheme ? 'text-gray-200' : 'text-gray-800'} mb-10"
+/>
           {/if}
           {#if sanitizedRightRegular.length > 0}
-            <PortableTextContent
-              value={sanitizedRightRegular}
-              components={portableTextComponents}
-              customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
-            />
+<PortableTextContent
+  value={sanitizedRightRegular}
+  components={portableTextComponents}
+  customClass="text-lg {isDarkTheme ? 'text-gray-300' : 'text-gray-700'}"
+/>
           {/if}
         </div>
       {:else}

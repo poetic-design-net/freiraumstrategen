@@ -200,6 +200,12 @@ export const getSectionTypes = (): SectionType[] => [
     description: 'Häufig gestellte Fragen'
   },
   {
+    type: 'reviewSection',
+    title: 'Review Sektion',
+    icon: StarIcon,
+    description: 'Google Reviews Sektion'
+  },
+  {
     type: 'uberunsHeroSection',
     title: 'Über uns Hero',
     icon: HomeIcon,

@@ -22,6 +22,7 @@ export interface FeatureSection {
   title?: string;
   subtitle?: string;
   videoId?: string;
+  platform?: 'youtube' | 'vimeo';
   features: Feature[];
 }
 

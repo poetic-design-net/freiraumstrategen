@@ -57,11 +57,11 @@
       <ul class="flex mx-auto space-x-12 opacity-0 transition-opacity duration-300" class:opacity-100={ready}>
         {#each items as item}
           <li class="group relative">
-            <a
-              href={item.path || `/${item.title.toLowerCase()}`}
-              class="inline-block text-sm text-primary-800 hover:text-primary-600"
-              on:mouseenter={() => handleMouseEnter(item)} 
-              aria-expanded={$headerStore.activeMenu === item._key}>
+<a
+  href={item.path || `/${item.title.toLowerCase()}`}
+  class="inline-block text-sm text-primary-800 hover:text-primary-600 p-2"
+  on:mouseenter={() => handleMouseEnter(item)}
+  aria-expanded={$headerStore.activeMenu === item._key}>
               {item.title}
               {#if item.columns}
                 <Icon 
@@ -83,8 +83,8 @@
                       <ul class="space-y-3">
                         {#each column.links as link}
                           <li>
-                            <a class="text-gray-600 hover:text-primary-600 transition-colors duration-200"
-                               href={link.href}>
+<a class="text-gray-600 hover:text-primary-600 transition-colors duration-200 p-2"
+   href={link.href}>
                               {link.title}
                             </a>
                           </li>
@@ -107,12 +107,13 @@
                         <div class="ms-6">
                           <h4 class="text-lg font-medium text-gray-900">{item.featured.title}</h4>
                           <p class="mt-2 text-sm text-gray-600 mb-4">{item.featured.description}</p>
-                          <a href={item.featured.link} class="
-                            text-sm font-medium
-                            text-primary-800 hover:text-primary-600
-                            underline underline-offset-2
-                            transition-colors duration-300
-                          ">
+<a href={item.featured.link} class="
+  text-sm font-medium
+  text-primary-800 hover:text-primary-600
+  underline underline-offset-2
+  transition-colors duration-300
+  p-2
+">
                             Mehr erfahren
                           </a>
                         </div>

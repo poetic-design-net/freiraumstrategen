@@ -13,7 +13,7 @@ export const defaultSectionStyles: Record<string, SectionStyles> = {
   salesHeroSection: { 
     theme: 'light', 
     overflow: true,
-    customClasses: 'w-full flex flex-col bg-gray-900/30'
+    customClasses: 'w-full flex flex-col bg-gray-900/30 relative'
   },
   strategyHeroSection: { 
     theme: 'light', 

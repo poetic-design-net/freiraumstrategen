@@ -65,6 +65,30 @@ pnpm dev
 
 The schema for the `Post` document is defined in the `/studio/schemas` folder. You can add more documents and schemas to the Studio to suit your needs.
 
+### Content Sections
+
+The template includes various content sections that can be used to build pages:
+
+#### ContentSection (Alternative)
+
+Located in `/studio/schemas/objects/sections/contentSectionAlt.ts`, this section provides a two-column layout with rich text editing capabilities:
+
+- Left Column:
+  - Badge text
+  - Three-line heading
+  - Rich text content using Portable Text
+  - Configurable button
+
+- Right Column:
+  - Heading
+  - Feature list
+  - Rich text content using Portable Text
+  - Image slider with configurable autoplay and transition settings
+
+- Design Options:
+  - Background image with hotspot
+  - Background color selection (White/Gray/Dark)
+
 ## Deployments
 
 The `/app` and `/studio` folders are meant to be deployed separately.

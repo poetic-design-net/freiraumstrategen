@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { PortableText } from '@portabletext/svelte';
-	import { useQuery } from '@sanity/svelte-loader';
-	import { formatDate, sanitizeText, calculateReadingTime } from '$lib/utils';
-	import ImageRenderer from '$lib/components/ImageRenderer.svelte';
-	import VideoRenderer from '$lib/components/VideoRenderer.svelte';		
-	import type { PageData } from './$types';
-	import type { PortableTextComponents } from '@portabletext/svelte';
-	import { onMount } from 'svelte';
+import { PortableText } from '@portabletext/svelte';
+import { useQuery } from '@sanity/svelte-loader';
+import { formatDate, sanitizeText, calculateReadingTime } from '$lib/utils';
+import ImageRenderer from '$lib/components/ImageRenderer.svelte';
+import VideoRenderer from '$lib/components/VideoRenderer.svelte';
+import type { PageData } from './$types';
+import type { PortableTextComponents } from '@portabletext/svelte';
+import { onMount } from 'svelte';
+import { slide } from 'svelte/transition';
 	import CustomListItem from '$lib/components/CustomListItem.svelte';
 	import ContentImageRenderer from '$lib/components/ContentImageRenderer.svelte';
 
@@ -21,6 +22,11 @@
 let toc: { id: string; text: string }[] = [];
 let activeHeadingId: string | null = null;
 let readingTime: number;
+let isTocOpen = false;
+
+function toggleToc() {
+    isTocOpen = !isTocOpen;
+}
 
 function generateTOC() {
     const h2Elements = document.querySelectorAll('.post-content h2');
@@ -135,23 +141,47 @@ function setupIntersectionObserver() {
   <section class="relative py-12 md:py-24">
 	<div class="container px-4 mx-auto">
 	  <div class="flex flex-wrap -mx-4 ">
-			<div class="w-full lg:w-1/3 lg:pt-24 px-4 lg:sticky lg:top-0 lg:h-[100dvh]">
-				<h4 class="font-medium text-white text-lg mb-5">INHALTSVERZEICHNIS</h4>
-				<ul class="mb-12">
-					{#each toc as item}
-					<li class="mb-5">
-						<a 
-							class="inline-block px-6 text-lg font-light transition-colors duration-200 ease-in-out {activeHeadingId === item.id ? 'text-primary-500' : 'text-white hover:text-primary-500'}" 
-							href="#{item.id}"
-						>
-							{item.text}
-						</a>
-					</li>
-					{/each}
-				</ul>
+			<!-- Table of Contents -->
+			<div class="w-full lg:w-1/3 lg:pt-24 lg:pb-24 px-4 lg:sticky lg:top-0 lg:h-[100dvh]">
+			  <!-- Mobile Toggle Button -->
+			  <button
+			    on:click={toggleToc}
+			    class="flex items-center justify-between w-full lg:hidden bg-primary-800 rounded-lg px-6 py-4 mb-4"
+			  >
+			    <span class="font-medium text-white text-lg">INHALTSVERZEICHNIS</span>
+			    <svg
+			      class="w-6 h-6 text-white transform transition-transform duration-200 {isTocOpen ? 'rotate-180' : ''}"
+			      fill="none"
+			      viewBox="0 0 24 24"
+			      stroke="currentColor"
+			    >
+			      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+			    </svg>
+			  </button>
+			
+			  <!-- Desktop Heading -->
+			  <h4 class="font-medium text-white text-lg mb-5 hidden lg:block">INHALTSVERZEICHNIS</h4>
+			
+			  <!-- Table of Contents List -->
+			  {#if isTocOpen || (typeof window !== 'undefined' && window.innerWidth >= 1024)}
+			    <div transition:slide={{duration: 200}}>
+			      <ul class="mb-24">
+			        {#each toc as item}
+			          <li class="mb-5">
+			            <a
+			              class="inline-block px-6 text-lg font-light transition-colors duration-200 ease-in-out {activeHeadingId === item.id ? 'text-primary-500' : 'text-white hover:text-primary-500'}"
+			              href="#{item.id}"
+			            >
+			              {item.text}
+			            </a>
+			          </li>
+			        {/each}
+			      </ul>
+			    </div>
+			  {/if}
 			</div>
 			<div class="w-full lg:w-2/3 px-4">
-				<a class="inline-flex mb-12 items-center font-medium text-sm text-white hover:text-primary-500" href="/">
+				<a class="inline-flex mb-12 items-center font-medium text-sm text-white hover:text-primary-500" href="/blog">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M15.4167 10H5M5 10L10 5M5 10L10 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 						</svg>

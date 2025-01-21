@@ -8,6 +8,7 @@
   import CustomListItem from '$lib/components/CustomListItem.svelte';
   import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
   import { sanitizeText } from '$lib/utils';
+  import NavigationDots from '$lib/components/navigation/NavigationDots.svelte';
 
   interface Step {
     number: number;
@@ -34,11 +35,16 @@
 
   let activeStep = 0;
   let container: HTMLElement | null = null;
+  let isAnimating = false;
 
   function updateActiveStep() {
+    isAnimating = true;
     if (!container) return;
 
     const stepElements = container.querySelectorAll('.step-content');
+    setTimeout(() => {
+      isAnimating = false;
+    }, 300);
     const viewportHeight = window.innerHeight;
     const triggerPoint = viewportHeight * 0.25;
 
@@ -96,7 +102,8 @@
 
 {#if data.enabled}
 <div class="w-full">
-  <div class="max-w-xl lg:max-w-7xl mx-auto container">
+  <div class="max-w-xl lg:max-w-7xl mx-auto container relative"> <!-- Added relative here -->
+    <!-- Header section -->
     <div class="pb-32 text-center">
       <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">{data.badge}</span>
       <h1 class="font-heading text-5xl xs:text-6xl md:text-7xl font-medium text-light">
@@ -104,10 +111,28 @@
         <span class="block">{data.heading.regular}</span>
       </h1>
     </div>
-    <div class="flex flex-col lg:flex-row md:gap-24">
+
+    <div class="flex flex-col lg:flex-row md:gap-24 relative min-h-[600px]"> <!-- Added min-height -->
+      <!-- Navigation Dots - now sticky instead of fixed -->
+      <div class="hidden lg:block absolute left-[-80px] top-1/3 h-full">
+        <div class="sticky top-1/3 py-4 px-2">
+          <NavigationDots
+            totalSlides={data.steps.length}
+            currentIndex={activeStep}
+            vertical={true}
+            onDotClick={(index) => {
+              const stepElements = container?.querySelectorAll('.step-content');
+              stepElements?.[index]?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            isAnimating={isAnimating}
+          />
+        </div>
+      </div>
+
+      <!-- Steps Content -->
       <div bind:this={container} class="w-full lg:w-1/2 space-y-16 md:space-y-32 lg:space-y-72">
         {#each data.steps as step, index}
-          <div 
+          <div
             class="step-content pb-32 relative transition-all duration-300 ease-out"
             class:active={activeStep === index}
           >
@@ -133,6 +158,8 @@
           </div>
         {/each}
       </div>
+
+      <!-- Images -->
       <div class="hidden sm:pl-12 lg:pl-0 lg:block w-1/2 relative">
         <div class="sticky top-32 h-[40vh]">
           {#each data.steps as step, index}
@@ -177,7 +204,9 @@
     @apply border-l-4 border-gray-300 pl-4 italic my-4;
   }
   :global(.post-content a) {
-    @apply text-primary-500 hover:text-primary-600 underline;
+    @apply text-primary-500;
+    @apply hover:text-primary-600;
+    @apply underline;
   }
   :global(.post-content strong) {
     @apply font-medium;

@@ -4,6 +4,7 @@ import type { ContentSectionProps, ContentSectionLayout, ContentSectionTheme, Co
 import type { CasePageReference, CasePostReference, CaseSectionProps, CaseSectionData } from '$lib/types/caseSection';
 import type { KachelSection, KachelSectionProps } from '$lib/types/kachelSection';
 import type { FeatureSectionData, FeatureIcon } from '$lib/types/featureSection';
+import type { ReviewSectionData, ReviewSectionProps } from '$lib/types/reviewSection';
 import { defaultCaseSectionProps } from '$lib/types/caseSection';
 import { defaultColumn } from '$lib/types/contentSection';
 import type { Image } from '@sanity/types';
@@ -140,7 +141,6 @@ export function getContentSectionAltProps(section: ContentSectionAltData) {
     },
     rightColumn: {
       heading: section.rightColumn?.heading || '',
-      featureList: section.rightColumn?.featureList || [],
       paragraphs: section.rightColumn?.paragraphs || [],
       imageSlider: {
         images: section.rightColumn?.imageSlider?.images || [],
@@ -321,6 +321,27 @@ export function getFeatureSectionProps(section: FeatureSectionData): FeatureSect
         href: feature.link.href || ''
       } : undefined
     })) || []
+  };
+}
+export function getReviewSectionProps(section: ReviewSectionData): ReviewSectionProps {
+  return {
+    _type: 'reviewSection',
+    _key: section._key,
+    enabled: section.enabled ?? true,
+    header: {
+      badge: section.header?.badge || 'Bewertungen',
+      heading: {
+        regular: section.header?.heading?.regular || 'Was sagen unsere',
+        thin: section.header?.heading?.thin || 'Kunden'
+      },
+      subtitle: section.header?.subtitle || ''
+    },
+    googlePlaces: {
+      placeId: section.googlePlaces?.placeId || '',
+      maxReviews: section.googlePlaces?.maxReviews || 5
+    },
+    // reviews wird später durch die API befüllt
+    reviews: []
   };
 }
 

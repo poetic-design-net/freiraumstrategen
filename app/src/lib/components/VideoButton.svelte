@@ -1,55 +1,53 @@
 <script lang="ts">
-  import { gsap } from 'gsap'
-  import YouTubePlayer from './YouTubePlayer.svelte'
-  import CleanText from './CleanText.svelte'
-
-  export let videoButton: {
-    text: string
-    duration: string
-    videoId: string
-  }
-  export let theme: any
-
-  let isVideoOpen = false
-  let videoButtonRef: HTMLElement
+  import CleanText from './CleanText.svelte';
+  import YouTubePlayer from './YouTubePlayer.svelte';
+  import { fade } from 'svelte/transition';
+  import { onMount } from 'svelte';
   
+  export let videoButton: {
+    text: string;
+    duration: string;
+    videoId: string;
+    platform?: 'youtube' | 'vimeo';
+  };
+  export let theme: { text: string } | undefined = undefined;
+
+  let isVideoOpen = false;
+  let isButtonVisible = true;
+
   function toggleVideo() {
-    isVideoOpen = !isVideoOpen
-    if (isVideoOpen) {
-      gsap.from(".video-modal", {
-        opacity: 0,
-        scale: 0.98,
-        duration: 0.5,
-        ease: "power2.out"
-      })
-    }
+    isVideoOpen = !isVideoOpen;
+    document.documentElement.classList.toggle('overflow-hidden', isVideoOpen);
   }
 
-  $: if (videoButtonRef) {
-    gsap.from(videoButtonRef, {
-      opacity: 0,
-      x: 20,
-      duration: 0.6,
-      ease: "power2.inOut"
-    })
+  function handleScroll() {
+    const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    isButtonVisible = scrollPercent < 95; // Button ist sichtbar bis 90% der Seite gescrollt wurde
   }
+
+  onMount(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  });
+
+  $: textColorClass = theme?.text || 'text-white';
 </script>
 
-<div 
-  bind:this={videoButtonRef}
-  class="fixed z-[100] bottom-6 right-6 md:bottom-12 md:right-12"
->
+<!-- Video Button -->
+{#if isButtonVisible}
   <button 
     class="group relative flex items-center md:gap-4 
       bg-gray-900/75 hover:bg-gray-900/85
       backdrop-blur-sm 
       rounded-full md:rounded-2xl 
-      p-2.5 md:p-4 md:pr-6 
+      p-2.5 md:p-6 
       transition-all duration-300 
-      hover:scale-105
+      hover:scale-[1.02] active:scale-[0.98]
       shadow-lg shadow-gray-900/10 
-      hover:shadow-xl hover:shadow-gray-900/20"
+      hover:shadow-xl hover:shadow-gray-900/20
+      transform-gpu"
     on:click={toggleVideo}
+    transition:fade={{ duration: 300 }}
   >
     <div class="relative">
       <div class="absolute -inset-2.5 md:-inset-4 animate-ping rounded-full bg-primary-500/10 duration-1000"></div>
@@ -63,36 +61,41 @@
     <div class="hidden md:block text-left">
       <CleanText 
         text={videoButton.text}
-        className="{theme.text} font-medium text-sm md:text-base"
+        className="{textColorClass} font-medium text-sm md:text-base"
       />
       <CleanText 
         text={videoButton.duration}
-        className="{theme.text} opacity-80 text-xs md:text-sm"
+        className="{textColorClass} opacity-80 text-xs md:text-sm"
       />
     </div>
   </button>
-</div>
+{/if}
 
-<!-- Video Modal -->
-{#if isVideoOpen && videoButton?.videoId}
-  <div class="video-modal fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 md:p-8">
-    <div class="relative w-full max-w-7xl mx-auto bg-black rounded-2xl overflow-hidden shadow-2xl">
-      <button 
-        class="absolute top-4 right-4 z-10 p-2 text-white/20 hover:text-white bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-sm transition-all duration-300"
-        on:click={toggleVideo}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
-      </button>
-      
-      <YouTubePlayer videoId={videoButton.videoId} />
+<!-- Video Overlay (if open) -->
+{#if isVideoOpen}
+  <div 
+    class="fixed inset-0 z-[99999] bg-black"
+    transition:fade={{ duration: 300 }}
+  >
+    <!-- Close Button -->
+    <button 
+      class="absolute top-4 right-4 z-10 p-2 text-white/20 hover:text-white bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-sm transition-all duration-300"
+      on:click={toggleVideo}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Video Container -->
+    <div class="absolute inset-0 flex items-center justify-center p-4 md:p-8">
+      <div class="w-full h-full max-w-7xl aspect-video bg-black">
+        <YouTubePlayer
+          videoId={videoButton.videoId}
+          platform={videoButton.platform || 'youtube'}
+          autoplay={true}
+        />
+      </div>
     </div>
   </div>
 {/if}
-
-<style>
-  :global(body.modal-open) {
-    overflow: hidden;
-  }
-</style>

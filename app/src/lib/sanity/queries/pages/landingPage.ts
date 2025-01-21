@@ -1,3 +1,4 @@
+// @ts-ignore
 import groq from 'groq';
 import { baseFields, expandSEO, imageFields } from '../common';
 import { strategyIntroSectionFields } from '../sections/strategyIntroSection';
@@ -14,6 +15,18 @@ const expandImage = (fieldName: string) => groq`
   }
 `;
 
+const expandHeaderFooter = groq`
+  header->{
+    title,
+    navigation,
+    ctaButton
+  },
+  footer->{
+    title,
+    navigation
+  }
+`;
+
 export const landingPageQuery = groq`*[_type == "landingPage" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
   _id,
   _type,
@@ -21,9 +34,25 @@ export const landingPageQuery = groq`*[_type == "landingPage" && slug.current ==
   slug,
   description,
   ${expandSEO},
+  ${expandHeaderFooter},
   sections[] {
     ${baseFields},
     ...,
+    _type == 'reviewSection' => {
+      enabled,
+      header {
+        badge,
+        heading {
+          regular,
+          thin
+        },
+        subtitle
+      },
+      googlePlaces {
+        placeId,
+        maxReviews
+      }
+    },
     _type == 'salesHeroSection' => {
       ${salesHeroSectionFields}
     },

@@ -4,8 +4,23 @@
   import SanityImage from "$lib/components/SanityImage.svelte";
   import LogoCarousel from "$lib/components/LogoCarousel.svelte";
   import { onMount } from 'svelte';
-  import { gsap } from 'gsap';
-  import { SplitText, ScrollTrigger } from 'gsap/all';
+  import { browser } from '$app/environment';
+  let gsap: any;
+  let SplitText: any;
+  let ScrollTrigger: any;
+
+  // Lazy load GSAP and plugins
+  const loadGSAP = async () => {
+    if (browser) {
+      const gsapModule = await import('gsap');
+      const gsapAll = await import('gsap/all');
+      gsap = gsapModule.gsap;
+      SplitText = gsapAll.SplitText;
+      ScrollTrigger = gsapAll.ScrollTrigger;
+      return true;
+    }
+    return false;
+  };
 
   export let gradientText: string = "Hier lernst Du mit klarer Strategie und wenig Zeitaufwand.";
   export let button: { text: string; link: string } = { text: 'Kennenlerntour starten', link: '' };
@@ -38,102 +53,117 @@
 
   onMount(() => {
     mounted = true;
-    gsap.registerPlugin(ScrollTrigger, SplitText);
+    let splitHeadline: any;
+    let tl: any;
 
-    const splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
-    const arrowPath = arrowRef?.querySelector('path');
-    if (!arrowPath) return;
+    // Initialize GSAP asynchronously
+    const initGSAP = async () => {
+      const gsapLoaded = await loadGSAP();
+      if (!gsapLoaded || !mounted) return;
 
-    // Batch initial states for better performance
-    gsap.set([gradientTextRef, buttonRef, partnerSectionRef], { 
-      opacity: 0,
-      y: 20
-    });
-    
-    gsap.set(splitHeadline.chars, { 
-      opacity: 0,
-      y: 20
-    });
+      gsap.registerPlugin(ScrollTrigger, SplitText);
 
-    gsap.set(arrowPath, {
-      strokeDasharray: 120,
-      strokeDashoffset: 120,
-      opacity: 0
-    });
+      // Create split text after GSAP is loaded
+      splitHeadline = new SplitText(headlineRef, { type: "chars,words" });
+      const arrowPath = arrowRef?.querySelector('path');
+      if (!arrowPath) return;
 
-    gsap.set(heroImageRef, {
-      opacity: 0,
-      translateX: 40,
-      force3D: true
-    });
+      // Pre-compute elements for better performance
+      const elements = {
+        initial: [gradientTextRef, buttonRef, partnerSectionRef],
+        hero: [heroImageRef, statsBoxRef]
+      };
 
-    gsap.set(statsBoxRef, {
-      opacity: 0,
-      scale: 0.8
-    });
+      // Batch all initial states
+      gsap.set(elements.initial, { opacity: 0, y: 20 });
+      gsap.set(splitHeadline.chars, { opacity: 0, y: 20 });
+      gsap.set(arrowPath, {
+        strokeDasharray: 120,
+        strokeDashoffset: 120,
+        opacity: 0
+      });
+      gsap.set(elements.hero, {
+        opacity: 0,
+        translateX: 40,
+        force3D: true,
+        scale: (element: HTMLElement) => element === statsBoxRef ? 0.8 : 1
+      });
 
-    // Batch animations for better performance
-    const tl = gsap.timeline({
-      defaults: { 
+      // Create timeline with faster sequential animations
+      tl = gsap.timeline({
+        defaults: {
+          ease: "power3.out",
+          duration: 0.5
+        }
+      });
+
+      // Sequentially animate each element with shorter durations
+      tl.to(gradientTextRef, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5
+      })
+      .to(splitHeadline.chars, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.01,
         ease: "power2.out",
+        duration: 0.6
+      }, "+=0.05")
+      .to(buttonRef, {
+        opacity: 1,
+        y: 0,
         duration: 0.4
-      }
-    });
+      }, "+=0.1")
+      .to(arrowPath, {
+        opacity: 1,
+        strokeDashoffset: 0,
+        duration: 0.4,
+        ease: "power1.inOut"
+      }, "-=0.2")
+      .to(partnerSectionRef, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5
+      }, "+=0.05")
+      .to(elements.hero, {
+        opacity: 1,
+        translateX: 0,
+        scale: 1,
+        duration: 0.7,
+        force3D: true,
+        ease: "power2.out"
+      }, "-=0.3");
+    };
 
-    // Animate in parallel where possible
-    tl.to([gradientTextRef, buttonRef], { 
-      opacity: 1,
-      y: 0,
-    })
-    .to(splitHeadline.chars, {
-      opacity: 1,
-      y: 0,
-      stagger: 0.01 // Reduced stagger time
-    }, "<")
-    .to(arrowPath, {
-      opacity: 1,
-      strokeDashoffset: 0,
-      duration: 0.3
-    }, "<+=0.2")
-    .to([heroImageRef, statsBoxRef], {
-      opacity: 1,
-      translateX: 0,
-      scale: 1,
-      force3D: true
-    }, "<+=0.1")
-    .to(partnerSectionRef, {
-      opacity: 1,
-      y: 0
-    }, "<+=0.1");
+    // Start initialization
+    initGSAP();
 
+    // Return cleanup function
     return () => {
       mounted = false;
-      splitHeadline.revert();
-      tl.kill();
+      if (splitHeadline) splitHeadline.revert();
+      if (tl) tl.kill();
     };
   });
 </script>
 
 <style>
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Initial States */
-  :global(.hero-headline),
-  :global(.hero-button),
-  :global(.hero-image),
-  :global(.hero-stats),
-  :global(.hero-partners) {
-    opacity: 0;
+  /* Performance optimizations */
+  .hero-content {
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    contain: content;
   }
 
   .hero-image-wrapper {
     position: relative;
     height: 448px;
     transform: translateZ(0);
-    will-change: transform;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    contain: paint;
   }
 
   @media (min-width: 768px) {
@@ -146,6 +176,18 @@
   .partner-section {
     position: relative;
     --background-color: 255 255 255; /* For the carousel gradient mask */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 200px;
+  }
+
+  /* Optimize paint performance */
+  .hero-headline,
+  .hero-button,
+  .hero-image,
+  .hero-stats {
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 </style>
 
@@ -154,12 +196,12 @@
   <div class="relative container mt-12 md:mt-24 px-4 mx-auto">
       <div class="flex flex-wrap -mx-4 items-center">
         <div class="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
-          <div class="max-w-xl lg:mx-0 lg:max-w-2xl relative">
+          <div class="max-w-xl lg:mx-0 lg:max-w-2xl relative hero-content">
             <div class="hero-gradient-text text-left mb-4" bind:this={gradientTextRef}>
               <AnimatedGradientText text={gradientText} />
             </div>
             
-            <h1 bind:this={headlineRef} class="font-heading text-5xl xs:text-6xl md:text-8xl xl:text-10xl font-thin text-gray-900 mb-8 sm:mb-14">              
+<h1 bind:this={headlineRef} class="font-heading text-5xl xs:text-6xl md:text-8xl xl:text-10xl font-thin text-gray-900 mb-8 sm:mb-14">
               <span class="relative inline-block">  
                 <span class="hidden">Erfolgreich an der Börse handeln</span>    
                 <span class="font-medium">Erfolgreich</span> an der Börse handeln
@@ -203,7 +245,7 @@
         <div class="w-full lg:w-1/2 px-4">
           <div bind:this={heroImageRef} class="relative max-w-xl lg:max-w-lg mx-auto lg:mr-0">
             <div class="relative hero-image-wrapper">
-              {#if heroImage && mounted}
+              {#if heroImage}
                 <SanityImage 
                   value={heroImage} 
                   customClass="absolute inset-0 w-full h-full object-cover rounded-lg"

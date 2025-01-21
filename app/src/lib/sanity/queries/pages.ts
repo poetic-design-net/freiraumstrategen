@@ -38,6 +38,11 @@ export interface SEO {
   canonicalUrl?: string;
 }
 
+export interface HeaderFooterContent {
+  title: string;
+  content?: any[]; // Sanity portable text blocks
+}
+
 export interface KachelSection extends BaseSection {
   _type: 'kachelSection';
   heading: {
@@ -73,4 +78,6 @@ export interface LandingPageData {
   description?: string;
   seo?: SEO;
   sections?: (Section | KachelSection)[];
+  header?: HeaderFooterContent;
+  footer?: HeaderFooterContent;
 }

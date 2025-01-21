@@ -165,10 +165,23 @@ export default defineType({
           initialValue: '2:30 min',
         }),
         defineField({
-          name: 'videoId',
-          title: 'YouTube Video ID',
+          name: 'platform',
+          title: 'Video Platform',
           type: 'string',
-          description: 'The ID of the YouTube video to play',
+          options: {
+            list: [
+              { title: 'Vimeo', value: 'vimeo' },
+              { title: 'YouTube', value: 'youtube' }
+            ]
+          },
+          initialValue: 'youtube',
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: 'videoId',
+          title: 'Video ID',
+          type: 'string',
+          description: 'The ID of the video to play (from Vimeo or YouTube URL)',
         }),
       ],
     }),

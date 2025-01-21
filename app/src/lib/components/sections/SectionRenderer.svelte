@@ -1,218 +1,315 @@
 <script lang="ts">
-    import type { Section } from '$lib/sanity/queries/types';
-    import type { StrategySection } from '$lib/types/strategySection';
-    import type { Post, Testimonial } from '$lib/sanity/queries';
-    import {
-        isHeroSection,
-        isContentSection,
-        isCallToActionSection,
-        isCaseSection,
-        isTestimonialsSection,
-        isStrategyHeroSection,
-        isStrategyIntroSection,
-        isStrategyFeaturesSection,
-        isStrategyFeaturesSectionAlt,
-        isFeatureSection,
-        isBlogSection,
-        isKachelSection,
-        isComingSoonSection,
-        getHeroSectionProps,
-        getContentSectionProps,
-        getCallToActionProps,
-        getCaseSectionProps,
-        getTestimonialsSectionProps,
-        getStrategyHeroProps,
-        getStrategyIntroProps,
-        getStrategyFeaturesProps,
-        getFeatureSectionProps,
-        isContentSectionAlt,
-        getContentSectionAltProps,
-        isStepSection,
-        getStepSectionProps,
+import type { Section } from '$lib/sanity/queries/types';
+import type { StrategySection } from '$lib/types/strategySection';
+import type { Post, Testimonial } from '$lib/sanity/queries';
+import type {
+    SalesAdvantagesSection,
+    SalesContentSection,
+    SalesCurriculumSection,
+    SalesEmotionalSection,
+    SalesEmotionalFreedomSection,
+    SalesFaqSection,
+    SalesFeaturesSection,
+    SalesForWhoSection,
+    SalesPricingSection,
+    SalesWhyContentSection
+} from '$lib/types/salesSections';
+import {
+    isHeroSection,
+    isContentSection,
+    isCallToActionSection,
+    isCaseSection,
+    isTestimonialsSection,
+    isStrategyHeroSection,
+    isStrategyIntroSection,
+    isStrategyFeaturesSection,
+    isStrategyFeaturesSectionAlt,
+    isFeatureSection,
+    isBlogSection,
+    isKachelSection,
+    isComingSoonSection,
+    getHeroSectionProps,
+    getContentSectionProps,
+    getCallToActionProps,
+    getCaseSectionProps,
+    getTestimonialsSectionProps,
+    getFeatureSectionProps,
+    isContentSectionAlt,
+    getContentSectionAltProps,
+    isStepSection,
+    getStepSectionProps,
     getBlogSectionProps,
     getKachelSectionProps,
     getComingSoonProps,
     isUberunsTeamSection,
-    getUberunsTeamProps
-    } from '$lib/utils/sections/index';
-    import { 
-        isSalesHeroSection, 
-        getSalesHeroProps,
-        isSalesAdvantagesSection,
-        getSalesAdvantagesProps,
-        isSalesContentSection,
-        getSalesContentProps,
-        isSalesCurriculumSection,
-        getSalesCurriculumProps,
-        isSalesEmotionalSection,
-        getSalesEmotionalProps,
-        isSalesEmotionalFreedomSection,
-        getSalesEmotionalFreedomProps,
-        isSalesFaqSection,
-        getSalesFaqProps,
-        isSalesFeaturesSection,
-        getSalesFeaturesProps,
-        isSalesForWhoSection,
-        getSalesForWhoProps,
-        isSalesPricingSection,
-        getSalesPricingProps,
-        isSalesWhyContentSection,
-        getSalesWhyContentProps
-    } from '$lib/utils/sections/transformers/salesSections';
-    import {
-        HeroSection,
-        Calltoaction,
-        FeaturesSection,
-        StepSection,
-        ContentSection,
-        ContentSection_alt,
-        Testimonials_gsap,
-        CaseSection_gsap,
-        KachelSection,
-        StrategyHeroSection,
-        StrategyIntroSection,
-        StrategyFeaturesSection,
-        StrategyFeaturesSection_alt,
-        BlogSection,
-        SectionContainer,
-        SalesHero,
-        SalesAdvantages,
-        SalesContent,
-        SalesCurriculum,
-        SalesEmotional,
-        SalesEmotionalFreedom,
-        SalesFaq,
-        SalesFeatures,
-        SalesForWho,
-        SalesPricing,
-        SalesWhyContent,
-        UberunsTeamSection
-    } from '.';
-    import ComingSoonSection from '$lib/templates/ComingSoonSection.svelte';
+    getUberunsTeamProps,
+} from '$lib/utils/sections/index';
+import {
+    isSalesHeroSection,
+    getSalesHeroProps,
+    isSalesAdvantagesSection,
+    getSalesAdvantagesProps,
+    isSalesContentSection,
+    getSalesContentProps,
+    isSalesCurriculumSection,
+    getSalesCurriculumProps,
+    isSalesEmotionalSection,
+    getSalesEmotionalProps,
+    isSalesEmotionalFreedomSection,
+    getSalesEmotionalFreedomProps,
+    isSalesFaqSection,
+    getSalesFaqProps,
+    isSalesFeaturesSection,
+    getSalesFeaturesProps,
+    isSalesForWhoSection,
+    getSalesForWhoProps,
+    isSalesPricingSection,
+    getSalesPricingProps,
+    isSalesWhyContentSection, 
+    getSalesWhyContentProps
+} from '$lib/utils/sections/transformers/salesSections';
+import {
+    HeroSection,
+    Calltoaction,
+    FeaturesSection,
+    StepSection,
+    ContentSection,
+    ContentSection_alt,
+    Testimonials_gsap,
+    CaseSection_gsap,
+    KachelSection,
+    StrategyHeroSection,
+    StrategyIntroSection,
+    StrategyFeaturesSection,
+    StrategyFeaturesSection_alt,
+    BlogSection,
+    SectionContainer,
+    SalesHero,
+    SalesAdvantages,
+    SalesContent,
+    SalesCurriculum,
+    SalesEmotional,
+    SalesEmotionalFreedom,
+    SalesFaq,
+    SalesFeatures,
+    SalesForWho,
+    SalesPricing,
+    SalesWhyContent,
+    UberunsTeamSection,
+    ReviewSection
+} from '.';
+import ComingSoonSection from '$lib/templates/ComingSoonSection.svelte';
 
-    export let section: Section | StrategySection;
-    export let scrollProgress: number = 0;
-    export let testimonials: Testimonial[] = [];
-    export let posts: Post[] = [];
+type AnySection = Section | StrategySection | 
+    SalesAdvantagesSection & Section |
+    SalesContentSection & Section |
+    SalesCurriculumSection & Section |
+    SalesEmotionalSection & Section |
+    SalesEmotionalFreedomSection & Section |
+    SalesFaqSection & Section |
+    SalesFeaturesSection & Section |
+    SalesForWhoSection & Section |
+    SalesPricingSection & Section |
+    SalesWhyContentSection & Section;
+
+export let section: AnySection;
+export let scrollProgress = 0;
+export let testimonials: Testimonial[] = [];
+export let posts: Post[] = [];
+
+interface SectionConfig {
+    isType: (section: AnySection) => boolean;
+    getProps: (section: any) => any;
+    component: any;
+    containerProps?: {
+        fullHeight?: boolean;
+        sticky?: boolean;
+        showOverlay?: boolean;
+        overlayOpacity?: number;
+    };
+    conditional?: (props: any) => boolean;
+}
+
+const sectionConfigs: SectionConfig[] = [
+    {
+        isType: (section) => section._type === 'reviewSection',
+        getProps: (section) => ({
+            ...section,
+            reviews: [] // Die Reviews werden später durch die API befüllt
+        }),
+        component: ReviewSection
+    },
+    {
+        isType: isComingSoonSection,
+        getProps: getComingSoonProps,
+        component: ComingSoonSection,
+        containerProps: { fullHeight: true }
+    },
+    {
+        isType: isTestimonialsSection,
+        getProps: getTestimonialsSectionProps,
+        component: Testimonials_gsap
+    },
+    {
+        isType: isCallToActionSection,
+        getProps: getCallToActionProps,
+        component: Calltoaction,
+        containerProps: { sticky: true }
+    },
+    {
+        isType: isKachelSection,
+        getProps: getKachelSectionProps,
+        component: KachelSection,
+        containerProps: { 
+            showOverlay: true,
+            overlayOpacity: Math.max(0, (scrollProgress - 0.5) * 2)
+        }
+    },
+    {
+        isType: isHeroSection,
+        getProps: getHeroSectionProps,
+        component: HeroSection
+    },
+    {
+        isType: isSalesHeroSection,
+        getProps: getSalesHeroProps,
+        component: SalesHero,
+        containerProps: { fullHeight: true }
+    },
+    {
+        isType: isCaseSection,
+        getProps: getCaseSectionProps,
+        component: CaseSection_gsap,
+        conditional: (props) => props.selectedPages.length > 0 || props.selectedPosts.length > 0
+    },
+    {
+        isType: isContentSectionAlt,
+        getProps: getContentSectionAltProps,
+        component: ContentSection_alt
+    },
+    {
+        isType: isStepSection,
+        getProps: getStepSectionProps,
+        component: StepSection
+    },
+    {
+        isType: isFeatureSection,
+        getProps: getFeatureSectionProps,
+        component: FeaturesSection
+    },
+    {
+        isType: isContentSection,
+        getProps: getContentSectionProps,
+        component: ContentSection
+    },
+    {
+        isType: isStrategyHeroSection,
+        getProps: (section) => section,
+        component: StrategyHeroSection
+    },
+    {
+        isType: isStrategyIntroSection,
+        getProps: (section) => section,
+        component: StrategyIntroSection
+    },
+    {
+        isType: isStrategyFeaturesSection,
+        getProps: (section) => section,
+        component: StrategyFeaturesSection,
+        conditional: (props) => props._type === 'strategyFeaturesSection'
+    },
+    {
+        isType: isStrategyFeaturesSectionAlt,
+        getProps: (section) => section,
+        component: StrategyFeaturesSection_alt,
+        conditional: (props) => props._type === 'strategyFeaturesSectionAlt'
+    },
+    {
+        isType: isBlogSection,
+        getProps: (section) => getBlogSectionProps({ ...section, posts }),
+        component: BlogSection
+    },
+    {
+        isType: isUberunsTeamSection,
+        getProps: getUberunsTeamProps,
+        component: UberunsTeamSection
+    }
+];
+
+const salesSectionConfigs: SectionConfig[] = [
+    {
+        isType: isSalesAdvantagesSection,
+        getProps: getSalesAdvantagesProps,
+        component: SalesAdvantages
+    },
+    {
+        isType: isSalesContentSection,
+        getProps: getSalesContentProps,
+        component: SalesContent
+    },
+    {
+        isType: isSalesCurriculumSection,
+        getProps: getSalesCurriculumProps,
+        component: SalesCurriculum
+    },
+    {
+        isType: isSalesEmotionalSection,
+        getProps: getSalesEmotionalProps,
+        component: SalesEmotional
+    },
+    {
+        isType: isSalesEmotionalFreedomSection,
+        getProps: getSalesEmotionalFreedomProps,
+        component: SalesEmotionalFreedom
+    },
+    {
+        isType: isSalesFaqSection,
+        getProps: getSalesFaqProps,
+        component: SalesFaq
+    },
+    {
+        isType: isSalesFeaturesSection,
+        getProps: getSalesFeaturesProps,
+        component: SalesFeatures
+    },
+    {
+        isType: isSalesForWhoSection,
+        getProps: getSalesForWhoProps,
+        component: SalesForWho
+    },
+    {
+        isType: isSalesPricingSection,
+        getProps: getSalesPricingProps,
+        component: SalesPricing
+    },
+    {
+        isType: isSalesWhyContentSection,
+        getProps: getSalesWhyContentProps,
+        component: SalesWhyContent
+    }
+];
 </script>
 
 {#if section?.enabled}
-    {#if isComingSoonSection(section)}
-        <SectionContainer {section} fullHeight>
-            <ComingSoonSection data={getComingSoonProps(section)} />
-        </SectionContainer>
-    {:else if isTestimonialsSection(section)}
-        <SectionContainer {section}>
-            <Testimonials_gsap data={getTestimonialsSectionProps(section)} />
-        </SectionContainer>
-    {:else if isCallToActionSection(section)}
-        <SectionContainer {section} sticky>
-            <Calltoaction {...getCallToActionProps(section)} />
-        </SectionContainer>
-    {:else if isKachelSection(section)}
-        <SectionContainer {section} showOverlay overlayOpacity={Math.max(0, (scrollProgress - 0.5) * 2)}>
-            <KachelSection data={getKachelSectionProps(section)} />
-        </SectionContainer>
-    {:else if isHeroSection(section)}
-        <SectionContainer {section}>
-            <HeroSection {...getHeroSectionProps(section)} />
-        </SectionContainer>
-    {:else if isSalesHeroSection(section)}
-        <SectionContainer {section} fullHeight>
-            <SalesHero data={getSalesHeroProps(section)} />
-        </SectionContainer>
-    {:else if isSalesAdvantagesSection(section)}
-        <SectionContainer {section}>
-            <SalesAdvantages data={getSalesAdvantagesProps(section)} />
-        </SectionContainer>
-    {:else if isSalesContentSection(section)}
-        <SectionContainer {section}>
-            <SalesContent data={getSalesContentProps(section)} />
-        </SectionContainer>
-    {:else if isSalesCurriculumSection(section)}
-        <SectionContainer {section}>
-            <SalesCurriculum data={getSalesCurriculumProps(section)} />
-        </SectionContainer>
-    {:else if isSalesEmotionalSection(section)}
-        <SectionContainer {section}>
-            <SalesEmotional data={getSalesEmotionalProps(section)} />
-        </SectionContainer>
-    {:else if isSalesEmotionalFreedomSection(section)}
-        <SectionContainer {section}>
-            <SalesEmotionalFreedom data={getSalesEmotionalFreedomProps(section)} />
-        </SectionContainer>
-    {:else if isSalesFaqSection(section)}
-        <SectionContainer {section}>
-            <SalesFaq data={getSalesFaqProps(section)} />
-        </SectionContainer>
-    {:else if isSalesFeaturesSection(section)}
-        <SectionContainer {section}>
-            <SalesFeatures data={getSalesFeaturesProps(section)} />
-        </SectionContainer>
-    {:else if isSalesForWhoSection(section)}
-        <SectionContainer {section}>
-            <SalesForWho data={getSalesForWhoProps(section)} />
-        </SectionContainer>
-    {:else if isSalesPricingSection(section)}
-        <SectionContainer {section}>
-            <SalesPricing data={getSalesPricingProps(section)} />
-        </SectionContainer>
-    {:else if isSalesWhyContentSection(section)}
-        <SectionContainer {section}>
-            <SalesWhyContent data={getSalesWhyContentProps(section)} />
-        </SectionContainer>
-    {:else if isCaseSection(section)}
-        {@const props = getCaseSectionProps(section)}
-        {#if props.selectedPages.length > 0 || props.selectedPosts.length > 0}
+    {#each sectionConfigs as config}
+        {#if config.isType(section)}
+            {@const props = config.getProps(section)}
+            {#if !config.conditional || config.conditional(props)}
+                <SectionContainer {section} {...config.containerProps || {}}>
+                    <svelte:component this={config.component} data={props} {...props} {section} />
+                </SectionContainer>
+            {/if}
+        {/if}
+    {/each}
+
+    {#each salesSectionConfigs as config}
+        {#if config.isType(section)}
             <SectionContainer {section}>
-                <CaseSection_gsap data={props} />
+                <svelte:component 
+                    this={config.component} 
+                    data={config.getProps(section)} 
+                />
             </SectionContainer>
         {/if}
-    {:else if isContentSectionAlt(section)}
-        <SectionContainer {section}>
-            <ContentSection_alt data={getContentSectionAltProps(section)} />
-        </SectionContainer>
-    {:else if isStepSection(section)}
-        <SectionContainer {section}>
-            <StepSection data={getStepSectionProps(section)} />
-        </SectionContainer>
-    {:else if isFeatureSection(section)}
-        <SectionContainer {section}>
-            <FeaturesSection data={getFeatureSectionProps(section)} />
-        </SectionContainer>
-    {:else if isContentSection(section)}
-        <SectionContainer {section}>
-            <ContentSection {...getContentSectionProps(section)} {section} />
-        </SectionContainer>
-    {:else if isStrategyHeroSection(section)}
-        <SectionContainer {section}>
-            <StrategyHeroSection {...getStrategyHeroProps(section)} />
-        </SectionContainer>
-    {:else if isStrategyIntroSection(section)}
-        <SectionContainer {section}>
-            <StrategyIntroSection data={getStrategyIntroProps(section)} />
-        </SectionContainer>
-    {:else if isStrategyFeaturesSection(section)}
-        {@const props = getStrategyFeaturesProps(section)}
-        {#if props._type === 'strategyFeaturesSection'}
-            <SectionContainer {section}>
-                <StrategyFeaturesSection data={props} />
-            </SectionContainer>
-        {/if}
-    {:else if isStrategyFeaturesSectionAlt(section)}
-        {@const props = getStrategyFeaturesProps(section)}
-        {#if props._type === 'strategyFeaturesSectionAlt'}
-            <SectionContainer {section}>
-                <StrategyFeaturesSection_alt data={props} />
-            </SectionContainer>
-        {/if}
-    {:else if isBlogSection(section)}
-        <SectionContainer {section}>
-            <BlogSection {...getBlogSectionProps({ ...section, posts })} />
-        </SectionContainer>
-    {:else if isUberunsTeamSection(section)}
-        <SectionContainer {section}>
-            <UberunsTeamSection data={getUberunsTeamProps(section)} />
-        </SectionContainer>
-    {/if}
+    {/each}
 {/if}

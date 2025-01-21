@@ -26,44 +26,150 @@ export default defineType({
     }),
     anchorField,
     defineField({
-      name: 'eyebrow',
-      title: 'Eyebrow',
-      type: 'string',
+      name: 'leftColumn',
+      title: 'Linke Spalte',
+      type: 'object',
       group: 'content',
-      description: 'Kleiner Text über der Hauptüberschrift'
+      fields: [
+        {
+          name: 'badge',
+          title: 'Badge',
+          type: 'string',
+        },
+        {
+          name: 'heading',
+          title: 'Überschrift',
+          type: 'object',
+          fields: [
+            {
+              name: 'line1',
+              title: 'Zeile 1',
+              type: 'string'
+            },
+            {
+              name: 'line2',
+              title: 'Zeile 2',
+              type: 'string'
+            },
+            {
+              name: 'line3',
+              title: 'Zeile 3',
+              type: 'string'
+            }
+          ]
+        },
+        {
+          name: 'content',
+          title: 'Content',
+          type: 'array',
+          of: [{type: 'block'}]
+        },
+        {
+          name: 'button',
+          title: 'Button',
+          type: 'object',
+          fields: [
+            {
+              name: 'text',
+              title: 'Text',
+              type: 'string'
+            },
+            {
+              name: 'link',
+              title: 'Link',
+              type: 'string'
+            },
+            {
+              name: 'variant',
+              title: 'Variante',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Orange', value: 'orange'},
+                  {title: 'Primary', value: 'primary'},
+                  {title: 'Secondary', value: 'secondary'}
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }),
     defineField({
-      name: 'heading',
-      title: 'Hauptüberschrift',
-      type: 'string',
-      group: 'content'
-    }),
-    defineField({
-      name: 'content',
-      title: 'Content',
-      type: 'array',
+      name: 'rightColumn',
+      title: 'Rechte Spalte',
+      type: 'object',
       group: 'content',
-      of: [{type: 'block'}]
+      fields: [
+        {
+          name: 'heading',
+          title: 'Überschrift',
+          type: 'string'
+        },
+        {
+          name: 'content',
+          title: 'Content',
+          type: 'array',
+          of: [{type: 'block'}]
+        },
+        {
+          name: 'imageSlider',
+          title: 'Bild Slider',
+          type: 'object',
+          fields: [
+            {
+              name: 'images',
+              title: 'Bilder',
+              type: 'array',
+              of: [{
+                type: 'object',
+                fields: [
+                  {
+                    name: 'image',
+                    title: 'Bild',
+                    type: 'image',
+                    options: {
+                      hotspot: true
+                    }
+                  },
+                  {
+                    name: 'alt',
+                    title: 'Alt Text',
+                    type: 'string'
+                  }
+                ]
+              }]
+            },
+            {
+              name: 'settings',
+              title: 'Einstellungen',
+              type: 'object',
+              fields: [
+                {
+                  name: 'autoplaySpeed',
+                  title: 'Autoplay Geschwindigkeit (ms)',
+                  type: 'number',
+                  initialValue: 5000
+                },
+                {
+                  name: 'transitionDuration',
+                  title: 'Übergangszeit (ms)',
+                  type: 'number',
+                  initialValue: 800
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }),
     defineField({
-      name: 'image',
-      title: 'Bild',
+      name: 'backgroundImage',
+      title: 'Hintergrundbild',
       type: 'image',
       group: 'design',
       options: {
         hotspot: true
-      }
-    }),
-    defineField({
-      name: 'imagePosition',
-      title: 'Bild Position',
-      type: 'string',
-      group: 'design',
-      options: {
-        list: [
-          {title: 'Links', value: 'left'},
-          {title: 'Rechts', value: 'right'}
-        ]
       }
     }),
     defineField({
@@ -82,11 +188,11 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'heading',
-      subtitle: 'eyebrow',
+      title: 'leftColumn.heading.line1',
+      subtitle: 'leftColumn.badge',
       enabled: 'enabled',
       id: 'id',
-      media: 'image'
+      media: 'backgroundImage'
     },
     prepare({title, subtitle, enabled, id, media}) {
       return {

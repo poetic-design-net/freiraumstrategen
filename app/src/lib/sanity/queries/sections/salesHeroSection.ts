@@ -20,7 +20,8 @@ export const salesHeroSectionFields = groq`
   videoButton {
     text,
     duration,
-    videoId
+    videoId,
+    platform
   },
   backgroundImage {
     ${imageFields}

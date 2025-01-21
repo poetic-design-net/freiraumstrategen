@@ -3,24 +3,33 @@
     import type { LandingPageData } from '$lib/sanity/queries/pages';
     import { useScrollProgress } from '$lib/hooks/useScrollProgress';
     import { SEO, SectionRenderer } from '$lib/components/sections';
-    import VideoButton from '$lib/components/VideoButton.svelte';
     import { page as storePage } from '$app/stores';
     import { onMount } from 'svelte';
     import { getThemeStyles } from '$lib/utils/sections';
     import { isSalesHeroSection } from '$lib/utils/sections/transformers/salesSections';
     import type { SalesHeroSection } from '$lib/types/salesHeroSection';
+    import { videoButtonStore } from '$lib/stores/videoButton';
+    import type { Section } from '$lib/sanity/queries/types';
+    import type { QueryResponseInitial } from '@sanity/svelte-loader';
+    import { isCanvasStyle } from '$lib/stores/layoutStyle';
+    import CanvasHeader from '$lib/components/layout/CanvasHeader.svelte';
+    import CanvasFooter from '$lib/components/layout/CanvasFooter.svelte';
 
     export let data: {
         query: string;
         params: { slug: string };
-        initial: any;
+        initial: QueryResponseInitial<LandingPageData>;
     };
 
     // Create a reactive query that updates when params change
     $: currentParams = { slug: $storePage.params.landingPage };
-    $: query = useQuery(data.query, currentParams, {
+    $: query = useQuery<LandingPageData>(data.query, currentParams, {
         initial: data.initial
     });
+
+    // Extract header/footer from query data
+    $: header = $query.data?.header;
+    $: footer = $query.data?.footer;
     
     // Track loading state and directly use the query data
     $: isLoading = $query.loading;
@@ -28,41 +37,51 @@
     $: page = rawData;
     $: error = $query.error as Error | null;
 
-    // Find the first SalesHero section to get video button data
-    $: salesHeroSection = rawData?.sections?.find(section => isSalesHeroSection(section)) as SalesHeroSection | undefined;
-    $: videoButtonData = salesHeroSection?.videoButton;
+    // Update canvas style state based on header/footer presence
+    $: {
+        const hasCustomHeaderFooter = Boolean(rawData?.header || rawData?.footer);
+        isCanvasStyle.set(hasCustomHeaderFooter);
+    }
+
+    // Find the first enabled SalesHero section with a video button
+    $: salesHeroSection = rawData?.sections?.find((section: Section) => {
+        if (!isSalesHeroSection(section)) return false;
+        return section.videoButton !== undefined;
+    }) as SalesHeroSection | undefined;
+    
     $: theme = getThemeStyles(salesHeroSection?.styles?.theme);
+    
+    // Update video button store only on valid landing pages with enabled video sections
+    $: {
+        const isValidLandingPage = Boolean(
+            $storePage.params.landingPage && 
+            salesHeroSection?.videoButton
+        );
+
+        videoButtonStore.set({
+            data: isValidLandingPage && salesHeroSection?.videoButton ? salesHeroSection.videoButton : null,
+            theme: isValidLandingPage && theme ? { text: theme.text } : undefined,
+            isLandingPage: isValidLandingPage
+        });
+    }
 
     onMount(() => {
-        console.log('Debug - Component mounted with:', {
-            currentParams,
-            initialData: data.initial,
-            pageData: page,
-            error,
-            rawQueryData: rawData
-        });
-    });
-
-    // Debug logging for state changes
-    $: {
-        if (error) {
-            console.error('Debug - Query error:', error);
-        }
-        if (rawData) {
-            console.log('Debug - Raw data:', rawData);
-            console.log('Debug - Page data loaded:', {
-                title: rawData.title,
-                slug: rawData.slug,
-                hasSections: !!rawData.sections,
-                sectionCount: rawData.sections?.length,
-                fullData: rawData
+        return () => {
+            // Reset video button store when component is destroyed
+            videoButtonStore.set({
+                data: null,
+                theme: undefined,
+                isLandingPage: false
             });
-        }
-    }
+            // Reset canvas style when component is destroyed
+            isCanvasStyle.set(false);
+        };
+    });
 
     const scrollProgress = useScrollProgress();
 </script>
 
+<!-- Main Content -->
 {#if error}
     <div class="min-h-screen flex items-center justify-center">
         <p class="text-red-500">Error: {error?.message || 'Failed to load page'}</p>
@@ -78,13 +97,17 @@
         <SEO data={rawData.seo} />
     {/if}
 
+    {#if rawData.header}
+        <CanvasHeader data={rawData.header} />
+    {/if}
+
     {#if rawData.sections}
         {#each rawData.sections as section (section._key)}
             <SectionRenderer {section} scrollProgress={$scrollProgress} />
         {/each}
     {/if}
 
-    {#if videoButtonData}
-        <VideoButton videoButton={videoButtonData} {theme} />
+    {#if rawData.footer}
+        <CanvasFooter data={rawData.footer} />
     {/if}
 {/if}

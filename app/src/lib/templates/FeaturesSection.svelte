@@ -67,7 +67,27 @@
     }
   };
 
-  $: isVideoLayout = data.layout === 'withVideo';
+  let isVideoLayout: boolean;
+
+  $: {
+    console.log("FeaturesSection Data:", {
+      layout: data.layout,
+      videoId: data.videoId,
+      platform: data.platform
+    });
+    isVideoLayout = data.layout === 'withVideo';
+  }
+
+  $: {
+    if (!data.videoId) {
+      console.warn("No videoId provided to FeaturesSection");
+    }
+  }
+
+  $: {
+    console.log("Video ID:", data.videoId);
+    console.log("Platform:", data.platform);
+  }
   $: featuresFirstHalf = isVideoLayout ? data.features.slice(0, 3) : data.features.slice(0, Math.ceil(data.features.length / 2));
   $: featuresSecondHalf = isVideoLayout ? data.features.slice(3) : data.features.slice(Math.ceil(data.features.length / 2));
 </script>
@@ -89,8 +109,8 @@
 
 <div class="max-full container mx-auto">
   <div class="flex flex-wrap -mx-4 items-center">
-    <div class="{isVideoLayout ? 'w-full lg:w-1/5' : 'w-full lg:w-1/2'} px-4 lg:pb-10 mb-16 lg:mb-0">
-      <div class="mx-auto {isVideoLayout ? 'max-w-sm' : 'max-w-lg'}">
+    <div class="{isVideoLayout ? 'w-full lg:w-1/4' : 'w-full lg:w-1/2'} px-4 lg:pb-10 mb-16 lg:mb-0">
+      <div class="mx-auto {isVideoLayout ? 'max-w-md' : 'max-w-lg'}">
         {#each featuresFirstHalf as feature}
           <div class="flex items-center pb-12 mb-12 border-b border-gray-100 group relative">
             {#if feature === data.features[0]}
@@ -154,16 +174,29 @@
       </div>
     </div>
 
-    {#if isVideoLayout && data.videoId}
-      <div class="w-full lg:w-3/5 px-0 sm:px-16 mb-16 lg:mb-0">
-        <div class="max-w-4xl mx-auto">  
-          <YouTubePlayer videoId={data.videoId} />
-        </div>  
+{#if data.layout === 'withVideo'}
+  <div class="w-full lg:w-1/2 px-0 sm:px-16 mb-16 lg:mb-0">
+    <div class="max-w-3xl mx-auto">
+      <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden relative w-full h-0 pt-[56.25%]">
+        <div class="absolute inset-0">
+          {#if data.videoId}
+            <YouTubePlayer
+              videoId={data.videoId}
+              platform={data.platform || 'youtube'}
+            />
+          {:else}
+            <div class="w-full h-full flex items-center justify-center">
+              <p class="text-gray-500">Video wird geladen...</p>
+            </div>
+          {/if}
+        </div>
       </div>
-    {/if}
+    </div>
+  </div>
+{/if}
 
-    <div class="{isVideoLayout ? 'w-full lg:w-1/5' : 'w-full lg:w-1/2'} px-4 lg:pb-10">
-      <div class="mx-auto {isVideoLayout ? 'max-w-sm' : 'max-w-lg'}">
+    <div class="{isVideoLayout ? 'w-full lg:w-1/4' : 'w-full lg:w-1/2'} px-4 lg:pb-10">
+      <div class="mx-auto {isVideoLayout ? 'max-w-md' : 'max-w-lg'}">
         {#each featuresSecondHalf as feature}
           <div class="flex items-center pb-12 mb-12 border-b border-gray-100 group relative">
             <div class="flex flex-shrink-0 w-16 h-16 mr-6 items-center justify-center text-primary-700 bg-gray-100 rounded-full">

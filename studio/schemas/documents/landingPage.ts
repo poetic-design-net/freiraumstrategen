@@ -16,12 +16,24 @@ export default defineType({
     defineField({
       name: 'slug',
       title: 'Slug',
-      type: 'slug',
+      type: 'slug', 
       description: 'Die URL der Landing Page (z.B. strategiegespraech)',
-      options: {
-        source: 'title',
-      },
-      validation: Rule => Rule.required()
+    }),
+    defineField({
+      name: 'header',
+      title: 'Header',
+      type: 'reference',
+      weak: true,
+      to: [{type: 'header'}],
+      description: 'Wählen Sie einen individuellen Header für diese Seite (optional)'
+    }),
+    defineField({
+      name: 'footer',
+      title: 'Footer',
+      type: 'reference',
+      weak: true,
+      to: [{type: 'footer'}],
+      description: 'Wählen Sie einen individuellen Footer für diese Seite (optional)'
     }),
     defineField({
       name: 'description',

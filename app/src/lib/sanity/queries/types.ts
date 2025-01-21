@@ -19,6 +19,24 @@ export interface Section {
   [key: string]: any;
 }
 
+// ReviewSection interfaces
+export interface ReviewSectionData extends Section {
+  _type: 'reviewSection';
+  enabled: boolean;
+  header: {
+    badge: string;
+    heading: {
+      regular: string;
+      thin: string;
+    };
+    subtitle?: string;
+  };
+  googlePlaces: {
+    placeId: string;
+    maxReviews: number;
+  };
+}
+
 // StepSection interfaces
 export interface Step {
   number: number;
@@ -77,7 +95,6 @@ export interface ContentSectionAltData extends Section {
   };
   rightColumn: {
     heading: string;
-    featureList: Array<{ text: string }>;
     paragraphs: string[];
     imageSlider: {
       images: SliderImage[];

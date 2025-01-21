@@ -16,6 +16,7 @@ export interface SalesHeroVideo {
   text: string
   duration: string
   videoId: string
+  platform?: 'youtube' | 'vimeo'
 }
 
 export interface SalesHeroSection extends Section {
@@ -73,11 +74,18 @@ export function isSalesHeroSection(section: any): section is SalesHeroSection {
   )) return false
 
   // Check optional video button
-  if (section.videoButton && (
-    typeof section.videoButton.text !== 'string' || 
-    typeof section.videoButton.duration !== 'string' ||
-    typeof section.videoButton.videoId !== 'string'
-  )) return false
+  if (section.videoButton) {
+    if (
+      typeof section.videoButton.text !== 'string' ||
+      typeof section.videoButton.duration !== 'string' ||
+      typeof section.videoButton.videoId !== 'string'
+    ) return false
+
+    // Check platform if present
+    if (section.videoButton.platform &&
+      !['youtube', 'vimeo'].includes(section.videoButton.platform)
+    ) return false
+  }
 
   // Check styles if present
   if (section.styles && !isSectionStyles(section.styles)) return false

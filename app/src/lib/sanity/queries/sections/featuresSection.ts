@@ -6,6 +6,7 @@ export const featuresSectionFields = groq`
   title,
   subtitle,
   videoId,
+  platform,
   features[] {
     title,
     subtitle,

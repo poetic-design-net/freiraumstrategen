@@ -13,6 +13,9 @@ import seo from './objects/seo'
 import landingPage from './documents/landingPage'
 import sectionStyles from './objects/sectionStyles'
 import textAlignment from './objects/textAlignment'
+import googleReview from './documents/googleReview'
+import header from './documents/header'
+import footer from './documents/footer'
 
 // Import section schemas
 import heroSection from './objects/sections/heroSection'
@@ -32,6 +35,7 @@ import blogSection from './objects/sections/blogSection'
 import contactFormSection from './objects/sections/contactFormSection'
 import contactHeroSection from './objects/sections/contactHeroSection'
 import faqSection from './objects/sections/faqSection'
+import reviewSection from './objects/sections/reviewSection'
 import uberunsHeroSection from './objects/sections/uberunsHeroSection'
 import uberunsIntroSection from './objects/sections/uberunsIntroSection'
 import uberunsTeamSection from './objects/sections/uberunsTeamSection'
@@ -64,6 +68,9 @@ export const schemaTypes = [
   faq,
   testimonial,
   landingPage,
+  googleReview,
+  header, // Header hinzugefügt
+  footer, // Footer hinzugefügt
   
   // Objects
   blockContent,
@@ -91,6 +98,7 @@ export const schemaTypes = [
   contactFormSection,
   contactHeroSection,
   faqSection,
+  reviewSection,
   uberunsHeroSection,
   uberunsIntroSection,
   uberunsTeamSection,

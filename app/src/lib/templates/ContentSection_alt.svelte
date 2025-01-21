@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from "$lib/components/Button.svelte";
   import SanityImage from "$lib/components/SanityImage.svelte";
+  import PortableTextContent from "$lib/components/PortableTextContent.svelte";
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
@@ -33,13 +34,12 @@
         line2: string;
         line3: string;
       };
-      paragraphs: string[];
+      content: any; // Portable Text Content
       button: ButtonData;
     };
     rightColumn: {
       heading: string;
-      featureList: Array<{ text: string }>;
-      paragraphs: string[];
+      content: any; // Portable Text Content
       imageSlider: {
         images: SliderImage[];
         settings: SliderSettings;
@@ -115,12 +115,10 @@
               </h1>
             {/if}
 
-            {#if data.leftColumn.paragraphs}
-              {#each data.leftColumn.paragraphs as paragraph}
-                <p class="max-w-md text-lg xs:text-3xl font-light text-gray-600 mb-6">
-                  {paragraph}
-                </p>
-              {/each}
+            {#if data.leftColumn.content}
+              <div class="max-w-md text-lg xs:text-3xl font-light text-gray-600">
+                <PortableTextContent value={data.leftColumn.content} />
+              </div>
             {/if}
 
             {#if data.leftColumn.button}
@@ -144,23 +142,10 @@
               </h3>
             {/if}
 
-            {#if data.rightColumn.featureList}
-              <ul class="mb-6">
-                {#each data.rightColumn.featureList as feature}
-                  <li class="flex mb-6 items-center">
-                    
-                    <span class="text-base xs:text-lg font-semibold text-gray-900">{feature.text}</span>
-                  </li>
-                {/each}
-              </ul>
-            {/if}
-
-            {#if data.rightColumn.paragraphs}
-              {#each data.rightColumn.paragraphs as paragraph}
-                <p class="text-base text-gray-700 mb-5">
-                  {paragraph}
-                </p>
-              {/each}
+            {#if data.rightColumn.content}
+              <div class="text-base text-gray-700">
+                <PortableTextContent value={data.rightColumn.content} />
+              </div>
             {/if}
 
             <!-- Image Slider -->
