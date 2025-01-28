@@ -8,10 +8,10 @@ export const prerender = 'auto';
 export const trailingSlash = 'never';
 
 export const load: ServerLoad = async (event) => {
-	const { loadQuery } = event.locals;
-	const { landingPage } = event.params;
+const { loadQuery } = event.locals;
+const { landingPage } = event.params;
 
-	try {
+try {
 		// Add more detailed logging
 		console.log('Debug - Server load start:', {
 			slug: landingPage,

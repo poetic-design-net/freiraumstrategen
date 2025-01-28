@@ -1,15 +1,15 @@
 {
   "rewrites": [
-    { "source": "/assets/(.*)", "destination": "/assets/$1" },
-    { "source": "/saturn-assets/(.*)", "destination": "/saturn-assets/$1" },
     { "source": "/summer-academy", "destination": "/" },
-    { "source": "/summer-academy/(.*)", "destination": "/$1" }
+    { "source": "/summer-academy/(.*)", "destination": "/$1" },
+    { "source": "/assets/(.*)", "destination": "/assets/$1" },
+    { "source": "/saturn-assets/(.*)", "destination": "/saturn-assets/$1" }
   ],
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/((?!_next/static|assets|saturn-assets).*)",
+      "source": "/((?!summer-academy|assets|saturn-assets).*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
