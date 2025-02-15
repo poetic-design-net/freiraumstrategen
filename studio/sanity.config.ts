@@ -23,10 +23,10 @@ const config = defineConfig({
       previewUrl: {
         origin: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:5173',
         previewMode: {
-          enable: '/preview/enable',
-          disable: '/preview/disable',
-        },
-      },
+          enable: `/preview/enable?sanity-preview-secret=${process.env.SANITY_STUDIO_PREVIEW_SECRET}`,
+          disable: '/preview/disable'
+        }
+      }
     }),
     visionTool(),
     media(),

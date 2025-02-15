@@ -28,7 +28,7 @@
                 <!-- Copyright Info -->
                 <div class="col-span-1">
                     <p class="text-gray-200 text-sm leading-relaxed">
-                        Die Summer-Academy 2025 ist eine Veranstaltung der Freiraum Strategen GmbH
+                        Die Summer Academy 2025 ist eine Veranstaltung der Freiraum Strategen GmbH
                     </p>
                    
                 </div>
