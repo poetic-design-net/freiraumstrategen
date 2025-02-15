@@ -13,7 +13,7 @@ export function isDividerSection(value: unknown): value is DividerSection {
     section._type === 'dividerSection' &&
     typeof section.headlineGreen === 'string' &&
     typeof section.headlineWhite === 'string' &&
-    section.enabled !== false // Überprüft, ob die Section aktiviert ist
+    section.enabled !== false
   );
 
   console.log('isDividerSection result:', result);
@@ -27,10 +27,5 @@ export function assertDividerSection(value: unknown): asserts value is DividerSe
 }
 
 export function getDividerSectionProps(section: DividerSection) {
-  return {
-    headlineGreen: section.headlineGreen,
-    headlineWhite: section.headlineWhite,
-    enabled: section.enabled,
-    // Fügen Sie hier weitere Eigenschaften hinzu, wenn nötig
-  }
+  return section // Gesamte Section durchreichen, einschließlich der ID
 }

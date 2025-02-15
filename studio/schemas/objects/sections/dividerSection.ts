@@ -1,10 +1,18 @@
 import { defineType, defineField } from 'sanity'
+import { anchorField } from '../../utils/anchorField'
 
 export default defineType({
   name: 'dividerSection',
   title: 'Divider Section',
   type: 'object',
   fields: [
+    defineField({
+      name: 'enabled',
+      title: 'Aktiviert',
+      type: 'boolean',
+      initialValue: true
+    }),
+    anchorField,
     defineField({
       name: 'headlineGreen',
       title: 'Grüne Überschrift',
@@ -16,24 +24,19 @@ export default defineType({
       title: 'Weiße Überschrift',
       type: 'string',
       validation: Rule => Rule.required()
-    }),
-    defineField({
-      name: 'enabled',
-      title: 'Aktiviert',
-      type: 'boolean',
-      initialValue: true
     })
   ],
   preview: {
     select: {
       headlineGreen: 'headlineGreen',
       headlineWhite: 'headlineWhite',
-      enabled: 'enabled'
+      enabled: 'enabled',
+      id: 'id'
     },
-    prepare({ headlineGreen, headlineWhite, enabled }) {
+    prepare({ headlineGreen, headlineWhite, enabled, id }) {
       return {
         title: 'Divider Section',
-        subtitle: `${headlineGreen} - ${headlineWhite} ${enabled ? '(Aktiviert)' : '(Deaktiviert)'}`
+        subtitle: `${id ? `[${id}] ` : ''}${headlineGreen} - ${headlineWhite} ${enabled ? '(Aktiviert)' : '(Deaktiviert)'}`
       }
     }
   }

@@ -24,7 +24,7 @@
     const transformedStyles = transformSectionStyles(section.styles, section._type);
     
     // Get section classes once and ensure theme styles take precedence
-    const sectionClasses = `${getSectionClasses(section._type, transformedStyles)} ${fullHeight ? '' : ''}`;
+    const sectionClasses = `${getSectionClasses(section._type, transformedStyles)} ${fullHeight ? '' : ''} scroll-mt-24`;
 </script>
 
 {#if sticky}

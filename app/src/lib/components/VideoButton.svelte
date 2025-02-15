@@ -20,6 +20,12 @@
     document.documentElement.classList.toggle('overflow-hidden', isVideoOpen);
   }
 
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && isVideoOpen) {
+      toggleVideo();
+    }
+  }
+
   function handleScroll() {
     const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
     isButtonVisible = scrollPercent < 95; // Button ist sichtbar bis 90% der Seite gescrollt wurde
@@ -27,7 +33,11 @@
 
   onMount(() => {
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('keydown', handleKeydown);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeydown);
+    };
   });
 
   $: textColorClass = theme?.text || 'text-white';
@@ -62,10 +72,10 @@
   >
     <!-- Close Button -->
     <button 
-      class="absolute top-4 right-4 z-10 p-2 text-white/20 hover:text-white bg-black/20 hover:bg-black/40 rounded-full backdrop-blur-sm transition-all duration-300"
+      class="absolute top-4 right-4 z-10 p-3 text-white hover:text-white/90 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-all duration-300 shadow-lg"
       on:click={toggleVideo}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
       </svg>
     </button>

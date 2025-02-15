@@ -61,7 +61,11 @@
             <!-- Content -->
             <div class="h-full flex flex-col">
               <div class="flex flex-col items-center justify-center gap-4 mb-4">
-                <Icon name="clock" className="w-18 h-18 mb-4 {data.styles?.theme === 'light-gray' ? 'text-black' : 'text-white'}" />
+                <Icon
+                  name={advantage.icon}
+                  className="w-16 h-16 mb-4 {data.styles?.theme === 'light-gray' ? 'text-black' : 'text-white'}"
+                  strokeWidth={1.2}
+                />
                 <CleanText
                   text={advantage.title}
                   tag="h3"

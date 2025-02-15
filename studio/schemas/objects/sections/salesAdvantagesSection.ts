@@ -81,6 +81,30 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
             defineField({
+              name: 'icon',
+              title: 'Icon',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Clock', value: 'clock' },
+                  { title: 'Check', value: 'check' },
+                  { title: 'Star', value: 'star' },
+                  { title: 'Shield', value: 'shield' },
+                  { title: 'Education', value: 'education' },
+                  { title: 'Structure', value: 'structure' },
+                  { title: 'Strategy', value: 'strategy' },
+                  { title: 'Live Trading', value: 'live-trading' },
+                  { title: 'Community', value: 'community' },
+                  { title: 'Risk Management', value: 'risk-management' },
+                  { title: 'Info', value: 'info' },
+                  { title: 'Lock', value: 'lock' },
+                  { title: 'Rocket', value: 'rocket' }
+                ]
+              },
+              description: 'Wähle ein Icon für diesen Vorteil',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
               name: 'shortText',
               title: 'Short Description',
               type: 'text',
