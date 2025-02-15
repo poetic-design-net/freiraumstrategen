@@ -1,5 +1,6 @@
 import type { SalesHeroSection } from '$lib/types/salesHeroSection';
 import type { Section } from '$lib/sanity/queries/types';
+import type { SalesContentSectionFullWidth } from '$lib/types/salesContentSectionFullWidth';
 
 export function isSalesHeroSection(section: any): section is SalesHeroSection {
   return (
@@ -34,6 +35,19 @@ export function isSalesContentSection(section: any): section is Section {
     section._type === 'salesContentSection' &&
     typeof section.enabled === 'boolean'
   );
+}
+
+export function isSalesContentSectionFullWidth(section: any): section is SalesContentSectionFullWidth {
+  return (
+    section &&
+    typeof section === 'object' &&
+    section._type === 'salesContentSectionFullWidth' &&
+    typeof section.enabled === 'boolean'
+  );
+}
+
+export function getSalesContentSectionFullWidthProps(section: SalesContentSectionFullWidth) {
+  return section;
 }
 
 export function getSalesContentProps(section: Section) {

@@ -101,7 +101,6 @@ export default defineType({
                 }
               }],
               description: 'Detailed description shown when expanded',
-              validation: (Rule) => Rule.required(),
             }),
           ],
         },

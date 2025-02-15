@@ -12,16 +12,30 @@ export interface SalesContentSection extends Section {
   badge?: string
   title: string
   subtitle?: string
-  layout?: 'single' | 'double'  // Add layout option
-  leftColumn: Column
-  rightColumn: Column
-  image: {
+  layout?: 'single' | 'double' | 'fullWidth'
+  contentWidth?: 'full' | 'max-w-5xl' | 'max-3-xl'
+  headlineAlignment?: 'center' | 'left'
+  leftColumnContent?: PortableTextBlock[]
+  rightColumnContent?: PortableTextBlock[]
+  imagePosition?: 'left' | 'right'
+  image?: {
     _type: 'image'
     asset: SanityImageSource
     alt?: string
   }
+  fullWidthImage?: {
+    _type: 'image'
+    asset: SanityImageSource
+    alt?: string
+  }
+  button?: {
+    text: string
+    url: string
+    style?: 'primary' | 'secondary' | 'orange' | 'green'
+    size?: 'sm' | 'md' | 'lg'
+  }
   benefitsIntro?: string
-  benefits: string[]
+  benefits?: string[]
 }
 
 // Type guard

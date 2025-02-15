@@ -14,14 +14,14 @@
   }
 </script>
 
-<div class="relative z-10 container px-4 mx-auto">
+<div class="relative z-10 container px-4 mx-auto ">
   <div class="max-w-3xl mx-auto">
     <!-- Section Header -->
     <div class="text-center mb-20">
       {#if data.badge}
         <CleanText 
           text={data.badge}
-          className="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow"
+          className="inline-block mb-8 font-medium uppercase text-primary"
         />
       {/if}
       <CleanText 
@@ -41,9 +41,9 @@
     <!-- FAQ List -->
     <div class="space-y-4">
       {#each data.faqs as faq, index}
-        <div class="border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-md transition-shadow duration-300">
+        <div class="overflow-hidden text-2xl text-primary border-b-2 border-primary duration-300">
           <button
-            class="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            class="w-full text-left  py-4 flex items-center justify-between transition-colors"
             on:click={() => toggleFaq(index)}
           >
             <CleanText 
@@ -51,10 +51,25 @@
               className="font-medium pr-8"
             />
             <div class="flex-shrink-0">
-              <div class="relative w-6 h-6">
-                <div class="absolute inset-0 transform transition-transform duration-300 {expandedIndex === index ? 'rotate-180' : ''}">
-                  <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              <div class="relative w-12 h-12">
+                <div class="absolute inset-0">
+                  <svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <g class="transform transition-all duration-500 ease-in-out" style="transform-origin: center; {expandedIndex === index ? 'transform: rotate(180deg)' : ''}">
+                      <path
+                        class="transform transition-all duration-500 ease-in-out"
+                        style="transform-origin: center; {expandedIndex === index ? 'transform: scaleY(0)' : ''}"
+                        stroke-linecap="butt"
+                        stroke-linejoin="miter"
+                        stroke-width="1"
+                        d="M12 5v14"
+                      />
+                      <path
+                        stroke-linecap="butt"
+                        stroke-linejoin="miter"
+                        stroke-width="1"
+                        d="M5 12h14"
+                      />
+                    </g>
                   </svg>
                 </div>
               </div>
@@ -62,13 +77,22 @@
           </button>
           {#if expandedIndex === index}
             <div 
-              class="px-6 py-4 bg-gray-50 border-t border-gray-200"
+              class="py-4 border-b-4 border-b-green"
               transition:slide={{ duration: 300 }}
             >
-              <CleanText 
-                text={faq.answer}
-                className="text-gray-600 leading-relaxed whitespace-pre-line"
-              />
+              <div class="space-y-4">
+
+                <CleanText
+                  text={faq.answer}
+                  className="whitespace-pre-line text-xl"
+                />
+                {#if faq.additionalInfo}
+                  <CleanText
+                    text={faq.additionalInfo}
+                    className="whitespace-pre-line text-gray-600 text-base mt-4"
+                  />
+                {/if}
+              </div>
             </div>
           {/if}
         </div>
@@ -80,7 +104,7 @@
       {#if data.contactInfo}
         <div class="mb-8">
           {#if data.contactInfo.text}
-            <CleanText 
+            <CleanText
               text={data.contactInfo.text}
               tag="p"
               className="text-gray-600"
@@ -89,24 +113,24 @@
         </div>
         <div class="flex flex-wrap gap-4 justify-center items-center">
           {#if data.contactInfo.email}
-            <a 
-              href="mailto:{data.contactInfo.email}" 
+            <a
+              href="mailto:{data.contactInfo.email}"
               class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-primary-800 hover:text-primary-900 group"
             >
               <Icon name="mail" size={20} className="mr-2" />
               <CleanText text={data.contactInfo.email} />
             </a>
           {/if}
-          {#if data.ctaButton}
-            <CleanText text="oder" className="text-gray-400 px-4" />
-            <Button 
-              text={data.ctaButton.text}
-              href={data.ctaButton.link}
-              icon="arrow-right"
-              size="md"
-              variant="primary"
-            />
-          {/if}
+        </div>
+      {/if}
+      
+      {#if data.ctaButton}
+        <div class="flex justify-center mt-4">
+          <Button
+            text={data.ctaButton.text}
+            href={data.ctaButton.link}
+            variant="green"
+          />
         </div>
       {/if}
     </div>

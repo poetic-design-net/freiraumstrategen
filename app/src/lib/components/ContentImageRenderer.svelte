@@ -33,7 +33,7 @@
 {#if imageData}
   <div class="">
     <img 
-      class="w-full object-cover rounded-lg aspect-[16/9] shadow-md mx-auto max-w-4xl"
+      class="w-full object-contain mx-auto max-w-4xl"
       src={imageData.url} 
       alt={imageData.alt} 
     />

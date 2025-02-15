@@ -56,6 +56,14 @@ export default defineType({
       group: 'content'
     }),
     defineField({
+      name: 'headline2',
+      title: 'Zweite Headline',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'Eine zweite Headline mit leichterem Font-Weight (mit Formatierungsmöglichkeiten)',
+      group: 'content'
+    }),
+    defineField({
       name: 'subheadline',
       title: 'Subheadline',
       type: 'string',

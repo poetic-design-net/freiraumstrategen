@@ -14,6 +14,9 @@ import type {
     SalesPricingSection,
     SalesWhyContentSection
 } from '$lib/types/salesSections';
+import type { SalesContentSectionFullWidth } from '$lib/types/salesContentSectionFullWidth';
+import type { DividerSection } from '$lib/types/dividerSection';
+
 import {
     isHeroSection,
     isContentSection,
@@ -44,6 +47,7 @@ import {
     isUberunsTeamSection,
     getUberunsTeamProps,
 } from '$lib/utils/sections/index';
+
 import {
     isSalesHeroSection,
     getSalesHeroProps,
@@ -65,9 +69,14 @@ import {
     getSalesForWhoProps,
     isSalesPricingSection,
     getSalesPricingProps,
-    isSalesWhyContentSection, 
-    getSalesWhyContentProps
+    isSalesWhyContentSection,
+    getSalesWhyContentProps,
+    isSalesContentSectionFullWidth,
+    getSalesContentSectionFullWidthProps
 } from '$lib/utils/sections/transformers/salesSections';
+
+import { isDividerSection, getDividerSectionProps } from '$lib/utils/sections/guards/dividerSection';
+
 import {
     HeroSection,
     Calltoaction,
@@ -83,10 +92,10 @@ import {
     StrategyFeaturesSection,
     StrategyFeaturesSection_alt,
     BlogSection,
-    SectionContainer,
     SalesHero,
     SalesAdvantages,
     SalesContent,
+    SalesContentFullWidth,
     SalesCurriculum,
     SalesEmotional,
     SalesEmotionalFreedom,
@@ -96,21 +105,28 @@ import {
     SalesPricing,
     SalesWhyContent,
     UberunsTeamSection,
-    ReviewSection
+    ReviewSection,
+    DividerSection as DividerSectionComponent,
+    SectionContainer
 } from '.';
+
 import ComingSoonSection from '$lib/templates/ComingSoonSection.svelte';
 
-type AnySection = Section | StrategySection | 
-    SalesAdvantagesSection & Section |
-    SalesContentSection & Section |
-    SalesCurriculumSection & Section |
-    SalesEmotionalSection & Section |
-    SalesEmotionalFreedomSection & Section |
-    SalesFaqSection & Section |
-    SalesFeaturesSection & Section |
-    SalesForWhoSection & Section |
-    SalesPricingSection & Section |
-    SalesWhyContentSection & Section;
+type AnySection =
+    | Section
+    | StrategySection
+    | (SalesAdvantagesSection & Section)
+    | (SalesContentSection & Section)
+    | (SalesCurriculumSection & Section)
+    | (SalesEmotionalSection & Section)
+    | (SalesEmotionalFreedomSection & Section)
+    | (SalesFaqSection & Section)
+    | (SalesFeaturesSection & Section)
+    | (SalesForWhoSection & Section)
+    | (SalesPricingSection & Section)
+    | (SalesWhyContentSection & Section)
+    | (SalesContentSectionFullWidth & Section)
+    | (DividerSection & Section);
 
 export let section: AnySection;
 export let scrollProgress = 0;
@@ -131,6 +147,11 @@ interface SectionConfig {
 }
 
 const sectionConfigs: SectionConfig[] = [
+    {
+        isType: isDividerSection,
+        getProps: getDividerSectionProps,
+        component: DividerSectionComponent
+    },
     {
         isType: (section) => section._type === 'reviewSection',
         getProps: (section) => ({
@@ -160,7 +181,7 @@ const sectionConfigs: SectionConfig[] = [
         isType: isKachelSection,
         getProps: getKachelSectionProps,
         component: KachelSection,
-        containerProps: { 
+        containerProps: {
             showOverlay: true,
             overlayOpacity: Math.max(0, (scrollProgress - 0.5) * 2)
         }
@@ -248,6 +269,11 @@ const salesSectionConfigs: SectionConfig[] = [
         component: SalesContent
     },
     {
+        isType: isSalesContentSectionFullWidth,
+        getProps: getSalesContentSectionFullWidthProps,
+        component: SalesContentFullWidth
+    },
+    {
         isType: isSalesCurriculumSection,
         getProps: getSalesCurriculumProps,
         component: SalesCurriculum
@@ -291,7 +317,7 @@ const salesSectionConfigs: SectionConfig[] = [
 </script>
 
 {#if section?.enabled}
-    {#each sectionConfigs as config}
+    {#each [...sectionConfigs, ...salesSectionConfigs] as config}
         {#if config.isType(section)}
             {@const props = config.getProps(section)}
             {#if !config.conditional || config.conditional(props)}
@@ -299,17 +325,6 @@ const salesSectionConfigs: SectionConfig[] = [
                     <svelte:component this={config.component} data={props} {...props} {section} />
                 </SectionContainer>
             {/if}
-        {/if}
-    {/each}
-
-    {#each salesSectionConfigs as config}
-        {#if config.isType(section)}
-            <SectionContainer {section}>
-                <svelte:component 
-                    this={config.component} 
-                    data={config.getProps(section)} 
-                />
-            </SectionContainer>
         {/if}
     {/each}
 {/if}

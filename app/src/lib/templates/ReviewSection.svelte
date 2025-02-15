@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { fade, scale } from 'svelte/transition';
   import SanityImage from '$lib/components/SanityImage.svelte';
+  import Button from '../components/Button.svelte';
 
   export let data: ReviewSectionProps;
   
@@ -78,12 +79,12 @@
 </svelte:head>
 
 {#if data.enabled}
-  <section class="py-16 relative">
-    <div class="container px-4 mx-auto">
+
+    <div class="container px-4 mx-auto ">
       <!-- Header -->
-      <div class="max-w-2xl mx-auto mb-16 text-center">
+      <div class="max-w-5xl mx-auto mb-16 text-center space-y-4">
         {#if data.header.badge}
-          <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">
+          <span class="inline-block font-medium text-primary uppercase">
             {data.header.badge}
           </span>
         {/if}
@@ -163,34 +164,24 @@
                 <p class="text-gray-600 line-clamp-3 flex-grow">{review.text}</p>
               </button>
             {/each}
-
-            <!-- Static Google Review Link Tile -->
-            <a
+          </div>
+          
+          <!-- Green Button for More Reviews -->
+          <div class="mt-8 text-center">
+            <Button
               href={`https://search.google.com/local/reviews?placeid=${data.googlePlaces?.placeId}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="bg-white rounded-lg shadow-lg p-6 transition-transform hover:scale-105 cursor-pointer w-full h-full flex flex-col items-center justify-center text-center"
-              in:fade={{duration: 300}}
+              variant="green"
+              size="lg"
+              text="Alle Bewertungen anzeigen"
             >
-              <div class="w-12 h-12 rounded-full mb-4 bg-primary-100 flex items-center justify-center">
-                <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-                </svg>
-              </div>
-              <p class="text-lg font-medium text-gray-900 mb-2">Mehr Bewertungen?</p>
-              <p class="text-gray-600">Besuche uns auf Google für weitere Erfahrungsberichte.</p>
-              <div class="flex mt-4">
-                {#each Array(5) as _}
-                  <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                {/each}
-              </div>
-            </a>
+           
+            </Button>
           </div>
       {/if}
     </div>
-  </section>
+
 
   <!-- Review Modal -->
   {#if modalOpen && selectedReview}

@@ -35,38 +35,21 @@
 
 <!-- Video Button -->
 {#if isButtonVisible}
-  <button 
-    class="group relative flex items-center md:gap-4 
-      bg-gray-900/75 hover:bg-gray-900/85
-      backdrop-blur-sm 
-      rounded-full md:rounded-2xl 
-      p-2.5 md:p-6 
-      transition-all duration-300 
+  <button
+    class="group relative flex items-center
+      transition-all duration-300
       hover:scale-[1.02] active:scale-[0.98]
-      shadow-lg shadow-gray-900/10 
-      hover:shadow-xl hover:shadow-gray-900/20
       transform-gpu"
     on:click={toggleVideo}
     transition:fade={{ duration: 300 }}
   >
     <div class="relative">
-      <div class="absolute -inset-2.5 md:-inset-4 animate-ping rounded-full bg-primary-500/10 duration-1000"></div>
-      <div class="relative h-9 w-9 md:h-12 md:w-12 rounded-full bg-primary-500/90 flex items-center justify-center shadow-lg shadow-primary-500/20">
-        <svg class="w-4 h-4 md:w-6 md:h-6 text-white translate-x-0.5" fill="none" viewBox="0 0 24 24">
+      <div class="absolute -inset-3.5 animate-ping rounded-full bg-green-500/10 duration-1000"></div>
+      <div class="relative h-12 w-12 rounded-full bg-green-500/90 flex items-center justify-center">
+        <svg class="w-6 h-6 text-white translate-x-0.5" fill="none" viewBox="0 0 24 24">
           <path fill="currentColor" d="M8 5v14l11-7z"/>
         </svg>
       </div>
-    </div>
-    
-    <div class="hidden md:block text-left">
-      <CleanText 
-        text={videoButton.text}
-        className="{textColorClass} font-medium text-sm md:text-base"
-      />
-      <CleanText 
-        text={videoButton.duration}
-        className="{textColorClass} opacity-80 text-xs md:text-sm"
-      />
     </div>
   </button>
 {/if}

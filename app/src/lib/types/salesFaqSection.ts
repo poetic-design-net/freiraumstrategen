@@ -1,8 +1,11 @@
 import type { Section } from '$lib/sanity/queries/types'
 
 export interface FAQ {
+  _id: string
+  title: string
   question: string
   answer: string
+  additionalInfo?: string
 }
 
 export interface ContactInfo {

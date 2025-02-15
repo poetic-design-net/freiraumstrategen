@@ -15,26 +15,22 @@
     }
 </script>
 
-<footer class="relative bg-gray-900 text-white py-24">
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 pointer-events-none" />
+<footer class="relative bg-primary-dark text-white py-12">
+   
     
     <div class="container mx-auto px-4">
-        <div class="max-w-7xl mx-auto">
+        <div class=" mx-auto">
             <!-- Headline -->
-            <div class="text-center mb-24">
-                <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                    Bereit für den<br>nächsten Schritt?
-                </h2>
-            </div>
+
 
             <!-- Grid Layout -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-white/10 pt-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <!-- Copyright Info -->
                 <div class="col-span-1">
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Summer-Academy ist eine Veranstaltung<br>
-                        der Freiraum Strategen GmbH
+                    <p class="text-gray-200 text-sm leading-relaxed">
+                        Die Summer-Academy 2025 ist eine Veranstaltung der Freiraum Strategen GmbH
                     </p>
+                   
                 </div>
 
                 <!-- Navigation -->
@@ -43,7 +39,7 @@
                         <nav class="flex flex-col items-end space-y-4">
                             {#each data.navigation as item}
                                 <button
-                                    class="text-gray-400 hover:text-white transition-all duration-300 text-right relative group"
+                                    class="text-gray-200 text-sm hover:text-white transition-all duration-300 text-right relative group"
                                     on:click={() => scrollToSection(item.anchor)}
                                 >
                                     <span class="relative z-10">{item.label}</span>
@@ -55,11 +51,12 @@
                 {/if}
             </div>
         </div>
+        <p class="text-gray-200 text-sm leading-relaxed pt-8">
+            Risikohinweis: CFDs sind komplexe Instrumente und bergen aufgrund der Hebelwirkung ein hohes Risiko, schnell Geld zu verlieren. Die grosse Mehrheit der Konten von Kleinanlegern verliert beim Handel mit CFDs Geld. Sie sollten abwägen, ob Sie die Funktionsweise von CFDs verstehen und ob Sie es sich leisten können, das hohe Risiko einzugehen, Ihr Geld zu verlieren.
+        </p>
     </div>
 
-    <!-- Decorative Elements -->
-    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+ 
 </footer>
 
 <style>

@@ -31,87 +31,84 @@
 </script>
 
 <!-- Content -->
-<div class="relative z-10 container px-4 mx-auto">
-  <div class="text-center mb-20">
+<div class="relative z-10 container px-4 mx-auto ">
+  <div class="text-center mb-20 space-y-4 max-w-3xl mx-auto">
     {#if data.badge}
       <CleanText 
         text={data.badge}
-        className="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow"
+        className="inline-block font-medium uppercase {data.styles?.theme === 'light-gray' ? 'text-primary' : 'text-green'}"
       />
     {/if}
-    <CleanText 
+    <CleanText
       text={data.title}
       tag="h2"
-      className="{theme.headings} text-4xl lg:text-5xl font-bold mb-6"
+      className="{theme.headings} text-5xl font-bold"
     />
     {#if data.subtitle}
       <CleanText 
         text={data.subtitle}
         tag="p"
-        className="{theme.text} text-xl max-w-3xl mx-auto"
+        className="{theme.text} font-light pt-4 text-2xl max-w-4xl mx-auto"
       />
     {/if}
   </div>
 
   <!-- Advantages Grid -->
-  <div class="grid gap-8" class:md:grid-cols-2={data.advantages.length >= 2} class:lg:grid-cols-3={data.advantages.length >= 5}>
+  <div class="grid max-w-6xl justify-center text-center m-auto gap-y-8 gap-x-32" class:md:grid-cols-2={data.advantages.length >= 2} class:lg:grid-cols-3={data.advantages.length >= 5}>
     {#each data.advantages as advantage, index}
       <div class="h-full">
-        <button 
-          class="w-full h-full text-left cursor-pointer group"
-          on:click={() => toggleAdvantage(index)}
-        >
-          <div class="h-full p-8 {theme.background} rounded-lg shadow transition-all duration-300 hover:shadow-lg hover:{theme.background}/90">
+          <div class="h-full p-8 {theme.background} transition-all duration-300 hover:{theme.background}/90 text-center">
             <!-- Content -->
-            <div>
-              <div class="flex items-start justify-between gap-4 mb-4">
-                <CleanText 
+            <div class="h-full flex flex-col">
+              <div class="flex flex-col items-center justify-center gap-4 mb-4">
+                <Icon name="clock" className="w-18 h-18 mb-4 {data.styles?.theme === 'light-gray' ? 'text-black' : 'text-white'}" />
+                <CleanText
                   text={advantage.title}
                   tag="h3"
-                  className="{theme.headings} text-xl font-medium"
+                  className="{theme.headings} text-2xl font-medium"
                 />
-                <div class="flex-shrink-0 mt-1">
-                  <svg 
-                    class="w-4 h-4 transform transition-transform duration-200 {expandedAdvantage === index ? 'rotate-180' : ''} text-primary-600" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
+                
               </div>
-              <div class="{theme.text} text-gray-700 relative">
-                <div class="overflow-hidden">
+              <div class="{theme.text} relative flex-1">
+                <div class="overflow-hidden h-full flex flex-col">
                   {#if expandedAdvantage === index}
-                    <div 
+                    <div
                       class="py-2"
                       transition:slide|local={{ duration: 300 }}
                     >
                       <div class="[&_.page-content_:last-child]:mb-0">
-                        <PortableTextContent 
-                          value={advantage.fullText} 
+                        <PortableTextContent
+                          value={advantage.fullText}
                           components={portableTextComponents}
                         />
                       </div>
                     </div>
                   {:else if advantage.shortText}
-                    <div 
+                    <div
                       class="py-2"
                       transition:slide|local={{ duration: 300 }}
                     >
-                      <CleanText 
+                      <CleanText
                         text={advantage.shortText}
                         tag="p"
                         className="mb-0"
                       />
                     </div>
                   {/if}
+                  {#if advantage.fullText}
+                    <div class="mt-auto pt-4">
+                     <Button
+                       variant="outline"
+                       size="sm"
+                       on:click={() => toggleAdvantage(index)}
+                       text={expandedAdvantage === index ? "weniger" : "mehr"}
+                     />
+                    </div>
+                  {/if}
                 </div>
               </div>
             </div>
           </div>
-        </button>
       </div>
     {/each}
   </div>
@@ -122,9 +119,8 @@
       <Button 
         text={data.ctaButton.text}
         href={data.ctaButton.link}
-        icon="arrow-right"
         size="md"
-        variant="primary"
+        variant="green"
       />
     </div>
   {/if}

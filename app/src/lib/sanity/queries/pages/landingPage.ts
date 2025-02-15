@@ -8,6 +8,7 @@ import { kachelSectionFields } from '../sections/kachelSection';
 import { featuresSectionFields } from '../sections/featuresSection';
 import { salesHeroSectionFields } from '../sections/salesHeroSection';
 import { salesCurriculumSectionFields } from '../sections/salesCurriculumSection';
+import { salesFaqSectionFields } from '../sections/salesFaqSection';
 
 const expandImage = (fieldName: string) => groq`
   ${fieldName} {
@@ -26,6 +27,8 @@ const expandHeaderFooter = groq`
     navigation
   }
 `;
+
+import { dividerSectionFields } from '../sections/dividerSection';
 
 export const landingPageQuery = groq`*[_type == "landingPage" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
   _id,
@@ -73,6 +76,12 @@ export const landingPageQuery = groq`*[_type == "landingPage" && slug.current ==
     },
     _type == 'featuresSection' => {
       ${featuresSectionFields}
+    },
+    _type == 'dividerSection' => {
+      ${dividerSectionFields}
+    },
+    _type == 'salesFaqSection' => {
+      ${salesFaqSectionFields}
     },
     ${expandImage('backgroundImage')},
     ${expandImage('mainImage')},

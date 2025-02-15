@@ -1,5 +1,5 @@
 import {defineField, defineType} from 'sanity'
-import {getSectionTypes} from '../utils/getSectionTypes'
+import {getSectionArray} from '../utils/getSectionTypes'
 
 export default defineType({
   name: 'landingPage',
@@ -47,11 +47,7 @@ export default defineType({
       type: 'seo'
     }),
     defineField({
-      name: 'sections',
-      title: 'Sektionen',
-      description: 'Wählen und ordnen Sie die Sektionen der Landing Page',
-      type: 'array',
-      of: getSectionTypes(),
+      ...getSectionArray(),
       validation: Rule => Rule.required().min(1),
       options: {
         modal: {

@@ -26,35 +26,30 @@
   const boxTheme = getThemeStyles(data.styles?.theme || 'light', 80)
 </script>
 
-<div class="relative z-10 container  px-4 mx-auto">
-  <div class="max-w-5xl mx-auto">
+<div class="relative z-10 container px-4 mx-auto">
+  <div class="max-w-5xl mx-auto space-y-8 ">
     <!-- Section Header -->
-    <div class="text-center mb-20">
-      {#if data.badge}
-        <CleanText 
-          text={data.badge}
-          className="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow"
-        />
-      {/if}
+    <div class="text-center">
+
       <CleanText 
         text={data.title}
         tag="h2"
-        className="{theme.headings} text-4xl lg:text-5xl font-bold mb-6"
+        className="text-green text-4xl lg:text-5xl font-bold mb-6"
       />
-      {#if data.subtitle}
-        <CleanText 
-          text={data.subtitle}
-          tag="p"
-          className="{theme.text} text-xl max-w-3xl mx-auto"
-        />
-      {/if}
+       {#if data.subtitle} 
+      <CleanText 
+        text={data.subtitle} 
+        tag="p" 
+        className="{theme.text} text-3xl leading-tight max-w-5xl font-light mx-auto" 
+      /> 
+    {/if} 
     </div>
 
     <!-- Pricing Box -->
     <div class="relative">
       <!-- Content -->
       <div class="{boxTheme.background} rounded-lg overflow-hidden">
-        <div class="p-8 lg:p-12">
+        <div class="">
           <!-- Header -->
           <div class="text-center mb-12">
             {#if data.earlyBirdBadge}
@@ -77,7 +72,7 @@
             </div>
             <CleanText 
               text={data.pricing.paymentInfo}
-              className="{theme.text}"
+              className="{theme.text} font-light text-sm"
             />
           </div>
 
@@ -89,7 +84,7 @@
                   <Icon name="check" size={20} className="text-primary-600 flex-shrink-0" />
                   <CleanText
                     text={feature}
-                    className="{theme.text}"
+                    className="{theme.text} "
                   />
                 </div>
               {/each}
@@ -106,7 +101,7 @@
                   <div class="w-20 text-right">
                     <CleanText 
                       text={bonus.value}
-                      className="font-bold text-primary-700"
+                      className="font-bold text-primary-700 "
                     />
                   </div>
                   <div class="flex-grow">
@@ -132,9 +127,8 @@
                 <Button 
                   text={data.ctaButton.text}
                   href={data.ctaButton.link}
-                  icon="arrow-right"
                   size="md"
-                  variant="primary"
+                  variant="green"
                 />
               </div>
             </div>
@@ -143,14 +137,14 @@
 
         <!-- Bottom Banner - Using solid background for contrast -->
         {#if data.guaranteeBox}
-          <div class="bg-primary-800 text-white px-8 py-6 text-center">
+          <div class="bg-primary-800 text-white text-sm font-light px-8 py-6 text-center">
             <CleanText 
               text={data.guaranteeBox.title}
-              className="text-white  mb-1 block"
+              className="text-white  mb-1 block text-sm font-light "
             />
             <CleanText 
               text={data.guaranteeBox.description}
-              className="text-sm text-primary-50"
+              className="text-sm text-primary-50 font-light "
             />
           </div>
         {/if}
@@ -166,7 +160,7 @@
               <Icon name={element.icon} size={20} className="text-current" />
               <CleanText
                 text={element.text}
-                className="{theme.text}"
+                className="{theme.text} "
               />
             </div>
           {/each}

@@ -1,5 +1,6 @@
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types"
 import type { Section } from '$lib/sanity/queries/types'
+import type { PortableTextBlock } from '@portabletext/types'
 import { isSectionStyles } from '$lib/utils/sections'
 
 export interface SalesHeroStat {
@@ -22,6 +23,7 @@ export interface SalesHeroVideo {
 export interface SalesHeroSection extends Section {
   _type: 'salesHeroSection'
   headline: string
+  headline2?: PortableTextBlock[]
   subheadline?: string
   backgroundImage: {
     _type: 'image'
@@ -44,6 +46,7 @@ export function isSalesHeroSection(section: any): section is SalesHeroSection {
   if (typeof section.headline !== 'string') return false
   
   // Check optional fields
+  if (section.headline2 && !Array.isArray(section.headline2)) return false
   if (section.subheadline && typeof section.subheadline !== 'string') return false
   
   // Check backgroundImage

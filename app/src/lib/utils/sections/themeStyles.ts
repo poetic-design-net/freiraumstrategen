@@ -29,7 +29,7 @@ interface ThemeConfig {
 // Define base colors without opacity for each theme
 const baseColors = {
   'light': {
-    bg: 'bg-white',
+    bg: 'transparent',
     text: '',
     headings: 'text-gray-900',
     links: 'text-primary hover:text-primary-dark',
@@ -43,15 +43,15 @@ const baseColors = {
     border: 'border-gray-200'
   },
   'dark': {
-    bg: 'bg-black',
-    text: 'text-gray-300',
+    bg: 'bg-primary-dark',
+    text: 'text-white',
     headings: 'text-white',
     links: 'text-primary-light hover:text-primary',
     border: 'border-gray-700'
   },
   'primary': {
-    bg: 'bg-primary-950',
-    text: 'text-primary-50',
+    bg: 'bg-primary',
+    text: 'text-white',
     headings: 'text-white',
     links: 'text-white hover:text-primary-50',
     border: 'border-primary-600'
@@ -75,7 +75,7 @@ const themeConfigs: Record<ThemeOption, ThemeConfig> = {
     border: baseColors['light-gray'].border
   },
   'dark': {
-    background: `${baseColors.dark.bg}/90`,
+    background: baseColors.dark.bg,
     text: baseColors.dark.text,
     headings: baseColors.dark.headings,
     links: baseColors.dark.links,
@@ -117,7 +117,6 @@ function getResponsivePaddingClasses(padding?: PaddingConfig): string {
 export function getSectionThemeClasses(styles?: SectionStyles): string {
   if (!styles) return '';
 
-  const baseClasses = 'relative';
   const paddingClasses = getResponsivePaddingClasses(styles.padding);
   const overflowClass = styles.overflow ? 'overflow-hidden' : '';
   const customClasses = styles.customClasses || '';
@@ -125,6 +124,9 @@ export function getSectionThemeClasses(styles?: SectionStyles): string {
   // Get theme configuration
   const themeConfig = styles.theme ? themeConfigs[styles.theme] : themeConfigs.light;
   const themeClasses = `${themeConfig.background} ${themeConfig.text}`;
+
+  // Add 'relative' class only if it's not already in customClasses
+  const baseClasses = customClasses.includes('relative') ? '' : 'relative';
 
   return [baseClasses, paddingClasses, overflowClass, themeClasses, customClasses]
     .filter(Boolean)

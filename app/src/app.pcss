@@ -7,18 +7,14 @@
     scroll-behavior: smooth;
   }
 
-  /* Set all headings to gray-900 by default */
-  h1, h2, h3, h4, h5, h6,
-  .font-heading {
-    @apply text-gray-900;
-  }
+
 
   :root {
     --header-height: 100px;
     font-family: 'sofia-pro', sans-serif;
 
     --primary-gradient-from: var(--color-primary-600);  /* #0b8695 */
-    --primary-gradient-to: var(--color-primary-800);    /* #006775 */
+    --primary-gradient-to: var(--color-primary-800);    /* #00647D */
 
     --background: 0 0% 100%;  /* Weiß */
     --foreground: 0 0% 13%;   /* #222 */
@@ -35,7 +31,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    --primary: 189 100% 23%;  /* #006775 */
+    --primary: 189 100% 25%;  /* #00647D */
     --color-primary-50: 189 100% 97%;   /* #f0fbfc */
     --color-primary-100: 189 100% 94%;  /* #e1f7f9 */
     --color-primary-200: 189 100% 86%;  /* #b8edf2 */
@@ -43,9 +39,9 @@
     --color-primary-400: 189 100% 60%;  /* #3dcbdb */
     --color-primary-500: 189 100% 42%;  /* #0da6b8 */
     --color-primary-600: 189 100% 34%;  /* #0b8695 */
-    --color-primary-700: 189 100% 28%;  /* #096f7c */
-    --color-primary-800: 189 100% 23%;  /* #006775 - Ihre Basisfarbe */
-    --color-primary-900: 189 100% 19%;  /* #005460 */
+    --color-primary-700: 189 100% 29%;  /* #096f7c */
+    --color-primary-800: 189 100% 25%;  /* #00647D - Ihre Basisfarbe */
+    --color-primary-900: 189 100% 20%;  /* #005460 */
     --color-primary-950: 189 100% 10%;  /* #002c33 */
     --primary-foreground: 0 0% 100%;
     --heading: 0 0% 13%;      /* #222 für Überschriften im Light Mode */
@@ -80,7 +76,7 @@
     --border: 0 0% 20%;
     --input: 0 0% 20%;
 
-    --primary: 189 100% 23%;  /* #006775 */
+    --primary: 189 100% 25%;  /* #00647D */
     --primary-foreground: 0 0% 100%;
     --heading: 0 0% 13%;      /* #222 für Überschriften im Dark Mode */
 
@@ -169,6 +165,15 @@
     background: #2C3E50;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to left, #0b8695, #006775) !important;  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to left, #0b8695, #006775) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+    .bg-primary-dark {
+    background-color: #003b49;
+  }
+  .text-primary-dark {
+    color: #003b49;
+  }
+  .border-primary-dark {
+    border-color: #003b49;
   }
 }
 

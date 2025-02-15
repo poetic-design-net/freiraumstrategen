@@ -36,22 +36,15 @@ export default defineType({
       title: 'FAQs',
       type: 'array',
       of: [{
-        type: 'object',
-        fields: [
-          defineField({
-            name: 'question',
-            title: 'Question',
-            type: 'string',
-            validation: (Rule) => Rule.required()
-          }),
-          defineField({
-            name: 'answer',
-            title: 'Answer',
-            type: 'text',
-            validation: (Rule) => Rule.required()
-          })
-        ]
-      }]
+        type: 'reference',
+        to: [{type: 'faq'}],
+        options: {
+          disableNew: false,
+          filter: `_type == "faq"`,
+          weak: false
+        }
+      }],
+      validation: (Rule) => Rule.required()
     }),
     defineField({
       name: 'contactInfo',

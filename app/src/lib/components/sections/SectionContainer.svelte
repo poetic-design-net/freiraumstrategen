@@ -1,12 +1,24 @@
 <script lang="ts">
     import { getSectionClasses } from '$lib/utils/sections';
     import { transformSectionStyles } from '$lib/utils/sections/transformers/sectionStyles';
+    import { isSicherheitVisible } from '$lib/stores/sicherheit';
+    import { onMount } from 'svelte';
 
     export let sticky = false;
     export let showOverlay = false;
     export let overlayOpacity = 0;
     export let section: any;
     export let fullHeight = false;
+
+    // Initial state für die Sicherheit-Section
+    onMount(() => {
+        if (section.id === 'sicherheit') {
+            isSicherheitVisible.set(false);
+        }
+    });
+
+    // Computed class für die Sichtbarkeit
+    $: visibilityClass = section.id === 'sicherheit' && !$isSicherheitVisible ? 'hidden' : '';
 
     // Transform and ensure styles are properly set with defaults
     const transformedStyles = transformSectionStyles(section.styles, section._type);
@@ -16,8 +28,8 @@
 </script>
 
 {#if sticky}
-    <section 
-        class={sectionClasses} 
+    <section
+        class="{sectionClasses} {visibilityClass}"
         {...section.id ? { id: section.id } : {}}
         data-section-type={section._type}
     >
@@ -26,8 +38,8 @@
         </div>
     </section>
 {:else if showOverlay}
-    <section 
-        class={sectionClasses} 
+    <section
+        class="{sectionClasses} {visibilityClass}"
         {...section.id ? { id: section.id } : {}}
         data-section-type={section._type}
     >
@@ -35,8 +47,8 @@
         <slot />
     </section>
 {:else}
-    <section 
-        class="{sectionClasses} relative"
+    <section
+        class="{sectionClasses} {visibilityClass}"
         {...section.id ? { id: section.id } : {}}
         data-section-type={section._type}
     >

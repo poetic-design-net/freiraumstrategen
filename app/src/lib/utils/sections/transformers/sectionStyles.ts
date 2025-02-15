@@ -16,15 +16,21 @@ const NO_PADDING_SECTIONS = [
   'salesHeroSection',
   'heroSection',
   'uberunsHeroSection',
-  'contactHeroSection'
+  'contactHeroSection',
+  'dividerSection'
 ]
 
 export function transformSectionStyles(value: unknown, sectionType?: string): SectionStyles {
+  // For dividerSection, return an empty object
+  if (sectionType === 'dividerSection') {
+    return {}
+  }
+
   // Get section-specific defaults or fall back to DEFAULT_STYLES
   const sectionDefaults = sectionType ? defaultSectionStyles[sectionType] || DEFAULT_STYLES : DEFAULT_STYLES;
 
   if (!value || typeof value !== 'object') {
-    // For hero sections, return styles without padding
+    // For sections without padding, return styles without padding
     if (sectionType && NO_PADDING_SECTIONS.includes(sectionType)) {
       const { padding, ...restDefaults } = sectionDefaults
       return restDefaults
@@ -33,7 +39,7 @@ export function transformSectionStyles(value: unknown, sectionType?: string): Se
   }
 
   if (!isSectionStyles(value)) {
-    // For hero sections, return styles without padding
+    // For sections without padding, return styles without padding
     if (sectionType && NO_PADDING_SECTIONS.includes(sectionType)) {
       const { padding, ...restDefaults } = sectionDefaults
       return restDefaults

@@ -1,9 +1,9 @@
-import { 
-  HomeIcon, 
-  ImageIcon, 
+import {
+  HomeIcon,
+  ImageIcon,
   DocumentIcon,
-  UsersIcon, 
-  StarIcon, 
+  UsersIcon,
+  StarIcon,
   BlockElementIcon,
   BulbOutlineIcon,
   RocketIcon,
@@ -14,7 +14,8 @@ import {
   HeartIcon,
   UserIcon,
   CommentIcon,
-  ClockIcon
+  ClockIcon,
+  StrikethroughIcon
 } from '@sanity/icons'
 
 interface SectionType {
@@ -44,12 +45,19 @@ export const getSectionTypes = (): SectionType[] => [
     description: 'Vorteile und Mehrwerte des Angebots'
   },
   {
-    type: 'salesContentSection',
-    title: 'Sales Content',
-    icon: DocumentIcon,
-    description: 'Hauptinhaltsbereich für Sales-Seiten'
-  },
-  {
+  type: 'salesContentSection',
+  title: 'Sales Content',
+  icon: DocumentIcon,
+  description: 'Hauptinhaltsbereich für Sales-Seiten'
+},
+{
+  type: 'salesContentSectionFullWidth',
+  title: 'Sales Content (Full Width)',
+  icon: DocumentIcon,
+  description: 'Full-Width Content-Bereich für Sales-Seiten'
+},
+{
+  
     type: 'salesWhyContentSection',
     title: 'Sales Why Content',
     icon: DocumentIcon,
@@ -222,6 +230,12 @@ export const getSectionTypes = (): SectionType[] => [
     title: 'Über uns Team',
     icon: UsersIcon,
     description: 'Team-Bereich für Über uns Seite'
+  },
+  {
+    type: 'dividerSection',
+    title: 'Divider Section',
+    icon: StrikethroughIcon,
+    description: 'Trennbereich mit zwei Überschriften'
   }
 ]
 

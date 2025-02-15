@@ -9,7 +9,10 @@ const paddingKeys = [
   'topXl', 'bottomXl'
 ] as const
 
-export function isSectionStyles(value: unknown): value is SectionStyles {
+export function isSectionStyles(value: unknown, sectionType?: string): value is SectionStyles {
+  // For DividerSection, always return true
+  if (sectionType === 'dividerSection') return true
+
   // Allow null/undefined values - they'll be handled by the transformer
   if (!value) return true
   if (typeof value !== 'object') return false
@@ -17,8 +20,8 @@ export function isSectionStyles(value: unknown): value is SectionStyles {
   const styles = value as SectionStyles
 
   // Theme validation - allow undefined/null (will use default)
-  if (styles.theme !== undefined && 
-      styles.theme !== null && 
+  if (styles.theme !== undefined &&
+      styles.theme !== null &&
       !validThemes.includes(styles.theme as ThemeOption)) {
     return false
   }
@@ -33,8 +36,8 @@ export function isSectionStyles(value: unknown): value is SectionStyles {
     // Check each defined padding value
     for (const key of paddingKeys) {
       const value = padding[key as keyof PaddingConfig]
-      if (value !== undefined && 
-          value !== null && 
+      if (value !== undefined &&
+          value !== null &&
           !validPaddingValues.includes(value as typeof validPaddingValues[number])) {
         return false
       }
@@ -42,15 +45,15 @@ export function isSectionStyles(value: unknown): value is SectionStyles {
   }
 
   // Overflow validation - allow undefined/null (will use default)
-  if (styles.overflow !== undefined && 
-      styles.overflow !== null && 
+  if (styles.overflow !== undefined &&
+      styles.overflow !== null &&
       typeof styles.overflow !== 'boolean') {
     return false
   }
 
   // CustomClasses validation - allow undefined/null/empty string
-  if (styles.customClasses !== undefined && 
-      styles.customClasses !== null && 
+  if (styles.customClasses !== undefined &&
+      styles.customClasses !== null &&
       typeof styles.customClasses !== 'string') {
     return false
   }
@@ -58,8 +61,8 @@ export function isSectionStyles(value: unknown): value is SectionStyles {
   return true
 }
 
-export function assertSectionStyles(value: unknown): asserts value is SectionStyles {
-  if (!isSectionStyles(value)) {
+export function assertSectionStyles(value: unknown, sectionType?: string): asserts value is SectionStyles {
+  if (!isSectionStyles(value, sectionType)) {
     throw new Error('Invalid section styles')
   }
 }

@@ -20,10 +20,19 @@
   .page-content :global(h2) {
     font-size: 1.875rem;
     line-height: 2.25rem;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: -0.025em;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .page-content :global(h3) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 400;
+
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
   @media (min-width: 640px) {
     .page-content :global(h2) {
@@ -37,20 +46,17 @@
   }
 
   .page-content :global(ul) {
-    padding: 2rem;
-    margin-top: 1.5rem;
-    background-color: rgb(243 244 246);
-    border-radius: 0.5rem;
-  }
-
-  .page-content :global(li) {
-    display: flex;
-    align-items: center;
+    list-style-type: disc;
+    list-style-position: inside;
     margin-bottom: 1.5rem;
   }
 
-  .page-content :global(li:last-child) {
-    margin-bottom: 0;
+  .page-content :global(li) {
+    margin-bottom: 0rem;
+  }
+
+  .page-content :global(p:last-child) {
+    margin-bottom: 2rem;
   }
 
    .page-content :global(img) {
@@ -66,6 +72,15 @@
     border-radius: 0.5rem;
   }
 
+  h3 {
+    font-size: 2rem;
+    line-height: 1.75rem;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
   @media (min-width: 640px) {
     .page-content :global(blockquote) {
       padding: 2rem 3rem;
@@ -74,6 +89,11 @@
 
   .page-content :global(blockquote p) {
     margin-bottom: 0;
+  }
+
+  .page-content :global([data-portabletext-block-style='small']) {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 </style>
 

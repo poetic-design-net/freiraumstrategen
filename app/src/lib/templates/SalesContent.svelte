@@ -9,13 +9,25 @@
   import PortableTextButton from '$lib/components/PortableTextButton.svelte'
   import Icon from '$lib/components/icons/Icon.svelte'
   import { cleanText } from '$lib/utils/textCleaner'
-  import { getThemeStyles } from '$lib/utils/sections'
+  import { getThemeStyles, getSectionClasses } from '$lib/utils/sections'
+  import Button from '$lib/components/Button.svelte'
 
   export let data: SalesContentSection
-
+  
   // Get theme-based styles for text colors and background with opacity
   const theme = getThemeStyles(data.styles?.theme)
-  const boxTheme = getThemeStyles(data.styles?.theme || 'light', 80) // Using 80% opacity for the box background
+  const boxTheme = getThemeStyles(data.styles?.theme || 'light', 80)
+  
+  // Determine content width class based on data.contentWidth
+  $: contentWidthClass = data.contentWidth === 'max-3-xl' ? 'max-w-3xl' :
+                       data.contentWidth === 'full' ? 'max-w-full' : 
+                       'max-w-5xl'
+  
+  // Determine text alignment class based on data.headlineAlignment
+  $: headlineAlignmentClass = data.headlineAlignment === 'left' ? 'text-left' : 'text-center'
+
+  // Get section classes based on the layout
+  $: sectionClasses = getSectionClasses('salesContentSection', data.styles)
 
   function sanitizePortableText(blocks: any[]): any[] {
     return blocks.map(block => {
@@ -55,102 +67,124 @@
   $: sanitizedRightContent = data.rightColumnContent ? sanitizePortableText(data.rightColumnContent) : [];
 </script>
 
-<!-- Content only, no section-level styling -->
-<div class="container px-4 mx-auto">
-  <div class="max-w-lg lg:max-w-3xl xl:max-w-5xl mx-auto">
-    <div class="text-center mb-16">
-      {#if data.badge}
-        <span class="inline-block py-1 px-3 mb-4 text-xs font-medium text-primary-900 bg-primary-50 rounded-full shadow">
-          {cleanText(data.badge)}
-        </span>
-      {/if}
-      <h2 class="{theme.headings} text-3xl max-w-2xl mx-auto lg:text-4xl font-bold mb-8">
-        {cleanText(data.title)}</h2>
 
-        {#if data.subtitle}
-        <span class="inline-block py-1 text-2xl font-medium {theme.text}">
-          {cleanText(data.subtitle)}
-        </span>
-        {/if}
-    </div>
-
-    {#if data.layout === 'single'}
-      <!-- Single Column Layout -->
-      <div class="max-w-5xl mx-auto px-4">
-        <div>
-          <PortableTextContent 
-            value={sanitizedLeftContent} 
-            components={portableTextComponents}
-            customClass="{theme.text} text-lg"
-          />
+  <div class="container px-4 mx-auto">
+      <div class={data.contentWidth === 'full' ? 'w-full' : `max-w-lg lg:max-w-3xl xl:${contentWidthClass} mx-auto`}>
+      <!-- Content -->
+      {#if data.layout === 'single'}
+        <!-- Single Column Layout -->
+        <div class="text-center mb-10 space-y-10">
+          {#if data.badge}
+            <span class="inline-block uppercase font-medium text-primary-800">
+              {cleanText(data.badge)}
+            </span>
+          {/if}
         </div>
-      </div>
-    {:else}
-      <!-- Double Column Layout (Default) -->
-      <div class="flex flex-wrap -mx-4">
-        <!-- Left Column -->
-        <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
-          <div class="max-w-lg">
-            <PortableTextContent 
-              value={sanitizedLeftContent} 
+        <div class="{contentWidthClass} {headlineAlignmentClass} mb-10 space-y-10">
+          <h2 class="{theme.headings} text-3xl mx-auto lg:text-5xl font-bold">
+            {cleanText(data.title)}
+          </h2>
+          {#if data.subtitle}
+            <span class="inline-block py-1 text-2xl max-w-4xl {theme.text}">
+              {cleanText(data.subtitle)}
+            </span>
+          {/if}
+        </div>
+        <div class="{contentWidthClass} mx-auto">
+          <div>
+            <PortableTextContent
+              value={sanitizedLeftContent}
               components={portableTextComponents}
               customClass="{theme.text} text-lg"
             />
           </div>
         </div>
-
-        <!-- Right Column -->
-        <div class="w-full lg:w-1/2 px-4">
-          <div class="max-w-lg">
-            <PortableTextContent 
-              value={sanitizedRightContent} 
-              components={portableTextComponents}
-              customClass="{theme.text} text-lg"
-            />
-          </div>
-        </div>
-      </div>
-    {/if}
-
-    <!-- Image Box with Benefits -->
-    {#if (data.image && data.image.asset) || data.benefits?.length > 0}
-      <div class="{boxTheme.background} mt-12 shadow-lg rounded-lg overflow-hidden">
-        <div class="flex flex-col md:flex-row {!data.image?.asset && data.benefits?.length ? 'md:justify-center' : ''}">
-          <!-- Image -->
-          {#if data.image?.asset}
-            <div class="md:w-1/2">
-              <SanityImage
-                value={data.image}
-                customClass="w-full h-full object-cover"
+      {:else}
+        <!-- Double Column Layout -->
+        <div class={data.contentWidth === 'full' ? 'flex flex-wrap' : 'flex flex-wrap -mx-4'}>
+          <div class={data.contentWidth === 'full' ? 'w-full lg:w-1/2 pr-6 mb-12 lg:mb-0' : 'w-full lg:w-1/2 px-4 mb-12 lg:mb-0'}>
+            <div class={data.contentWidth === 'full' ? 'w-full' : 'max-w-lg'}>
+              <!-- Left Column Content -->
+              <PortableTextContent
+                value={sanitizedLeftContent}
+                components={portableTextComponents}
+                customClass="{theme.text} text-lg"
               />
             </div>
-          {/if}
-
-          <!-- Benefits -->
-          {#if data.benefits?.length > 0}
-            <div class="md:w-1/2 p-6 flex flex-col justify-center">
-              {#if data.benefitsIntro}
-                <p class="{theme.headings} text-xl font-medium mb-6">
-                  {cleanText(data.benefitsIntro)}
-                </p>
-              {/if}
-
-              <ul class="space-y-4">
-                {#each data.benefits as benefit}
-                  <li class="flex items-center gap-2">
-                    <Icon 
-                      name="check" 
-                      size={18} 
-                      className="text-primary-600 flex-shrink-0 align-self-start"
-                    />
-                    <span class="{theme.text} text-base">{cleanText(benefit)}</span>
-                  </li>
-                {/each}
-              </ul>
+          </div>
+          <div class={data.contentWidth === 'full' ? 'w-full lg:w-1/2 pl-12' : 'w-full lg:w-1/2 px-4'}>
+            <div class={data.contentWidth === 'full' ? 'w-full' : 'max-w-lg'}>
+              <!-- Header Elements in Left Column -->
+               {#if data.badge}
+               <span class="inline-block uppercase font-medium text-primary-800 mb-6">
+                 {cleanText(data.badge)}
+               </span>
+             {/if}
+             <h2 class="{theme.headings} text-3xl lg:text-5xl font-bold mb-6">
+               {cleanText(data.title)}
+             </h2>
+             {#if data.subtitle}
+               <span class="inline-block py-1 text-2xl {theme.text} mb-10">
+                 {cleanText(data.subtitle)}
+               </span>
+             {/if}
+              <PortableTextContent
+                value={sanitizedRightContent}
+                components={portableTextComponents}
+                customClass="{theme.text}"
+              />
             </div>
-          {/if}
+          </div>
         </div>
-      </div>
-    {/if}
+      {/if}
+
+      <!-- Button Section -->
+      {#if data.button}
+        <div class="flex justify-center mt-12">
+          <Button
+            text={data.button.text}
+            href={data.button.url}
+            variant={data.button.style || 'primary'}
+            size={data.button.size || 'md'}
+          />
+        </div>
+      {/if}
+
+      <!-- Benefits -->
+      {#if (data.image?.asset) || (Array.isArray(data.benefits) && data.benefits.length > 0)}
+        <div class="{boxTheme.background} mt-12 shadow-lg rounded-lg overflow-hidden">
+          <div class="flex flex-col md:flex-row {!data.image?.asset && Array.isArray(data.benefits) && data.benefits.length > 0 ? 'md:justify-center' : ''}">
+            {#if data.image?.asset}
+              <div class="md:w-1/2">
+                <SanityImage
+                  value={data.image}
+                  customClass="w-full h-full object-cover"
+                />
+              </div>
+            {/if}
+            {#if Array.isArray(data.benefits) && data.benefits.length > 0}
+              <div class="md:w-1/2 p-6 flex flex-col justify-center">
+                {#if data.benefitsIntro}
+                  <p class="{theme.headings} text-xl font-medium mb-6">
+                    {cleanText(data.benefitsIntro)}
+                  </p>
+                {/if}
+                <ul class="space-y-4">
+                  {#each data.benefits as benefit}
+                    <li class="flex items-center gap-2">
+                      <Icon
+                        name="check"
+                        size={18}
+                        className="text-primary-600 flex-shrink-0 align-self-start"
+                      />
+                      <span class="{theme.text} text-base">{cleanText(benefit.toString())}</span>
+                    </li>
+                  {/each}
+                </ul>
+              </div>
+            {/if}
+          </div>
+        </div>
+      {/if}
+    </div>
   </div>
-</div>

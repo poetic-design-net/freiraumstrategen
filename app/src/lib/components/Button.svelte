@@ -3,15 +3,17 @@
   import type { IconName } from './icons';
 
   export let text = "Treffe die Experten";
-  export let href = "/";
-  export let variant: 'primary' | 'secondary' | 'orange' | 'outline' = 'primary';
+  export let href: string | undefined = undefined;
+  export let variant: 'primary' | 'secondary' | 'orange' | 'outline' | 'green' = 'primary';
   export let size: 'sm' | 'md' | 'lg' = 'md';
   export let icon: IconName | 'none' = 'none';
+  export let target: string | undefined = undefined;
+  export let rel: string | undefined = undefined;
 
   const sizeClasses = {
-    sm: 'py-2 px-4 text-sm',
-    md: 'py-4 px-8 text-base',
-    lg: 'py-5 px-10 text-lg'
+    sm: 'py-1 px-5 text-sm',
+    md: 'py-2 px-8 text-base',
+    lg: 'py-2 px-8 text-lg'
   };
 
   const iconSizes = {
@@ -21,48 +23,43 @@
   };
 
   $: isOutline = variant === 'outline';
+
+  const baseClasses = `group inline-flex items-center justify-center ${sizeClasses[size]} uppercase font-normal rounded-full text-white transition-colors duration-300`;
+  
+  $: classes = isOutline
+    ? `${baseClasses} border hover:bg-white/10`
+    : `${baseClasses} uppercase overflow-hidden ${
+        variant === 'green' ? 'bg-green hover:bg-green-400' :
+        variant === 'primary' ? 'bg-primary-800 hover:bg-primary-700' :
+        variant === 'orange' ? 'bg-orange-600' :
+        'bg-secondary-800'
+      }`;
 </script>
 
-{#if isOutline}
-  <div class="relative glow-icon-container">
-    <div class="absolute -inset-1 opacity-20 rounded-full bg-primary-500/5 blur-sm"></div>
-    <a 
-      class="relative group inline-flex items-center justify-center {sizeClasses[size]} font-medium rounded-md text-white border-2 border-white/20 hover:bg-white/10 transition-colors"  
-      {href} 
-      aria-label={text}
-    >
-      <span class="flex items-center justify-center gap-2">
-        {text}
-        {#if icon !== 'none'}
-          <Icon 
-            name={icon} 
-            size={iconSizes[size]} 
-            className="transform group-hover:translate-x-1 transition-transform duration-300"
-          />
-        {/if}
-      </span>
-    </a>
-  </div>
-{:else}
-  <a 
-    class="relative group inline-flex items-center justify-center {sizeClasses[size]} font-medium rounded-md overflow-hidden transition-all duration-200 bg-gradient-3 text-white shadow {
-      variant === 'primary' ? 'bg-primary-800' : variant === 'orange' ? 'bg-orange-600' : 'bg-secondary-800'
-    }"  
-    {href} 
-    aria-label={text}
-  >
-    <div class="absolute top-0 right-full w-full h-full transform group-hover:translate-x-full transition-transform duration-500 {
-      variant === 'primary' ? 'bg-primary-600' : variant === 'orange' ? 'bg-orange-600' : 'bg-secondary-600'
-    }"></div>
-    <span class="relative flex items-center justify-center gap-2 group-hover:text-white transition-colors duration-200">
+{#if href !== undefined}
+  <a {href} class={classes} aria-label={text} {target} {rel}>
+    <span class="flex items-center justify-center gap-2">
       {text}
       {#if icon !== 'none'}
-        <Icon 
-          name={icon} 
-          size={iconSizes[size]} 
+        <Icon
+          name={icon}
+          size={iconSizes[size]}
           className="transform group-hover:translate-x-1 transition-transform duration-300"
         />
       {/if}
     </span>
   </a>
+{:else}
+  <button type="button" class={classes} on:click aria-label={text}>
+    <span class="flex items-center justify-center gap-2">
+      {text}
+      {#if icon !== 'none'}
+        <Icon
+          name={icon}
+          size={iconSizes[size]}
+          className="transform group-hover:translate-x-1 transition-transform duration-300"
+        />
+      {/if}
+    </span>
+  </button>
 {/if}

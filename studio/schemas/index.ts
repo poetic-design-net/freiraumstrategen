@@ -44,7 +44,9 @@ import comingSoonSection from './objects/sections/comingSoonSection'
 // Import sales section schemas
 import salesHeroSection from './objects/sections/salesHeroSection'
 import salesAdvantagesSection from './objects/sections/salesAdvantagesSection'
+import dividerSection from './objects/sections/dividerSection'
 import salesContentSection from './objects/sections/salesContentSection'
+import salesContentSectionFullWidth from './objects/sections/salesContentSectionFullWidth'
 import salesCurriculumSection from './objects/sections/salesCurriculumSection'
 import salesEmotionalSection from './objects/sections/salesEmotionalSection'
 import salesEmotionalFreedomSection from './objects/sections/salesEmotionalFreedomSection'
@@ -56,6 +58,7 @@ import salesWhyContentSection from './objects/sections/salesWhyContentSection'
 
 // Import frontpage schema
 import frontpage from './documents/frontpage'
+
 
 export const schemaTypes = [
   // Documents
@@ -98,6 +101,7 @@ export const schemaTypes = [
   contactFormSection,
   contactHeroSection,
   faqSection,
+  dividerSection,
   reviewSection,
   uberunsHeroSection,
   uberunsIntroSection,
@@ -108,6 +112,7 @@ export const schemaTypes = [
   salesHeroSection,
   salesAdvantagesSection,
   salesContentSection,
+  salesContentSectionFullWidth,
   salesCurriculumSection,
   salesEmotionalSection,
   salesEmotionalFreedomSection,

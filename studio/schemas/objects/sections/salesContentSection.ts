@@ -74,11 +74,43 @@ export default defineType({
       options: {
         list: [
           { title: 'Single Column', value: 'single' },
-          { title: 'Double Column', value: 'double' }
+          { title: 'Double Column', value: 'double' },
+          { title: 'Full Width', value: 'fullWidth' }
         ],
         layout: 'radio'
       },
       initialValue: 'double',
+      group: 'content'
+    }),
+    defineField({
+      name: 'contentWidth',
+      title: 'Content Width',
+      type: 'string',
+      description: 'Choose the maximum width for the content',
+      options: {
+        list: [
+          { title: 'Full Width', value: 'full' },
+          { title: 'Default (max-w-5xl)', value: 'max-w-5xl' },
+          { title: 'Narrow (max-w-3xl)', value: 'max-3-xl' }
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'max-w-5xl',
+      group: 'content'
+    }),
+    defineField({
+      name: 'headlineAlignment',
+      title: 'Headline Alignment',
+      type: 'string',
+      description: 'Choose the alignment for the headline',
+      options: {
+        list: [
+          { title: 'Center', value: 'center' },
+          { title: 'Left', value: 'left' }
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'center',
       group: 'content'
     }),
     defineField({
@@ -99,7 +131,7 @@ export default defineType({
       name: 'image',
       title: 'Content Image',
       type: 'image',
-      description: 'The image to display in the content box',
+      description: 'The image to display in the content box (for benefits section)',
       group: 'media',
       fields: [
         defineField({
@@ -109,6 +141,84 @@ export default defineType({
           description: 'Alternative text for accessibility and SEO',
         }),
       ],
+    }),
+    defineField({
+      name: 'button',
+      title: 'Button',
+      type: 'object',
+      group: 'content',
+      fields: [
+        defineField({
+          name: 'text',
+          type: 'string',
+          title: 'Button Text',
+          description: 'The text to display on the button'
+        }),
+        defineField({
+          name: 'url',
+          type: 'string',
+          title: 'Button URL',
+          description: 'The URL the button links to'
+        }),
+        defineField({
+          name: 'style',
+          type: 'string',
+          title: 'Button Style',
+          options: {
+            list: [
+              { title: 'Primary', value: 'primary' },
+              { title: 'Secondary', value: 'secondary' },
+              { title: 'Orange', value: 'orange' },
+              { title: 'Green', value: 'green' }
+            ]
+          },
+          initialValue: 'primary'
+        }),
+        defineField({
+          name: 'size',
+          type: 'string',
+          title: 'Button Size',
+          options: {
+            list: [
+              { title: 'Small', value: 'sm' },
+              { title: 'Medium', value: 'md' },
+              { title: 'Large', value: 'lg' }
+            ]
+          },
+          initialValue: 'md'
+        })
+      ]
+    }),
+    defineField({
+      name: 'fullWidthImage',
+      title: 'Full Width Background Image',
+      type: 'image',
+      description: 'The background image for full width layout',
+      group: 'media',
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alt Text',
+          description: 'Alternative text for accessibility and SEO',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'imagePosition',
+      title: 'Background Image Position',
+      type: 'string',
+      description: 'Choose which side the background image should appear on',
+      options: {
+        list: [
+          { title: 'Left Side', value: 'left' },
+          { title: 'Right Side', value: 'right' }
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'left',
+      group: 'media',
+      hidden: ({ document }) => document?.layout !== 'fullWidth'
     }),
     defineField({
       name: 'benefitsIntro',
