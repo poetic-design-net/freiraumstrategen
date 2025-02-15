@@ -53,7 +53,7 @@
   }
 </style>
 
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="64" viewBox="0 0 154.1 52">
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="64" viewBox="0 0 154.1 52">
     <g class="Logo-bird">
         <polygon fill="#024358" points="47.2,16.8 47.2,9.9 54.9,16.8 	"></polygon>
         <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="44.085" y1="10.8044" x2="42.2298" y2="20.3787">
