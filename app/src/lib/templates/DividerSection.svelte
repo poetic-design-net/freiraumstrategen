@@ -6,7 +6,7 @@
 </script>
 
 {#if data.enabled !== false}
-  <div class="relative w-full bg-primary-800 py-18">
+  <div class="relative w-full bg-primary-800 py-12 sm:py-18">
     {#if data.headlineGreen}
       <div class="container mx-auto px-4 ">
         <h2 class="text-center text-2xl md:text-4xl lg:text-6xl font-bold uppercase text-green">

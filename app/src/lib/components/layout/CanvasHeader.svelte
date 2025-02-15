@@ -3,6 +3,7 @@
     import Logo from '$lib/components/Logo.svelte';
     import Button from '$lib/components/Button.svelte';
     import Icon from '$lib/components/icons/Icon.svelte';
+    import MobileMenu from '$lib/components/MobileMenuCanvas.svelte';
     import { headerStore } from '$lib/components/header/store';
 
     export let data: {
@@ -72,9 +73,10 @@
     });
 </script>
 
-<header 
-    class="sticky top-0 w-full transition-all duration-300 bg-white z-50"
+<header
+    class="sticky top-0 w-full transition-all duration-300 bg-white"
     class:shadow={$headerStore.hasScrolled}
+    style="z-index: 1000;"
 >
     {#if $headerStore.isMobile}
         <nav class="relative py-6 bg-white">
@@ -130,41 +132,13 @@
             </div>
         </nav>
     {/if}
+    <MobileMenu navigationItems={data.navigation?.map(item => ({
+      _key: item.anchor,
+      title: item.label,
+      path: `#${item.anchor}`,
+      columns: []
+    }))} />
 </header>
-
-<!-- Mobile Navigation -->
-{#if $headerStore.isMobile && $headerStore.mobileNavOpen}
-    <div 
-        class="fixed inset-0 z-40 bg-white transition-opacity duration-300"
-        style="top: 89px;"
-    >
-        <nav class="container mx-auto px-4 py-6">
-            <div class="flex flex-col space-y-4">
-                {#if data.navigation}
-                    {#each data.navigation as item}
-                        <button
-                            class="text-xl text-gray-600 hover:text-primary-600 transition-colors text-left"
-                            class:text-primary-600={activeSection === item.anchor}
-                            on:click={() => scrollToSection(item.anchor)}
-                        >
-                            {item.label}
-                        </button>
-                    {/each}
-                {/if}
-
-                {#if data.ctaButton}
-                    <div class="pt-4">
-                        <Button 
-                            text={data.ctaButton.text}
-                            href={data.ctaButton.url}
-                            variant="primary"
-                        />
-                    </div>
-                {/if}
-            </div>
-        </nav>
-    </div>
-{/if}
 
 <style lang="postcss">
     /* Header Animation Styles */

@@ -11,6 +11,7 @@
   export let data: SalesHeroSection
 
   let headlineRef: HTMLElement
+  let headline2Ref: HTMLElement
   let subheadlineRef: HTMLElement
   let descriptionRef: HTMLElement
   let ctaContainerRef: HTMLElement
@@ -49,6 +50,12 @@
       opacity: 0,
       duration: 0.8
     }, "-=0.7")
+    .from(headline2Ref, {
+      y: 25,
+      opacity: 0,
+      duration: 0.85,
+      ease: "power3.out"
+    }, "-=0.6")
     .from(descriptionRef, {
       y: 15,
       opacity: 0,
@@ -68,7 +75,7 @@
   }
 </script>
 
-<div class="relative w-full h-full-header flex flex-col justify-between">
+<div class="relative w-full  sm:h-full-header flex flex-col justify-between">
   <!-- Background -->
   <div class="absolute h-full inset-0 -z-10 bg-white">
     {#if data.backgroundImage}
@@ -84,7 +91,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="relative flex-1 flex flex-col justify-center items-center py-8 px-4">
+  <div class="relative flex-1 flex flex-col justify-center items-center py-12 px-4">
     <div class="container mx-auto">
       <div class="max-w-5xl mx-auto text-center flex flex-col items-center ">
          <!-- Subtitle -->
@@ -105,9 +112,8 @@
             className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-6xl font-bold text-white md:text-primary"
           />
         </div>
-        
         {#if data.headline2}
-          <div class="mt-2">
+          <div bind:this={headline2Ref} class="mt-2">
             <PortableTextContent
               value={data.headline2}
               customClass="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-6xl font-light text-white md:text-primary"

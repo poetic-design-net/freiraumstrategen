@@ -121,7 +121,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {#each reviews as review (review.time)}
               <button
-                class="text-left bg-white rounded-lg shadow-lg p-6 transition-transform hover:scale-105 cursor-pointer w-full h-full flex flex-col"
+                class="text-left bg-white rounded p-6 transition-transform hover:scale-105 cursor-pointer w-full h-full flex flex-col"
                 on:click={() => openModal(review)}
                 in:fade={{duration: 300}}
               >

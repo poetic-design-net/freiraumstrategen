@@ -102,7 +102,7 @@
       {:else}
         <!-- Double Column Layout -->
         <div class={data.contentWidth === 'full' ? 'flex flex-wrap' : 'flex flex-wrap -mx-4'}>
-          <div class={data.contentWidth === 'full' ? 'w-full lg:w-1/2 pr-6 mb-12 lg:mb-0' : 'w-full lg:w-1/2 px-4 mb-12 lg:mb-0'}>
+          <div class={data.contentWidth === 'full' ? 'w-full lg:w-1/2 sm:pr-6 mb-12 lg:mb-0' : 'w-full lg:w-1/2 px-4 mb-12 lg:mb-0'}>
             <div class={data.contentWidth === 'full' ? 'w-full' : 'max-w-lg'}>
               <!-- Left Column Content -->
               <PortableTextContent
@@ -112,7 +112,7 @@
               />
             </div>
           </div>
-          <div class={data.contentWidth === 'full' ? 'w-full lg:w-1/2 pl-12' : 'w-full lg:w-1/2 px-4'}>
+          <div class={data.contentWidth === 'full' ? 'w-full lg:w-1/2 sm:pl-12' : 'w-full lg:w-1/2 px-4'}>
             <div class={data.contentWidth === 'full' ? 'w-full' : 'max-w-lg'}>
               <!-- Header Elements in Left Column -->
                {#if data.badge}

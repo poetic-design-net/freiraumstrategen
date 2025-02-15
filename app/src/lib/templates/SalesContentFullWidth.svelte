@@ -54,7 +54,7 @@
 
 <div class="flex flex-col md:flex-row min-h-[300px] md:min-h-[600px]">
   <!-- Left Column -->
-  <div class="w-full md:w-1/2 flex items-center justify-center p-4 sm:p-8 lg:p-16
+  <div class="w-full md:w-1/2 flex items-center justify-center p-4 py-16 sm:p-8 lg:p-16
                {data.imagePosition === 'right' ? '' : theme.background}
                {data.imagePosition === 'right' ? 'md:order-2' : 'md:order-1'}">
     <div class="w-full max-w-2xl">

@@ -42,7 +42,7 @@
     <CleanText
       text={data.title}
       tag="h2"
-      className="{theme.headings} text-5xl font-bold"
+      className="{theme.headings} text-3xl sm:text-5xl font-bold"
     />
     {#if data.subtitle}
       <CleanText 
