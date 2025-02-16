@@ -20,7 +20,6 @@
           priority={true}
           fetchpriority="high"
           quality={90}
-          sizes="100vw"
         />
         <!-- Dark overlay for mobile -->
         <div class="absolute inset-0 bg-black/15 md:hidden" aria-hidden="true"></div>

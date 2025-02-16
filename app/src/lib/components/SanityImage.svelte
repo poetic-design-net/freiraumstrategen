@@ -96,7 +96,7 @@
       <!-- JPEG als Fallback für ältere Browser -->
       <source
         type="image/jpeg"
-        srcset={imageUrl}
+        srcset={responsiveImageData?.jpegSrcSet || imageUrl}
         {sizes}
       />
       <img 
