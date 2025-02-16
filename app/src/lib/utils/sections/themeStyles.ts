@@ -30,7 +30,7 @@ interface ThemeConfig {
 const baseColors = {
   'light': {
     bg: 'transparent',
-    text: 'text-gray-600',
+    text: '',
     headings: 'text-gray-900',
     links: 'text-primary hover:text-primary-dark',
     border: 'border-gray-200'
@@ -47,7 +47,8 @@ const baseColors = {
     text: 'text-white',
     headings: 'text-white',
     links: 'text-primary-light hover:text-primary',
-    border: 'border-gray-700'
+    border: 'border-gray-700',
+    li: 'text-white'
   },
   'primary': {
     bg: 'bg-primary',

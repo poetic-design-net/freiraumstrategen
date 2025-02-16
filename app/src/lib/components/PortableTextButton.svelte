@@ -2,7 +2,7 @@
   import Icon from './icons/Icon.svelte';
   import type { IconName } from './icons';
 
-  type ButtonStyle = 'primary' | 'secondary' | 'orange' | 'green';
+  type ButtonStyle = 'primary' | 'secondary' | 'orange' | 'green' | 'green_white';
   type ButtonSize = 'sm' | 'md' | 'lg';
   type ButtonIcon = 'none' | IconName;
   type ButtonPosition = 'start' | 'center' | 'end';
@@ -23,8 +23,8 @@
 
   const sizeClasses = {
     sm: 'py-2 px-4 text-sm',
-    md: 'py-3 px-8 text-base',
-    lg: 'py-3 px-8 text-lg'
+    md: 'py-2 px-8 text-base',
+    lg: 'py-2 px-8 text-lg'
   };
 
   const iconSizes = {
@@ -53,13 +53,14 @@
   // Style mappings based on button style and theme
   $: styleClasses = {
     primary: isDarkTheme
-      ? 'bg-white text-primary-800 hover:bg-gray-50 hover:text-primary-900 uppercase'
-      : 'bg-primary-800 text-white hover:bg-primary-700 uppercase ',
+      ? 'bg-white text-primary-800 hover:bg-green hover:text-white uppercase'
+      : 'bg-primary-800 text-white hover:bg-green hover:text-white uppercase',
     secondary: isDarkTheme
       ? 'bg-transparent text-white border-2 border-white hover:bg-white hover:text-primary-800'
       : 'bg-transparent text-primary-800 border-2 border-primary-800 hover:bg-primary-800 hover:text-white',
     orange: 'bg-orange-500 text-white hover:bg-orange-600 uppercase',
-    green: 'bg-green text-white hover:bg-green-400 uppercase'
+    green: 'bg-green text-white hover:bg-primary-800 uppercase',
+    green_white: 'bg-green text-white hover:bg-white hover:text-green uppercase'
   };
 
   // Position classes

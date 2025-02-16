@@ -56,7 +56,7 @@
   }
 
   .page-content :global(p:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
   }
 
    .page-content :global(img) {

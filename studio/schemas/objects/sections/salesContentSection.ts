@@ -56,7 +56,6 @@ export default defineType({
       title: 'Title',
       type: 'string',
       description: 'The main title of the content section',
-      validation: (Rule) => Rule.required(),
       group: 'content'
     }),
     defineField({

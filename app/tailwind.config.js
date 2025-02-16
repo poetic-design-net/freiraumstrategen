@@ -112,6 +112,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        'even': '0 0 15px 0 rgba(0, 0, 0, 0.2)',
+      },
       scale: {
         '101': '1.01',
         '102': '1.02',
@@ -119,6 +122,7 @@ export default {
         '104': '1.04',
       },
       spacing: {
+        '1.75': '0.4375rem', // 7px
         '18': '4.5rem',  // 72px
         '20': '5rem',    // 80px
         '24': '6rem',    // 96px
@@ -136,6 +140,7 @@ export default {
       animation: {
         meteor: "meteor 5s linear infinite",
         gradient: "gradient 8s linear infinite",
+        'bounce-subtle': 'bounceSoft 0.5s ease-in-out',
       },
       keyframes: {
         meteor: {
@@ -148,6 +153,10 @@ export default {
         },
         gradient: {
           to: { "background-position": "200% center" },
+        },
+        bounceSoft: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-5px)' }
         },
       },
     },

@@ -73,23 +73,30 @@
       <!-- Content -->
       {#if data.layout === 'single'}
         <!-- Single Column Layout -->
-        <div class="text-center mb-10 space-y-10">
+        <div class="space-y-10 mb-10">
           {#if data.badge}
-            <span class="inline-block uppercase font-medium text-primary-800">
-              {cleanText(data.badge)}
-            </span>
+            <div class="text-center">
+              <span class="inline-block uppercase font-medium text-primary-800">
+                {cleanText(data.badge)}
+              </span>
+            </div>
           {/if}
-        </div>
-        <div class="{contentWidthClass} {headlineAlignmentClass} mb-10 space-y-10">
-          <h2 class="{theme.headings} text-3xl mx-auto lg:text-5xl font-bold">
-            {cleanText(data.title)}
-          </h2>
+          {#if data.title}
+            <div class="{contentWidthClass} {headlineAlignmentClass}">
+              <h2 class="{theme.headings} text-3xl mx-auto lg:text-5xl font-bold">
+                {cleanText(data.title)}
+              </h2>
+            </div>
+          {/if}
           {#if data.subtitle}
-            <span class="inline-block py-1 text-2xl max-w-4xl {theme.text}">
-              {cleanText(data.subtitle)}
-            </span>
+            <div>
+              <span class="inline-block py-1 text-2xl max-w-4xl {theme.text}">
+                {cleanText(data.subtitle)}
+              </span>
+            </div>
           {/if}
         </div>
+    
         <div class="{contentWidthClass} mx-auto">
           <div>
             <PortableTextContent

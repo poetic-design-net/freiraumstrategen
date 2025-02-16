@@ -41,7 +41,7 @@
     <!-- FAQ List -->
     <div class="space-y-4">
       {#each data.faqs as faq, index}
-        <div class="overflow-hidden text-2xl text-primary border-b-2 border-primary duration-300">
+        <div class="overflow-hidden text-2xl text-primary border-b-2 border-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:border-b-4 after:border-b-green after:opacity-0 hover:after:opacity-100 after:duration-300 relative {expandedIndex === index ? 'after:opacity-100' : ''}">
           <button
             class="w-full text-left  py-4 flex items-center justify-between transition-colors"
             on:click={() => toggleFaq(index)}
@@ -77,7 +77,7 @@
           </button>
           {#if expandedIndex === index}
             <div 
-              class="py-4 border-b-4 border-b-green"
+              class="py-4"
               transition:slide={{ duration: 300 }}
             >
               <div class="space-y-4">

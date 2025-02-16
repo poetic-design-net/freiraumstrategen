@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
+  import { elasticOut } from 'svelte/easing';
   import type { SalesEmotionalSection } from '$lib/types/salesEmotionalSection'
   import SanityImage from '$lib/components/SanityImage.svelte'
   import Icon from '$lib/components/icons/Icon.svelte';
@@ -8,13 +10,21 @@
 
   export let data: SalesEmotionalSection
 
+  let isVisible: boolean;
+
+  isSicherheitVisible.subscribe(value => {
+    isVisible = value;
+  });
+
   // Click-Handler für den Button
   function handleShowSicherheit() {
-    isSicherheitVisible.set(true);
-    // Warte kurz, bis der DOM aktualisiert wurde
-    setTimeout(() => {
-      document.getElementById('sicherheit')?.scrollIntoView({ behavior: 'smooth' });
-    }, 50);
+    isSicherheitVisible.set(!isVisible);
+    if (!isVisible) {
+      // Warte kurz, bis der DOM aktualisiert wurde
+      setTimeout(() => {
+        document.getElementById('sicherheit')?.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
   }
 </script>
 
@@ -70,11 +80,11 @@
           data.alignment === 'center' ? 'flex justify-center' : 
           ''
         }">
-          <Button 
-            text={data.ctaButton.text}
-            icon="chevron-down"
+          <Button
+            text={isVisible ? "Weniger sehen" : data.ctaButton.text}
+            icon={isVisible ? "chevron-up" : "chevron-down"}
             size="md"
-            variant="primary"
+            variant={isVisible ? "green_white" : "primary"}
             on:click={handleShowSicherheit}
           />
         </div>
@@ -93,6 +103,44 @@
 
     .parallax:hover {
       transform: scale(1.05);
+    }
+  }
+
+  :global(.bounce-fade-in) {
+    animation: bounceIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  :global(.bounce-fade-out) {
+    animation: bounceOut 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+    }
+    70% {
+      opacity: 0.9;
+      transform: scale(1.02) translateY(-3px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes bounceOut {
+    0% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    30% {
+      opacity: 0.9;
+      transform: scale(1.02) translateY(3px);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
     }
   }
 </style>

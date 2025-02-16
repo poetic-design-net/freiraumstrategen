@@ -125,6 +125,7 @@
                                 text={data.ctaButton.text}
                                 href={data.ctaButton.url}
                                 variant="primary"
+                                size="md"
                             />
                         </div>
                     {/if}
