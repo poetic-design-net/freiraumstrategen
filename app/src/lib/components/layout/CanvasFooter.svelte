@@ -36,7 +36,7 @@
                 <!-- Navigation -->
                 {#if data.navigation}
                     <div class="col-span-1">
-                        <nav class="flex flex-col items-end space-y-4">
+                        <nav class="flex md:justify-end space-x-4">
                             {#each data.navigation as item}
                                 <button
                                     class="text-gray-200 text-sm hover:text-white transition-all duration-300 text-right relative group"
