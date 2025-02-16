@@ -30,7 +30,7 @@ interface ThemeConfig {
 const baseColors = {
   'light': {
     bg: 'transparent',
-    text: '',
+    text: 'text-gray-600',
     headings: 'text-gray-900',
     links: 'text-primary hover:text-primary-dark',
     border: 'border-gray-200'
