@@ -47,15 +47,12 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 1001;
   }
 </style>
 
 {#if isOpen}
-<div
-  class="fixed inset-0 z-[1001]"
-  style="top: {window?.scrollY || 0}px;"
-  transition:fade={{ duration: 200 }}
->
+<div class="mobile-menu">
   <div
     class="fixed inset-0 bg-gray-800/50 backdrop-blur-sm"
     on:click={onClose}
@@ -63,11 +60,10 @@
     aria-label="Mobiles Menü schließen"
   />
   <div
-    class="fixed h-screen w-5/6 max-w-md bg-white shadow-2xl"
-    style="top: {window?.scrollY || 0}px; left: 0;"
+    class="fixed h-full w-5/6 max-w-md bg-white shadow-2xl"
+    style="left: 0;"
     transition:fly={{ x: -100, duration: 400, easing: cubicOut }}
   >
-
     <nav class="h-full flex flex-col">
       <!-- Header -->
       <div class="flex items-center justify-between px-4 py-6 border-b border-gray-100">
