@@ -97,9 +97,7 @@
 
 <main id="main-content" role="main" aria-label="Main content">
   <div
-    class="page-transition"
     class:page-ready={ready}
-    style="transition-duration: 0.3s"
   >
     <slot />
     {#if browser && CookieConsentComponent}

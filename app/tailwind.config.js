@@ -136,11 +136,11 @@ export default {
         '72': '18rem',
         '80': '20rem',
         '96': '24rem',
-      },
       animation: {
         meteor: "meteor 5s linear infinite",
         gradient: "gradient 8s linear infinite",
-        'bounce-subtle': 'bounceSoft 0.5s ease-in-out',
+        'bounce-in': 'bounceIn 0.6s cubic-bezier(0.32, 0.72, 0, 1.02)',
+      },
         'bounce-in': 'bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
       },
       keyframes: {
