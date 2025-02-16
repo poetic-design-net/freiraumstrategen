@@ -24,11 +24,16 @@
 
 <!-- Cache-Control für statische Assets -->
 <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable">
-<!-- Preload critical assets -->
-		<link rel="preload" href="https://use.typekit.net/opp4fpc.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-		<noscript><link rel="stylesheet" href="https://use.typekit.net/opp4fpc.css"></noscript>
+<!-- Preconnect to critical domains -->
+<link rel="preconnect" href="https://cdn.sanity.io" crossorigin>
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
 
-		%sveltekit.head%
+<!-- Preload critical assets -->
+<link rel="preload" href="%sveltekit.assets%/global.css" as="style">
+<link rel="preload" href="https://use.typekit.net/opp4fpc.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://use.typekit.net/opp4fpc.css"></noscript>
+
+%sveltekit.head%
 	</head>
 	<body class="article-page:bg-conic-gradient" data-sveltekit-preload-data="hover">
 	<a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>

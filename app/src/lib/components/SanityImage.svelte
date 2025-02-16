@@ -87,11 +87,13 @@
     {/if}
 
     <!-- Hauptbild -->
-    <img 
+    <!-- Hauptbild -->
+    <img
       bind:this={imageRef}
-      class="{className}"
+      class="{className} transform-gpu"
       class:opacity-0={!mainImageLoaded}
       class:opacity-100={mainImageLoaded}
+      style="backface-visibility: hidden; -webkit-backface-visibility: hidden;"
       src={imageUrl}
       srcset={srcSet}
       sizes={responsiveImageData?.sizes}
@@ -104,7 +106,6 @@
       on:load={handleLoad}
       on:error={handleError}
     />
-    
     <!-- Loading Zustand -->
     {#if isLoading && !lqipUrl}
       <div class="absolute inset-0 bg-white animate-pulse overflow-hidden" />

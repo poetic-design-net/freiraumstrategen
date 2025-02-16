@@ -15,7 +15,7 @@
       <div class="relative w-full h-full">
         <SanityImage
           value={data.backgroundImage}
-          customClass="absolute inset-0 w-full h-full object-cover object-right hero-bg"
+          customClass="w-full h-full object-cover object-right hero-bg will-change-transform"
           priority={true}
           fetchpriority="high"
           isHero={true}
@@ -33,7 +33,7 @@
       <div class="max-w-5xl mx-auto text-center flex flex-col items-center">
         <!-- Subtitle -->
         {#if data.subheadline}
-        <div class="animate-fade-slide-up" style="--delay: 0.3s">
+        <div class="animate-fade-slide-up" style="--delay: 0.1s">
           <CleanText
             text={data.subheadline}
             tag="p"
@@ -42,7 +42,7 @@
         </div>
         {/if}
         <!-- Headlines -->
-        <div class="animate-fade-slide-up" style="--delay: 0.4s">
+        <div class="animate-fade-slide-up" style="--delay: 0.15s">
           <CleanText
             text={data.headline}
             tag="h1"
@@ -50,7 +50,7 @@
           />
         </div>
         {#if data.headline2}
-          <div class="mt-2 animate-fade-slide-up" style="--delay: 0.5s">
+          <div class="mt-2 animate-fade-slide-up" style="--delay: 0.2s">
             <PortableTextContent
               value={data.headline2}
               customClass="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-6xl font-light text-white md:text-primary"
@@ -60,7 +60,7 @@
 
         <!-- Description -->
         {#if data.description}
-          <div class="animate-fade-slide-up" style="--delay: 0.6s">
+          <div class="animate-fade-slide-up" style="--delay: 0.25s">
             <CleanText
               text={data.description}
               tag="p"
@@ -70,7 +70,7 @@
         {/if}
 
         <!-- CTA Buttons -->
-        <div class="cta-container flex flex-wrap gap-6 md:gap-16 justify-center mt-16 animate-fade-slide-up" style="--delay: 0.7s">
+        <div class="cta-container flex flex-wrap gap-6 md:gap-16 justify-center mt-16 animate-fade-slide-up" style="--delay: 0.3s">
           {#if data.primaryCTA}
             <Button
               href={data.primaryCTA.link}
@@ -120,11 +120,20 @@
 </div>
 
 <style>
-  /* Optimierung für Content Layout Shift */
+  /* Optimierung für Content Layout Shift und Performance */
   .hero-bg {
     aspect-ratio: 16/9;
     @media (min-width: 768px) {
       aspect-ratio: 21/9;
     }
+  }
+
+  :global(.animate-fade-slide-up) {
+    transform: translateY(0) translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
   }
 </style>
