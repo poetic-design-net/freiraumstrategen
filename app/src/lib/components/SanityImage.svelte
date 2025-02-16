@@ -12,6 +12,7 @@
   export let height: number | undefined = undefined;
   export let quality = 80; // Balanced quality for WebP
   export let format: ImageFormat = 'webp';
+  export let avifSrcSet: string | undefined = undefined;
   export let priority = false; // For LCP images
   export let fetchpriority: 'high' | 'low' | 'auto' = priority ? 'high' : 'auto';
   export let blur = !priority; // Disable blur for priority images
@@ -80,16 +81,22 @@
     style={width && height ? `aspect-ratio: ${width}/${height};` : ''}
   >
     <picture>
-      {#if format === 'webp'}
-        <source
-          type="image/webp"
-          srcset={srcSet || imageUrl}
-          {sizes}
-        />
-      {/if}
+      <!-- AVIF als beste Option mit optimierter Qualität -->
+      <source
+        type="image/avif"
+        srcset={avifSrcSet || srcSet}
+        {sizes}
+      />
+      <!-- WebP als zweite Option -->
+      <source
+        type="image/webp"
+        srcset={srcSet}
+        {sizes}
+      />
+      <!-- JPEG als Fallback für ältere Browser -->
       <source
         type="image/jpeg"
-        srcset={srcSet || imageUrl}
+        srcset={imageUrl}
         {sizes}
       />
       <img 

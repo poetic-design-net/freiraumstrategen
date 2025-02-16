@@ -23,7 +23,7 @@ const config = defineConfig({
       previewUrl: {
         origin: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:5173',
         previewMode: {
-          enable: `/preview/enable?sanity-preview-secret=${process.env.SANITY_STUDIO_PREVIEW_SECRET}`,
+          enable: '/preview/enable',
           disable: '/preview/disable'
         }
       }
@@ -32,7 +32,7 @@ const config = defineConfig({
     media(),
   ],
   schema: {
-    types: (schemaTypes as any[]).map(type => ({...type})),
+    types: (schemaTypes as any[]).map(type => ({...type}))
   }
 })
 

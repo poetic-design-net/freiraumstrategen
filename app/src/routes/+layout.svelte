@@ -95,7 +95,7 @@
   <Header {data} />
 {/if}
 
-<main>
+<main id="main-content" role="main" aria-label="Main content">
   <div
     class="page-transition"
     class:page-ready={ready}
@@ -107,6 +107,15 @@
     {/if}
   </div>
 </main>
+
+
+
+<svelte:head>
+  <link rel="preload" href="/global.css" as="style">
+  <meta name="description" content="Die Freiraumstrategen - Ihr Partner für erfolgreiches Trading">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href={$page.url.href}>
+</svelte:head>
 
 {#if !$isCanvasStyle}
   <Footer />
