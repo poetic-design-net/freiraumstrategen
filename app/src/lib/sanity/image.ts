@@ -27,17 +27,30 @@ export function urlFor(source: SanityImageSource) {
   return builder.image(source).auto('format').fit('max');
 }
 
-export function enhanceUrl(source: SanityImageSource, width?: number) {
+export function enhanceUrl(source: SanityImageSource, width?: number, options: {
+  quality?: number;
+  isPriority?: boolean;
+} = {}) {
   const defaultWidth = breakpoints[0];
-  const optimalWidth = !width 
-    ? defaultWidth 
+  const optimalWidth = !width
+    ? defaultWidth
     : breakpoints.find(bp => bp >= width) || breakpoints[breakpoints.length - 1];
 
-  return builder
+  // Optimiere Qualität basierend auf Bildbreite und Priorität
+  const quality = options.quality ?? (optimalWidth <= 768 ? 75 : 85);
+  
+  let imageBuilder = builder
     .image(source)
-    .auto('format')
-    .fit('max')
+    .format('webp') // Explizit WebP Format
+    .fit('crop')
     .width(optimalWidth);
+
+  // Aggressivere Optimierung für nicht-prioritäre Bilder
+  if (!options.isPriority) {
+    imageBuilder = imageBuilder.quality(quality);
+  }
+
+  return imageBuilder;
 }
 
 export function getResponsiveImage(source: SanityImageSource) {

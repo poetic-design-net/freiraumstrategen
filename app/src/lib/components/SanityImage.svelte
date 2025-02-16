@@ -75,9 +75,9 @@
   });
 </script>
 
-{#if imageUrl && mounted}
-  <div 
-    class="relative {className}" 
+{#if imageUrl}
+  <div
+    class="relative {className}"
     style={width && height ? `aspect-ratio: ${width}/${height};` : ''}
   >
     <picture>
@@ -85,26 +85,20 @@
       <source
         type="image/avif"
         srcset={avifSrcSet || srcSet}
-        {sizes}
+        sizes={priority ? '100vw' : sizes}
       />
       <!-- WebP als zweite Option -->
       <source
         type="image/webp"
         srcset={srcSet}
-        {sizes}
+        sizes={priority ? '100vw' : sizes}
       />
-      <!-- JPEG als Fallback für ältere Browser -->
-      <source
-        type="image/jpeg"
-        srcset={responsiveImageData?.jpegSrcSet || imageUrl}
-        {sizes}
-      />
-      <img 
+      <img
         bind:this={imageRef}
-        class="{className} transition-opacity duration-300 {isLoading ? 'opacity-0' : 'opacity-100'}"
+        class="{className}"
         src={imageUrl}
         srcset={srcSet}
-        {sizes}
+        sizes={priority ? '100vw' : sizes}
         alt={altText}
         loading={priority ? 'eager' : 'lazy'}
         fetchpriority={fetchpriority}
@@ -116,9 +110,9 @@
         on:error={handleError}
       />
     </picture>
-    {#if isLoading}
-      <div 
-        class="absolute inset-0 bg-gray-100 animate-pulse overflow-hidden" 
+    {#if isLoading && !priority}
+      <div
+        class="absolute inset-0 bg-gray-100 animate-pulse overflow-hidden"
         style={width && height ? `aspect-ratio: ${width}/${height};` : ''}
       >
         {#if blur && blurDataURL}
