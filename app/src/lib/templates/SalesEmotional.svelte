@@ -4,30 +4,44 @@
   import type { SalesEmotionalSection } from '$lib/types/salesEmotionalSection'
   import SanityImage from '$lib/components/SanityImage.svelte'
   import Icon from '$lib/components/icons/Icon.svelte';
+  import { onMount } from 'svelte';
   import CleanText from '$lib/components/CleanText.svelte';
   import Button from '$lib/components/Button.svelte';
   import { isSicherheitVisible } from '$lib/stores/sicherheit';
+  import { isHighlightsAnimated } from '$lib/stores/highlights';
 
-  export let data: SalesEmotionalSection
-
+  export let data: SalesEmotionalSection;
   let isVisible: boolean;
-
+  let isAnimating = false;
+  
   isSicherheitVisible.subscribe(value => {
     isVisible = value;
+    // Wenn Sicherheit ausgeblendet wird
+    if (!value && !isAnimating) {
+      isAnimating = true;
+      // Animation zurücksetzen
+      isHighlightsAnimated.set(false);
+      // Kurz warten und dann neu triggern
+      setTimeout(() => {
+        isHighlightsAnimated.set(true);
+        // Animation-Lock nach der Animation aufheben
+        setTimeout(() => {
+          isAnimating = false;
+        }, 400); // Animation duration
+      }, 10);
+    }
   });
 
-  // Click-Handler für den Button
   function handleShowSicherheit() {
     isSicherheitVisible.set(!isVisible);
     if (!isVisible) {
-      // Warte kurz, bis der DOM aktualisiert wurde
+      isHighlightsAnimated.set(false);
       setTimeout(() => {
         document.getElementById('sicherheit')?.scrollIntoView({ behavior: 'smooth' });
       }, 50);
     }
   }
 </script>
-
 
 <div class="w-full py-24 flex items-center">
   <!-- Background Image Layer -->
