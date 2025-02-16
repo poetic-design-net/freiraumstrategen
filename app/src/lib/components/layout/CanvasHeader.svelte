@@ -104,11 +104,11 @@
                     </a>
 
                     <!-- Desktop Navigation -->
-                    <div class="hidden xl:flex items-center space-x-8">
+                    <div class="hidden xl:flex items-center space-x-32">
                         {#if data.navigation}
                             {#each data.navigation as item}
                                 <button
-                                    class="text-gray-600 hover:text-primary-600 transition-colors"
+                                    class="text-primary hover:text-primary-600 transition-colors"
                                     class:text-primary-600={activeSection === item.anchor}
                                     on:click={() => scrollToSection(item.anchor)}
                                 >

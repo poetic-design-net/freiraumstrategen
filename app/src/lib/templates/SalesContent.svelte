@@ -1,6 +1,9 @@
 <script lang="ts">
   import type { SalesContentSection } from '$lib/types/salesContentSection'
   import type { PortableTextComponents } from '@portabletext/svelte'
+  import { slide } from 'svelte/transition'
+  import { cubicOut } from 'svelte/easing'
+  import { isSicherheitVisible } from '$lib/stores/sicherheit'
   import SanityImage from '$lib/components/SanityImage.svelte'
   import PortableTextContent from '$lib/components/PortableTextContent.svelte'
   import ContentImageRenderer from '$lib/components/ContentImageRenderer.svelte'
@@ -13,7 +16,13 @@
   import Button from '$lib/components/Button.svelte'
 
   export let data: SalesContentSection
+
+  let isVisible: boolean;
   
+  isSicherheitVisible.subscribe(value => {
+    isVisible = value;
+  });
+
   // Get theme-based styles for text colors and background with opacity
   const theme = getThemeStyles(data.styles?.theme)
   const boxTheme = getThemeStyles(data.styles?.theme || 'light', 80)

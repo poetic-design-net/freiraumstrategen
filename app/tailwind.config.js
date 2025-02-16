@@ -141,6 +141,7 @@ export default {
         meteor: "meteor 5s linear infinite",
         gradient: "gradient 8s linear infinite",
         'bounce-subtle': 'bounceSoft 0.5s ease-in-out',
+        'bounce-in': 'bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
       },
       keyframes: {
         meteor: {
@@ -150,6 +151,19 @@ export default {
             transform: "rotate(215deg) translateX(-1000px)",
             opacity: "0",
           },
+        },
+        bounceIn: {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(20px)'
+          },
+          '60%': {
+            opacity: '1',
+            transform: 'translateY(-10px)'
+          },
+          '100%': {
+            transform: 'translateY(0)'
+          }
         },
         gradient: {
           to: { "background-position": "200% center" },
