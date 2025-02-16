@@ -35,29 +35,17 @@ const config: CookieConsent.CookieConsentConfig = {
 		ads: {}
 	},
 
-	onFirstConsent: ({ cookie }) => {
-		console.log('onFirstConsent fired', cookie);
-	},
-
-	onConsent: ({ cookie }) => {
-		console.log('onConsent fired!', cookie, CookieConsent.getUserPreferences());
-	},
-
-	onChange: ({ changedCategories, changedServices }) => {
-		console.log('onChange fired!', changedCategories, changedServices);
-	},
-
-	onModalReady: ({ modalName }) => {
-		console.log('ready:', modalName);
-	},
-
-	onModalShow: ({ modalName }) => {
-		console.log('visible:', modalName);
-	},
-
-	onModalHide: ({ modalName }) => {
-		console.log('hidden:', modalName);
-	},
+	onFirstConsent: ({ cookie }) => {},
+	
+	onConsent: ({ cookie }) => {},
+	
+	onChange: ({ changedCategories, changedServices }) => {},
+	
+	onModalReady: ({ modalName }) => {},
+	
+	onModalShow: ({ modalName }) => {},
+	
+	onModalHide: ({ modalName }) => {},
 
 	guiOptions: {
 		consentModal: {

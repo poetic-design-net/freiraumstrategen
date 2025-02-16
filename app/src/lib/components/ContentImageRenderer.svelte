@@ -10,12 +10,9 @@
    return obj && obj._type === 'image' && obj.asset && obj.asset._ref;
  }
 
- $: console.log('Debug - Image object:', portableText?.value);
- 
  $: imageData = (() => {
    const value = portableText?.value;
    if (!isValidImageObject(value)) {
-     console.log('Invalid or incomplete image object:', value);
      return null;
    }
 

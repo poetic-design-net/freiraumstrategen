@@ -10,19 +10,11 @@
   export let data: SalesCurriculumSection
 
   function downloadCalendar() {
-    console.log('Modules with dates:', modulesWithDates);
-    
     const events = modulesWithDates
-      .map(module => {
-        const event = generateICalEvent(module);
-        console.log('Generated event for module:', module, 'Event:', event);
-        return event;
-      })
+      .map(module => generateICalEvent(module))
       .join('\r\n');
 
-    console.log('Final events string:', events);
     if (!events) {
-      console.log('No events to export');
       return;
     }
 
