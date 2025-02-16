@@ -1,4 +1,13 @@
+# Dependencies
 node_modules
-.vercel
-.vercel
+
+# Build
 .svelte-kit
+
+# Deployment
+.vercel
+
+# Environment files
+**/.env
+**/.env.local
+**/.env.*.local
