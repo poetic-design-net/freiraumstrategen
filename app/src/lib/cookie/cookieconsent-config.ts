@@ -84,8 +84,8 @@ const config: CookieConsent.CookieConsentConfig = {
 					acceptNecessaryBtn: 'Alle ablehnen',
 					showPreferencesBtn: 'Einstellungen verwalten',
 					footer: `
-						<a href="#path-to-impressum.html" target="_blank">Impressum</a>
-						<a href="#path-to-privacy-policy.html" target="_blank">Datenschutzerklärung</a>
+						<a target="_blank" href="https://www.freiraumstrategen.com/impressum/">Impressum</a>
+						<a target="_blank" href="https://www.freiraumstrategen.com/datenschutz/" target="_blank">Datenschutzerklärung</a>
 					`
 				},
 				preferencesModal: {
