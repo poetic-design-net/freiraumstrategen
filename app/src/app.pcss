@@ -14,29 +14,49 @@
     }
   }
 
+  .animate-fade-in {
+  animation: fadeInSoft 0.8s ease-out forwards;
+}
+
+@keyframes fadeInSoft {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
   .animate-fade-slide-up {
     opacity: 0;
-    animation: fadeSlideUp 0.5s ease-out forwards;
+    animation: fadeSlideUp 0.3s ease-out forwards;
     animation-delay: var(--delay, 0s);
   }
 
-  .animate-bounce-in {
-    animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
+ .animate-bounce-in {
+  animation: bounceIn 0.75s cubic-bezier(0.36, 0, 0.2, 1.2);
+}
 
-  @keyframes bounceIn {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    60% {
-      opacity: 1;
-      transform: translateY(-10px);
-    }
-    100% {
-      transform: translateY(0);
-    }
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
   }
+  45% {
+    opacity: 1;
+    transform: translateY(-50px);
+  }
+  65% {
+    transform: translateY(0);
+  }
+  85% {
+    transform: translateY(-12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 }
 
 @layer base {
@@ -92,6 +112,12 @@
 
     --accent: 210 40% 96.1%;
     --accent-foreground: 0 0% 13%;
+
+    --color-green: 156 100% 43%;      /* für #00DB7D (DEFAULT) */
+    --color-green-400: 156 75% 54%;   /* für #33E297 */
+    --color-green-500: 156 100% 43%;  /* für #00DB7D */
+    --color-green-600: 156 100% 36%;  /* für #00B567 */
+  
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;

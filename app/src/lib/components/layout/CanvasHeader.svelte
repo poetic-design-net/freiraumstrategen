@@ -107,13 +107,13 @@
                     <div class="hidden xl:flex items-center space-x-32">
                         {#if data.navigation}
                             {#each data.navigation as item}
-                                <button
-                                    class="text-primary hover:text-primary-600 transition-colors"
-                                    class:text-primary-600={activeSection === item.anchor}
-                                    on:click={() => scrollToSection(item.anchor)}
-                                >
-                                    {item.label}
-                                </button>
+                            <button
+                            class="text-primary hover:text-[#00DB7D] transition-colors"
+                            class:text-[#00DB7D]={activeSection === item.anchor}
+                            on:click={() => scrollToSection(item.anchor)}
+                          >
+                            {item.label}
+                          </button>
                             {/each}
                         {/if}
                     </div>

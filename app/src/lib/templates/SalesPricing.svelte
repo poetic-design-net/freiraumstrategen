@@ -128,7 +128,7 @@
                   text={data.ctaButton.text}
                   href={data.ctaButton.link}
                   size="md"
-                  variant="green"
+                  variant="green_white"
                 />
               </div>
             </div>

@@ -51,12 +51,7 @@ export default {
       },
       colors: {
         'ultra-light': '#FDFDFD', // #FAFAFA
-        'green': {
-          DEFAULT: '#00DB7D', // Original Farbe
-          400: '#33E297',    // Hellerer Ton (20% heller)
-          500: '#00DB7D',    // Gleich wie DEFAULT
-          600: '#00B567'     // Dunklerer Ton (20% dunkler)
-        },
+        
         'gray': {
           DEFAULT: '#EDF1F0',
           50: '#EDF1F0'
@@ -81,6 +76,12 @@ export default {
           800: 'hsl(var(--color-primary-800) / <alpha-value>)',
           900: 'hsl(var(--color-primary-900) / <alpha-value>)',
           950: 'hsl(var(--color-primary-950) / <alpha-value>)',
+        },
+        green: {
+          DEFAULT: "hsl(var(--color-green) / <alpha-value>)",
+          400: "hsl(var(--color-green-400) / <alpha-value>)",
+          500: "hsl(var(--color-green-500) / <alpha-value>)",
+          600: "hsl(var(--color-green-600) / <alpha-value>)",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
