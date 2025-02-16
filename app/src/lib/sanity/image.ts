@@ -1,17 +1,57 @@
 import imageUrlBuilder from '@sanity/image-url';
 import { client } from './client';
 
+type SanityImageAsset = {
+  _ref: string;
+  _type?: string;
+};
+
+type SanityImage = {
+  asset?: SanityImageAsset;
+  _type?: string;
+  hotspot?: {
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+  };
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+};
+
 const builder = imageUrlBuilder(client);
-const breakpoints = [640, 768, 1024, 1280, 1536, 1920];
+
+// Optimierte Breakpoints für verschiedene Anwendungsfälle
+const breakpoints = {
+  hero: [640, 768, 1024, 1280, 1536, 1920],
+  content: [320, 480, 640, 768, 1024, 1280]
+};
+
+// Qualitäts-Mapping basierend auf Bildbreite
+const getQualityForWidth = (width: number): number => {
+  if (width <= 640) return 75;
+  if (width <= 1024) return 80;
+  if (width <= 1536) return 85;
+  return 90;
+};
 
 export function urlFor(
-  source: SanityImageSource,
-  options: { width?: number; height?: number } = {}
+  source: SanityImage,
+  options: { 
+    width?: number; 
+    height?: number;
+    quality?: number;
+  } = {}
 ): string | null {
   if (!source?.asset?._ref) return null;
 
   let imageBuilder = builder.image(source)
     .auto('format')
+    .format('webp')
     .fit('max');
 
   if (options.width) {
@@ -22,39 +62,51 @@ export function urlFor(
     imageBuilder = imageBuilder.height(options.height);
   }
 
+  // Qualität basierend auf Bildbreite oder übergebener Option
+  const quality = options.quality || (options.width ? getQualityForWidth(options.width) : 85);
+  imageBuilder = imageBuilder.quality(quality);
+
   return imageBuilder.url();
 }
 
 export function enhanceUrl(
   url: string, 
-  options: { width?: number; height?: number } = {}
+  options: { 
+    width?: number; 
+    height?: number;
+    quality?: number;
+  } = {}
 ): string {
   if (!url) return '';
 
-  // Erstelle eine URL mit Parametern
   const params = new URLSearchParams();
   params.set('auto', 'format');
+  params.set('fm', 'webp'); // WebP als Standard-Format
   params.set('fit', 'max');
 
   if (options.width) {
     params.set('w', options.width.toString());
+    // Setze Qualität basierend auf Breite
+    const quality = options.quality || getQualityForWidth(options.width);
+    params.set('q', quality.toString());
   }
+
   if (options.height) {
     params.set('h', options.height.toString());
   }
 
-  // Füge Parameter zur URL hinzu
   const separator = url.includes('?') ? '&' : '?';
   return `${url}${separator}${params.toString()}`;
 }
 
 export function getResponsiveImage(
-  source: any,
+  source: SanityImage,
   options: {
     maxWidth?: number;
     maxHeight?: number;
     sizes?: string;
-    quality?: number; // Neue Option für Qualität
+    quality?: number;
+    isHero?: boolean;
   } = {}
 ): {
   src: string;
@@ -62,22 +114,33 @@ export function getResponsiveImage(
   sizes: string;
   width: number;
   height: number;
+  lqip?: string; // Low Quality Image Placeholder
 } | null {
   if (!source?.asset) return null;
 
   try {
     const maxWidth = options.maxWidth || 1920;
-    const quality = options.quality || 100; // Höhere Default-Qualität
-    const usedBreakpoints = breakpoints.filter(w => w <= maxWidth);
+    const useBreakpoints = options.isHero ? breakpoints.hero : breakpoints.content;
+    const usedBreakpoints = useBreakpoints.filter(w => w <= maxWidth);
+
+    // Generate LQIP (Low Quality Image Placeholder)
+    const lqip = builder.image(source)
+      .width(20)
+      .blur(10)
+      .quality(20)
+      .format('webp')
+      .url();
 
     // Generate srcSet using image builder
     const srcSet = usedBreakpoints
       .map(width => {
+        const quality = options.quality || getQualityForWidth(width);
         const imgBuilder = builder.image(source)
           .auto('format')
+          .format('webp')
           .fit('max')
           .width(width)
-          .quality(quality); // Qualität setzen
+          .quality(quality);
 
         if (options.maxHeight) {
           const height = Math.round((width * options.maxHeight) / maxWidth);
@@ -88,34 +151,43 @@ export function getResponsiveImage(
       })
       .join(', ');
 
-    // Base image using smallest breakpoint
-    const baseImageBuilder = builder.image(source)
-      .auto('format')
-      .fit('max')
-      .width(usedBreakpoints[0])
-      .quality(quality); // Qualität auch für Base-Image
-
-    if (options.maxHeight) {
-      const height = Math.round((usedBreakpoints[0] * options.maxHeight) / maxWidth);
-      baseImageBuilder.height(height);
-    }
-
-    // Default sizes string
-    const defaultSizes = [
+    // Optimierte sizes basierend auf Verwendung
+    const defaultSizes = options.isHero ? [
       '(min-width: 1536px) 1920px',
       '(min-width: 1280px) 1536px',
       '(min-width: 1024px) 1280px',
       '(min-width: 768px) 1024px',
-      '(min-width: 640px) 768px',
       '100vw'
-    ].join(', ');
+    ] : [
+      '(min-width: 1280px) 1280px',
+      '(min-width: 1024px) 1024px',
+      '(min-width: 768px) 768px',
+      '(min-width: 640px) 640px',
+      '100vw'
+    ];
+
+    // Base image using appropriate size and quality
+    const baseWidth = usedBreakpoints[0];
+    const baseQuality = options.quality || getQualityForWidth(baseWidth);
+    const baseImageBuilder = builder.image(source)
+      .auto('format')
+      .format('webp')
+      .fit('max')
+      .width(baseWidth)
+      .quality(baseQuality);
+
+    if (options.maxHeight) {
+      const height = Math.round((baseWidth * options.maxHeight) / maxWidth);
+      baseImageBuilder.height(height);
+    }
 
     return {
       src: baseImageBuilder.url(),
       srcSet,
-      sizes: options.sizes || defaultSizes,
+      sizes: options.sizes || defaultSizes.join(', '),
       width: maxWidth,
-      height: options.maxHeight || maxWidth
+      height: options.maxHeight || maxWidth,
+      lqip
     };
 
   } catch (error) {
