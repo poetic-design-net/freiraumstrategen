@@ -1,80 +1,125 @@
 import imageUrlBuilder from '@sanity/image-url';
-import type { Image } from '@sanity/types';
-
-interface ImageDimensions {
-  width: number;
-  height: number;
-}
-
-interface SanityImageSource {
-  asset?: {
-    _ref: string;
-    _type: 'reference';
-    url?: string;
-    metadata?: {
-      dimensions: ImageDimensions;
-    };
-  };
-}
-
 import { client } from './client';
+
 const builder = imageUrlBuilder(client);
+const breakpoints = [640, 768, 1024, 1280, 1536, 1920];
 
-// Optimierte Breakpoints für responsive Bilder
-const breakpoints = [320, 480, 640, 768, 1024, 1280, 1536, 1920];
-
-export function urlFor(source: SanityImageSource) {
-  return builder.image(source).auto('format').fit('max');
-}
-
-export function enhanceUrl(source: SanityImageSource, width?: number, options: {
-  quality?: number;
-  isPriority?: boolean;
-} = {}) {
-  const defaultWidth = breakpoints[0];
-  const optimalWidth = !width
-    ? defaultWidth
-    : breakpoints.find(bp => bp >= width) || breakpoints[breakpoints.length - 1];
-
-  // Optimiere Qualität basierend auf Bildbreite und Priorität
-  const quality = options.quality ?? (optimalWidth <= 768 ? 75 : 85);
-  
-  let imageBuilder = builder
-    .image(source)
-    .format('webp') // Explizit WebP Format
-    .fit('crop')
-    .width(optimalWidth);
-
-  // Aggressivere Optimierung für nicht-prioritäre Bilder
-  if (!options.isPriority) {
-    imageBuilder = imageBuilder.quality(quality);
-  }
-
-  return imageBuilder;
-}
-
-export function getResponsiveImage(source: SanityImageSource) {
+export function urlFor(
+  source: SanityImageSource,
+  options: { width?: number; height?: number } = {}
+): string | null {
   if (!source?.asset?._ref) return null;
 
-  const generateSrcSet = (width: number) => {
-    const url = enhanceUrl(source, width)
-      .url();
-    return `${url} ${width}w`;
-  };
+  let imageBuilder = builder.image(source)
+    .auto('format')
+    .fit('max');
 
-  // Generate srcSet with auto format
-  const srcSet = breakpoints
-    .map(width => generateSrcSet(width))
-    .join(', ');
+  if (options.width) {
+    imageBuilder = imageBuilder.width(options.width);
+  }
 
-  const src = enhanceUrl(source).url();
-  const dimensions = source.asset?.metadata?.dimensions || { width: 1024, height: 768 };
+  if (options.height) {
+    imageBuilder = imageBuilder.height(options.height);
+  }
 
-  return {
-    src,
-    srcSet,
-    sizes: '(min-width: 1920px) 1920px, (min-width: 1536px) 1536px, (min-width: 1280px) 1280px, (min-width: 1024px) 1024px, (min-width: 768px) 768px, (min-width: 640px) 640px, (min-width: 480px) 480px, (min-width: 320px) 320px, 100vw',
-    width: dimensions.width,
-    height: dimensions.height
-  };
+  return imageBuilder.url();
+}
+
+export function enhanceUrl(
+  url: string, 
+  options: { width?: number; height?: number } = {}
+): string {
+  if (!url) return '';
+
+  // Erstelle eine URL mit Parametern
+  const params = new URLSearchParams();
+  params.set('auto', 'format');
+  params.set('fit', 'max');
+
+  if (options.width) {
+    params.set('w', options.width.toString());
+  }
+  if (options.height) {
+    params.set('h', options.height.toString());
+  }
+
+  // Füge Parameter zur URL hinzu
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}${params.toString()}`;
+}
+
+export function getResponsiveImage(
+  source: any,
+  options: {
+    maxWidth?: number;
+    maxHeight?: number;
+    sizes?: string;
+    quality?: number; // Neue Option für Qualität
+  } = {}
+): {
+  src: string;
+  srcSet: string;
+  sizes: string;
+  width: number;
+  height: number;
+} | null {
+  if (!source?.asset) return null;
+
+  try {
+    const maxWidth = options.maxWidth || 1920;
+    const quality = options.quality || 100; // Höhere Default-Qualität
+    const usedBreakpoints = breakpoints.filter(w => w <= maxWidth);
+
+    // Generate srcSet using image builder
+    const srcSet = usedBreakpoints
+      .map(width => {
+        const imgBuilder = builder.image(source)
+          .auto('format')
+          .fit('max')
+          .width(width)
+          .quality(quality); // Qualität setzen
+
+        if (options.maxHeight) {
+          const height = Math.round((width * options.maxHeight) / maxWidth);
+          imgBuilder.height(height);
+        }
+
+        return `${imgBuilder.url()} ${width}w`;
+      })
+      .join(', ');
+
+    // Base image using smallest breakpoint
+    const baseImageBuilder = builder.image(source)
+      .auto('format')
+      .fit('max')
+      .width(usedBreakpoints[0])
+      .quality(quality); // Qualität auch für Base-Image
+
+    if (options.maxHeight) {
+      const height = Math.round((usedBreakpoints[0] * options.maxHeight) / maxWidth);
+      baseImageBuilder.height(height);
+    }
+
+    // Default sizes string
+    const defaultSizes = [
+      '(min-width: 1536px) 1920px',
+      '(min-width: 1280px) 1536px',
+      '(min-width: 1024px) 1280px',
+      '(min-width: 768px) 1024px',
+      '(min-width: 640px) 768px',
+      '100vw'
+    ].join(', ');
+
+    return {
+      src: baseImageBuilder.url(),
+      srcSet,
+      sizes: options.sizes || defaultSizes,
+      width: maxWidth,
+      height: options.maxHeight || maxWidth
+    };
+
+  } catch (error) {
+    console.error('Error in getResponsiveImage:', error);
+    return null;
+  }
 }

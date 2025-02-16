@@ -9,21 +9,17 @@
   export let data: SalesHeroSection
 </script>
 
-<div class="relative w-full sm:h-full-header flex flex-col justify-between" role="region" aria-label="Hero Section">
+<div class="relative w-full min-h-[640px] sm:h-full-header flex flex-col justify-between" role="region" aria-label="Hero Section">
   <!-- Background -->
-  <div class="absolute h-full inset-0 -z-10 bg-white" aria-hidden="true">
+  <div class="absolute h-full inset-0 -z-10 bg-white" style="min-height: inherit;" aria-hidden="true">
     {#if data.backgroundImage}
       <div class="relative w-full h-full">
         <SanityImage
-          value={data.backgroundImage}
-          customClass="absolute inset-0 w-full h-full object-cover object-right hero-bg"
-          priority={true}
-          fetchpriority="high"
-          quality={90}
-          width={1920}
-          height={1080}
-          sizes="100vw"
-        />
+        value={data.backgroundImage}
+        customClass="absolute inset-0 w-full h-full object-cover object-right hero-bg"
+        priority={true}
+        fetchpriority="high"
+      />
         <!-- Dark overlay for mobile -->
         <div class="absolute inset-0 bg-black/15 md:hidden" aria-hidden="true"></div>
       </div>
