@@ -9,7 +9,7 @@
   export let data: SalesHeroSection
 </script>
 
-<div class="relative w-full min-h-[640px] sm:h-full-header flex flex-col justify-between" role="region" aria-label="Hero Section">
+<div class="relative w-full flex flex-col justify-between" role="region" aria-label="Hero Section">
   <!-- Background -->
   <div class="absolute h-full inset-0 -z-10 bg-white" style="min-height: inherit;" aria-hidden="true">
     {#if data.backgroundImage}
@@ -27,7 +27,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="relative flex-1 flex flex-col justify-center items-center py-12 px-4">
+  <div class="relative flex-1 flex flex-col justify-center items-center py-18 px-4">
     <div class="container mx-auto">
       <div class="max-w-5xl mx-auto text-center flex flex-col items-center">
         <!-- Subtitle -->
