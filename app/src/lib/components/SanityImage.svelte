@@ -87,13 +87,11 @@
     {/if}
 
     <!-- Hauptbild -->
-    <!-- Hauptbild -->
-    <img
+    <img 
       bind:this={imageRef}
-      class="{className} transform-gpu"
+      class="{className} transition-opacity duration-300"
       class:opacity-0={!mainImageLoaded}
       class:opacity-100={mainImageLoaded}
-      style="backface-visibility: hidden; -webkit-backface-visibility: hidden;"
       src={imageUrl}
       srcset={srcSet}
       sizes={responsiveImageData?.sizes}
@@ -105,14 +103,16 @@
       height={responsiveImageData?.height}
       on:load={handleLoad}
       on:error={handleError}
+      style="transform: scale(1.01);"
     />
+    
     <!-- Loading Zustand -->
     {#if isLoading && !lqipUrl}
       <div class="absolute inset-0 bg-white animate-pulse overflow-hidden" />
     {/if}
   </div>
 {:else if hasError}
-  <div class="relative {className} bg-gray-100 flex items-center justify-center">
+  <div class="relative {className} bg-white flex items-center justify-center">
     <span class="text-gray-400">Image failed to load</span>
   </div>
 {/if}

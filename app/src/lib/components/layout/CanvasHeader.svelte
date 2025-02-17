@@ -106,17 +106,18 @@
                     <!-- Desktop Navigation -->
                     <div class="hidden xl:flex items-center space-x-32">
                         {#if data.navigation}
-                            {#each data.navigation as item}
+                          {#each data.navigation as item}
                             <button
-                            class="text-primary hover:text-[#00DB7D] transition-colors"
-                            class:text-[#00DB7D]={activeSection === item.anchor}
-                            on:click={() => scrollToSection(item.anchor)}
-                          >
-                            {item.label}
-                          </button>
-                            {/each}
+                              class="text-primary transition-colors"
+                              style="--hover-color: var(--custom-green)"
+                              class:active={activeSection === item.anchor}
+                              on:click={() => scrollToSection(item.anchor)}
+                            >
+                              {item.label}
+                            </button>
+                          {/each}
                         {/if}
-                    </div>
+                      </div>
 
                     <!-- CTA Button -->
                     {#if data.ctaButton}
@@ -148,9 +149,19 @@
         will-change: box-shadow;
     }
 
+    :root {
+    --custom-green: #00DB7D;
+  }
+
     /* Mobile Menu Animation */
     .burger-line {
         @apply absolute w-full h-0.5 bg-gray-600 transition-all duration-300;
         transform-origin: center;
     }
+    button:hover {
+    color: var(--hover-color);
+  }
+    .active {
+    color: var(--custom-green);
+  }
 </style>
