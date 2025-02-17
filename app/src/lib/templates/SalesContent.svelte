@@ -98,7 +98,7 @@
             </div>
           {/if}
           {#if data.subtitle}
-            <div>
+            <div class="{headlineAlignmentClass}">
               <span class="inline-block py-1 text-2xl max-w-4xl {theme.text}">
                 {cleanText(data.subtitle)}
               </span>
