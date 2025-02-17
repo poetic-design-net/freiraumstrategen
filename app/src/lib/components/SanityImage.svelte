@@ -82,14 +82,14 @@
     {#if lqipUrl && !mainImageLoaded}
       <div 
         class="absolute inset-0 bg-cover bg-center" 
-        style="background-image: url({lqipUrl}); filter: blur(10px); transform: scale(1.1);"
+        style="background-image: url({lqipUrl});"
       />
     {/if}
 
     <!-- Hauptbild -->
     <img 
       bind:this={imageRef}
-      class="{className} transition-opacity duration-300"
+      class="{className}"
       class:opacity-0={!mainImageLoaded}
       class:opacity-100={mainImageLoaded}
       src={imageUrl}
@@ -103,7 +103,6 @@
       height={responsiveImageData?.height}
       on:load={handleLoad}
       on:error={handleError}
-      style="transform: scale(1.01);"
     />
     
     <!-- Loading Zustand -->

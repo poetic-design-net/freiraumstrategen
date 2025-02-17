@@ -7,10 +7,20 @@
 
   export let data: SalesFaqSection
 
-  let expandedIndex: number | null = null
+  // Initialisiere expandedIndex basierend auf isExpanded
+  let expandedIndex: Set<number> = new Set(
+    data.faqs
+      .map((faq, index) => (faq.isExpanded ? index : -1))
+      .filter(index => index !== -1)
+  )
 
   function toggleFaq(index: number) {
-    expandedIndex = expandedIndex === index ? null : index
+    expandedIndex = new Set(expandedIndex) // Create new Set für Svelte Reaktivität
+    if (expandedIndex.has(index)) {
+      expandedIndex.delete(index)
+    } else {
+      expandedIndex.add(index)
+    }
   }
 </script>
 
@@ -41,9 +51,9 @@
     <!-- FAQ List -->
     <div class="space-y-4">
       {#each data.faqs as faq, index}
-        <div class="overflow-hidden text-2xl text-primary border-b-2 border-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:border-b-4 after:border-b-green after:opacity-0 hover:after:opacity-100 after:duration-300 relative {expandedIndex === index ? 'after:opacity-100' : ''}">
+        <div class="overflow-hidden text-2xl text-primary border-b-2 border-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:border-b-4 after:border-b-green after:opacity-0 hover:after:opacity-100 after:duration-300 relative {expandedIndex.has(index) ? 'after:opacity-100' : ''}">
           <button
-            class="w-full text-left  py-4 flex items-center justify-between transition-colors"
+            class="w-full text-left py-4 flex items-center justify-between transition-colors"
             on:click={() => toggleFaq(index)}
           >
             <CleanText 
@@ -54,10 +64,10 @@
               <div class="relative w-12 h-12">
                 <div class="absolute inset-0">
                   <svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <g class="transform transition-all duration-500 ease-in-out" style="transform-origin: center; {expandedIndex === index ? 'transform: rotate(180deg)' : ''}">
+                    <g class="transform transition-all duration-500 ease-in-out" style="transform-origin: center; {expandedIndex.has(index) ? 'transform: rotate(180deg)' : ''}">
                       <path
                         class="transform transition-all duration-500 ease-in-out"
-                        style="transform-origin: center; {expandedIndex === index ? 'transform: scaleY(0)' : ''}"
+                        style="transform-origin: center; {expandedIndex.has(index) ? 'transform: scaleY(0)' : ''}"
                         stroke-linecap="butt"
                         stroke-linejoin="miter"
                         stroke-width="1"
@@ -75,13 +85,12 @@
               </div>
             </div>
           </button>
-          {#if expandedIndex === index}
+          {#if expandedIndex.has(index)}
             <div 
               class="py-4"
               transition:slide={{ duration: 300 }}
             >
               <div class="space-y-4">
-
                 <CleanText
                   text={faq.answer}
                   className="whitespace-pre-line text-xl"

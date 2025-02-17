@@ -11,7 +11,8 @@ export const salesFaqSectionFields = groq`
     title,
     question,
     answer,
-    additionalInfo
+    additionalInfo,
+    isExpanded
   },
   contactInfo {
     text,

@@ -29,6 +29,13 @@ export default defineType({
       type: 'text',
       description: 'Optionale zusätzliche Informationen zur Antwort',
     }),
+    defineField({
+      name: 'isExpanded',
+      title: 'Standardmäßig geöffnet',
+      type: 'boolean',
+      description: 'Wenn aktiviert, wird diese FAQ standardmäßig geöffnet angezeigt',
+      initialValue: false,
+    }),
   ],
   preview: {
     select: {

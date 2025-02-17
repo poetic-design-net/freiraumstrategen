@@ -6,6 +6,7 @@ export interface FAQ {
   question: string
   answer: string
   additionalInfo?: string
+  isExpanded?: boolean
 }
 
 export interface ContactInfo {

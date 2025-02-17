@@ -14,7 +14,6 @@ const config = defineConfig({
   title: 'Freiraumstrategen.com',
   projectId,
   dataset,
-  basePath: '/studio',
   plugins: [
     structureTool({
       structure: deskStructure
